@@ -12,7 +12,7 @@ de interface também em português.
 1. **Mensagens diárias** — o usuário escolhe horários (padrão 7h, 12h e 20h) e recebe
    um versículo por notificação push, mesmo com o app fechado.
 2. **Quiz** — 25 perguntas de múltipla escolha por rodada, sorteadas entre as que a
-   pessoa ainda não respondeu, com **40 segundos** para responder cada uma. Ela clica
+   pessoa ainda não respondeu, com **25 segundos** para responder cada uma. Ela clica
    numa alternativa e vê na hora se acertou, junto com a explicação e o versículo
    que responde a pergunta.
 3. **Ranking público** — quem mais pontua aparece numa lista que todos veem, com
@@ -34,7 +34,7 @@ nada que humilhe.
 > versículo se leem sem pressa), e **estourar o tempo pula a pergunta, não a erra**
 > — ela volta numa rodada futura em vez de ser queimada pela regra da tentativa
 > única. Medi as 52 perguntas antes de escolher o número: média de 4,1s só de
-> leitura, e a mais longa leva 7,6s. Começou em 7s, passou para 10s e hoje está em 40s.
+> leitura, e a mais longa leva 7,6s. Passou por 7s, 10s e 40s; hoje está em 25s.
 > A constante é `SEGUNDOS` no topo de `src/app/quiz/Quiz.tsx`.
 
 A pessoa que chega pelo Instagram pode não ser cristã e não saber nada da Bíblia.
