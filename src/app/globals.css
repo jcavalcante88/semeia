@@ -881,6 +881,9 @@ textarea:focus { background: #fff; }
   grid-template-columns: 1fr 6.5rem;
   align-items: stretch;
   gap: 0;
+  /* Garante que a miniatura tenha altura mesmo quando o titulo e curto,
+     senao ela vira uma tira fina de uns poucos pixels. */
+  min-height: 6rem;
 }
 .noticia-miniatura { display: block; }
 .noticia-miniatura img {
@@ -891,10 +894,22 @@ textarea:focus { background: #fff; }
   display: block;
 }
 
-@media (max-width: 26rem) {
-  /* No celular estreito a miniatura come o titulo: some com ela. */
-  .noticias:not(.noticias-destaque) a { grid-template-columns: 1fr; }
-  .noticia-miniatura { display: none; }
+/* No celular estreito a miniatura encolhe, mas NUNCA some: uma lista de
+   noticias so com texto perde metade da graca. Antes eu escondia com
+   `display: none` abaixo de 26rem — e como quase todo celular tem menos que
+   isso, so as tres em destaque ficavam com imagem. */
+@media (max-width: 30rem) {
+  .noticias:not(.noticias-destaque) a { grid-template-columns: 1fr 5rem; }
+  .noticia-corpo { padding: 0.85rem 0.9rem 0.9rem; }
+  .noticia-titulo { font-size: 1.05rem; }
+  .noticia-resumo { -webkit-line-clamp: 2; line-clamp: 2; font-size: 0.92rem; }
+}
+
+/* Telas muito estreitas (abaixo de 360px): a miniatura vira uma faixa fina,
+   ainda visivel, e o texto continua respirando. */
+@media (max-width: 22.5rem) {
+  .noticias:not(.noticias-destaque) a { grid-template-columns: 1fr 4rem; }
+  .noticia-titulo { font-size: 1rem; }
 }
 
 /* ---------------------------------------------------------------
