@@ -470,6 +470,65 @@ input[type="text"]:focus { background: #fff; }
 :focus-visible { outline: 2px solid var(--tinta); outline-offset: 3px; }
 
 /* ---------------------------------------------------------------
+   Sequência de dias
+   --------------------------------------------------------------- */
+.sequencia {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin: 1.5rem 0 0;
+  padding: 0.7rem 1rem;
+  border-radius: 14px;
+  border: 1px solid var(--ouro-claro);
+  background: rgba(255, 249, 232, 0.75);
+  font-size: 0.92rem;
+  line-height: 1.35;
+  color: var(--tinta);
+  max-width: none;
+}
+.sequencia-numero {
+  font-family: var(--titulo);
+  font-size: 1.7rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ouro-fundo);
+}
+
+/* ---------------------------------------------------------------
+   Revisão dos erros
+   --------------------------------------------------------------- */
+.revisao { list-style: none; margin: 1.5rem 0 0; padding: 0; }
+.revisao li {
+  padding: 1.1rem 1.15rem;
+  margin-bottom: 0.85rem;
+  border-radius: 16px;
+  border: 1px solid var(--vidro-borda);
+  border-left: 4px solid var(--ouro);
+  background: rgba(255, 255, 255, 0.55);
+}
+.revisao-enunciado {
+  font-family: var(--titulo);
+  font-weight: 600;
+  font-size: 1.08rem;
+  line-height: 1.32;
+  margin: 0 0 0.7rem;
+}
+.revisao-certa {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0 0 0.6rem;
+  font-weight: 600;
+}
+.revisao-marca {
+  flex: none;
+  color: var(--ouro-fundo);
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+.revisao-explicacao { margin: 0 0 0.5rem; font-size: 0.96rem; }
+
+/* ---------------------------------------------------------------
    Card de resultado (o que vai para o story)
    --------------------------------------------------------------- */
 .card-resultado {

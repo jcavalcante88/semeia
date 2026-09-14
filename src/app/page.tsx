@@ -1,5 +1,6 @@
 import { sql } from "@/lib/db";
 import Link from "next/link";
+import Sequencia from "./Sequencia";
 
 export const revalidate = 300;
 
@@ -30,6 +31,8 @@ export default async function Inicio() {
       <p className="referencia">
         {versiculo.referencia} &nbsp;·&nbsp; {versiculo.versao}
       </p>
+
+      <Sequencia />
 
       <h2>Comece pelo quiz</h2>
       <p>

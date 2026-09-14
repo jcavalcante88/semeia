@@ -67,6 +67,16 @@ export function LateralDireita() {
       </div>
 
       <div className="cartao-lateral">
+        <h2 className="cartao-titulo">Errou alguma?</h2>
+        <p className="cartao-texto">
+          Reveja as perguntas que você errou, com a explicação e o versículo.
+        </p>
+        <Link href="/revisar" className="botao botao-vazado botao-pequeno">
+          Rever meus erros
+        </Link>
+      </div>
+
+      <div className="cartao-lateral">
         <h2 className="cartao-titulo">Seu nome</h2>
         <p className="cartao-texto">
           Trocar o nome que aparece no ranking, ou sair da lista pública.

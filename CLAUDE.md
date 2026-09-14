@@ -20,6 +20,10 @@ de interface também em português.
 4. **Mundo gospel** — notícias coletadas de feeds RSS a cada 12 horas, com título,
    resumo, imagem e link para a fonte.
 5. **Pedidos de oração** — a pessoa publica um pedido e outras marcam "orei por você".
+   O autor recebe push nos marcos (1, 3, 10, 25, 50, 100 orações), nunca a cada clique.
+6. **Revisar erros** — `/revisar` mostra o que a pessoa errou, com explicação e versículo.
+7. **Sequência de dias** — faixa discreta na home. Some quando quebra: sem cobrança.
+8. **Card de resultado** — imagem 1080x1920 gerada em `/api/og/resultado` para o story.
 
 ## Tom
 
@@ -57,6 +61,9 @@ Tudo tem que rodar de graça. Só posso pagar domínio e a conta do Google Play.
 
 **1. A resposta certa nunca sai do servidor.**
 `/api/quiz/perguntas` devolve só `id`, `enunciado`, `alternativas` e `nivel`.
+A única exceção é `/api/quiz/erros`: lá o gabarito pode sair, porque o filtro é
+`acertou = false` do próprio usuário — pergunta que ela já respondeu e já perdeu,
+e que pela tentativa única nunca mais pontua.
 Nunca `correta`, nunca `explicacao`. A correção acontece em
 `/api/quiz/responder`, que recebe apenas `{ perguntaId, escolha }`.
 Se o gabarito for para o navegador, qualquer pessoa abre o DevTools e gabarita
@@ -131,7 +138,7 @@ views            ranking_semana, ranking_geral
 ```
 
 Pontuação: fácil 10, médio 20, difícil 30. Errar vale 0. Nada de bônus de tempo.
-Hoje são 52 perguntas ativas. O alvo antes de divulgar é 150 — com poucas, a
+Hoje são 102 perguntas ativas. O alvo antes de divulgar é 150 — com poucas, a
 pessoa termina em dois minutos e não volta.
 
 ## Estrutura de arquivos
@@ -140,6 +147,7 @@ pessoa termina em dois minutos e não volta.
 db/schema.sql
 db/seed.sql                                  12 versículos + 12 perguntas
 db/seed-perguntas.sql                        40 perguntas extras
+db/seed-perguntas-3.sql                      50 perguntas extras
 db/noticias.sql                              tabelas de notícia e fontes
 db/oracao.sql                                pedidos de oração
 db/limpar-teste.sql                          apaga usuários fictícios
@@ -160,13 +168,18 @@ src/app/quiz/{page.tsx,Quiz.tsx,AtivarMensagens.tsx}
 src/app/ranking/page.tsx                     pódio + lista
 src/app/noticias/page.tsx
 src/app/oracao/{page.tsx,Oracao.tsx}
+src/app/revisar/{page.tsx,Revisar.tsx}       perguntas erradas + explicação
+src/app/Sequencia.tsx                        faixa de dias seguidos
 src/app/configuracoes/{page.tsx,Configuracoes.tsx}
 src/app/api/usuario/route.ts
 src/app/api/quiz/{perguntas,responder}/route.ts
 src/app/api/ranking/route.ts
 src/app/api/push/inscrever/route.ts
 src/app/api/oracao/route.ts                  GET, POST e DELETE
-src/app/api/oracao/orei/route.ts
+src/app/api/oracao/orei/route.ts             runtime nodejs (envia push nos marcos)
+src/app/api/sequencia/route.ts
+src/app/api/quiz/erros/route.ts
+src/app/api/og/resultado/route.tsx           card do story, via next/og
 src/app/api/cron/disparar/route.ts           runtime nodejs (web-push não roda no edge)
 src/app/api/cron/noticias/route.ts           runtime nodejs
 ```

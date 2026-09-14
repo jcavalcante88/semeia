@@ -167,6 +167,11 @@ export default function Quiz() {
           Você já respondeu todas as perguntas disponíveis. Perguntas novas
           entram toda semana — ative as mensagens para saber quando chegarem.
         </p>
+        <p style={{ marginTop: "1.25rem" }}>
+          <Link href="/revisar" className="botao botao-vazado">
+            Rever o que eu errei
+          </Link>
+        </p>
         <AtivarMensagens />
         <p style={{ marginTop: "1.5rem" }}>
           <Link href="/ranking">Ver o ranking</Link>
@@ -475,6 +480,14 @@ function Fim({
       {recado && (
         <p className="referencia" style={{ marginTop: "0.75rem" }}>
           {recado}
+        </p>
+      )}
+
+      {acertos < total && (
+        <p style={{ marginTop: "0.6rem" }}>
+          <Link href="/revisar" className="botao botao-vazado">
+            Rever o que eu errei
+          </Link>
         </p>
       )}
 
