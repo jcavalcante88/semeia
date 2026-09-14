@@ -61,32 +61,7 @@ export default async function Noticias() {
               segue em lista, para a pagina nao virar um rolo infinito. */}
           <ul className="noticias noticias-destaque">
             {linhas.slice(0, 3).map((n) => (
-              <li key={n.link}>
-                <a href={n.link} target="_blank" rel="noopener noreferrer nofollow">
-                  {n.imagem && (
-                    <span className="noticia-capa">
-                      {/* <img> simples, e nao next/image: a otimizacao de
-                          imagem da Vercel e cobrada por uso no plano Hobby,
-                          e aqui o arquivo ja vem pronto do portal. */}
-                      <img
-                        src={n.imagem}
-                        alt=""
-                        loading="lazy"
-                        decoding="async"
-                        referrerPolicy="no-referrer"
-                      />
-                    </span>
-                  )}
-                  <span className="noticia-corpo">
-                    <span className="noticia-titulo">{n.titulo}</span>
-                    {n.resumo && <span className="noticia-resumo">{n.resumo}</span>}
-                    <span className="noticia-fonte">
-                      {n.fonte}
-                      {n.publicado_em && ` · ${quando(n.publicado_em)}`}
-                    </span>
-                  </span>
-                </a>
-              </li>
+              <Noticia key={n.link} n={n} destaque />
             ))}
           </ul>
 
@@ -95,29 +70,7 @@ export default async function Noticias() {
               <h2>Mais notícias</h2>
               <ul className="noticias">
                 {linhas.slice(3).map((n) => (
-                  <li key={n.link}>
-                    <a href={n.link} target="_blank" rel="noopener noreferrer nofollow">
-                      <span className="noticia-corpo">
-                        <span className="noticia-titulo">{n.titulo}</span>
-                        {n.resumo && <span className="noticia-resumo">{n.resumo}</span>}
-                        <span className="noticia-fonte">
-                          {n.fonte}
-                          {n.publicado_em && ` · ${quando(n.publicado_em)}`}
-                        </span>
-                      </span>
-                      {n.imagem && (
-                        <span className="noticia-miniatura">
-                          <img
-                            src={n.imagem}
-                            alt=""
-                            loading="lazy"
-                            decoding="async"
-                            referrerPolicy="no-referrer"
-                          />
-                        </span>
-                      )}
-                    </a>
-                  </li>
+                  <Noticia key={n.link} n={n} />
                 ))}
               </ul>
             </>
@@ -131,5 +84,66 @@ export default async function Noticias() {
         origem, que é de quem escreveu.
       </footer>
     </main>
+  );
+}
+
+/* ---------------------------------------------------------------- */
+
+/**
+ * Um cartão de notícia. O mesmo componente serve o destaque (imagem grande
+ * em cima) e a lista (miniatura ao lado) — antes era código duplicado.
+ *
+ * O cartão inteiro é um único <a>: dá área de toque generosa no celular.
+ * Por isso o "Ler no site" é um <span> pintado de botão, e não outro link —
+ * <a> dentro de <a> é HTML inválido e o navegador desmonta a estrutura.
+ */
+function Noticia({ n, destaque = false }: { n: Record<string, any>; destaque?: boolean }) {
+  // <img> simples, e nao next/image: a otimizacao de imagem da Vercel e
+  // cobrada por uso no plano Hobby, e o arquivo ja vem pronto do portal.
+  const imagem = n.imagem ? (
+    <img
+      src={n.imagem}
+      alt=""
+      loading="lazy"
+      decoding="async"
+      referrerPolicy="no-referrer"
+    />
+  ) : null;
+
+  const corpo = (
+    <span className="noticia-corpo">
+      <span className="noticia-titulo">{n.titulo}</span>
+      {n.resumo && <span className="noticia-resumo">{n.resumo}</span>}
+      <span className="noticia-rodape-cartao">
+        <span className="noticia-fonte">
+          {n.fonte}
+          {n.publicado_em && ` · ${quando(n.publicado_em)}`}
+        </span>
+        <span className="noticia-ir">
+          Ler no site
+          <span className="noticia-seta" aria-hidden="true">
+            →
+          </span>
+        </span>
+      </span>
+    </span>
+  );
+
+  return (
+    <li>
+      <a href={n.link} target="_blank" rel="noopener noreferrer nofollow">
+        {destaque ? (
+          <>
+            {imagem && <span className="noticia-capa">{imagem}</span>}
+            {corpo}
+          </>
+        ) : (
+          <>
+            {corpo}
+            {imagem && <span className="noticia-miniatura">{imagem}</span>}
+          </>
+        )}
+      </a>
+    </li>
   );
 }
