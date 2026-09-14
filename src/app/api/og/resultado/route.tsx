@@ -86,7 +86,7 @@ export async function GET(req: Request) {
         </div>
 
         <div style={{ display: "flex", fontSize: 54, color: BRANCO, opacity: 0.9 }}>
-          no quiz bíblico
+          No Quiz Bíblico
         </div>
 
         <div

@@ -14,7 +14,11 @@ const buscarRanking = unstable_cache(
       ? await sql`select * from ranking_geral order by pontos desc, acertos desc limit 50`
       : await sql`select * from ranking_semana order by pontos desc, acertos desc limit 50`,
   ["ranking"],
-  { revalidate: 60, tags: ["ranking"] },
+  // 15s, e nao 60s: quem acabou de pontuar quer se ver na lista agora. Com um
+  // minuto parecia que o ranking "nao atualizava". O cache continua existindo
+  // para segurar o Neon se muita gente chegar de uma vez — no maximo 4
+  // consultas por minuto, por mais visitantes que estejam olhando.
+  { revalidate: 15, tags: ["ranking"] },
 );
 
 export default async function Ranking({
