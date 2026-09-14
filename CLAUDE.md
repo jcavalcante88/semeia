@@ -11,7 +11,7 @@ de interface também em português.
 
 1. **Mensagens diárias** — o usuário escolhe horários (padrão 7h, 12h e 20h) e recebe
    um versículo por notificação push, mesmo com o app fechado.
-2. **Quiz** — 25 perguntas de múltipla escolha por rodada, sorteadas entre as que a
+2. **Quiz** — 50 perguntas de múltipla escolha por rodada, sorteadas entre as que a
    pessoa ainda não respondeu, com **25 segundos** para responder cada uma. Ela clica
    numa alternativa e vê na hora se acertou, junto com a explicação e o versículo
    que responde a pergunta.

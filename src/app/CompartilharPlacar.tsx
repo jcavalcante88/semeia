@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 /**
  * Card de compartilhamento na página inicial.
  *
- * Antes ele só existia no fim de uma rodada — ou seja, atrás de 25 perguntas
+ * Antes ele só existia no fim de uma rodada — ou seja, atrás de dezenas de perguntas
  * respondidas. Sendo a peça que traz gente nova pelo Instagram, estar
  * enterrada era o pior lugar possível. Aqui ele fica a um toque, com o
  * placar acumulado da pessoa.

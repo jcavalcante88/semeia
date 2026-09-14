@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
  * O placar geral da pessoa: quanto ela acertou desde que começou.
  *
  * Existe para o card de compartilhamento poder ser gerado a qualquer
- * momento, e não só no fim de uma rodada de 25 perguntas.
+ * momento, e não só no fim de uma rodada inteira.
  */
 export async function GET() {
   const uid = await usuarioAtual();

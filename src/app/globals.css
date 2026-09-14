@@ -710,10 +710,22 @@ input[type="text"]:focus { background: #fff; }
 .podio-2 { order: 1; animation-delay: 0.16s; }
 .podio-3 { order: 3; animation-delay: 0.26s; }
 
+/* Cada lugar com o metal que lhe cabe. Antes só o primeiro tinha cor, e
+   segundo e terceiro eram iguais — o pódio não dizia nada sozinho. */
 .podio-1 {
-  background: linear-gradient(180deg, rgba(255, 250, 233, 0.96) 0%, rgba(248, 228, 172, 0.9) 100%);
-  border-color: rgba(194, 143, 30, 0.65);
+  background: linear-gradient(180deg, rgba(255, 250, 233, 0.96) 0%, rgba(246, 219, 150, 0.95) 100%);
+  border-color: rgba(194, 143, 30, 0.7);
   box-shadow: 0 12px 26px -14px rgba(160, 112, 20, 0.7);
+}
+.podio-2 {
+  background: linear-gradient(180deg, rgba(252, 252, 253, 0.96) 0%, rgba(214, 218, 224, 0.95) 100%);
+  border-color: rgba(150, 157, 168, 0.7);
+  box-shadow: 0 10px 22px -14px rgba(90, 98, 110, 0.6);
+}
+.podio-3 {
+  background: linear-gradient(180deg, rgba(253, 240, 228, 0.96) 0%, rgba(225, 189, 155, 0.95) 100%);
+  border-color: rgba(168, 112, 62, 0.7);
+  box-shadow: 0 10px 22px -14px rgba(120, 74, 36, 0.6);
 }
 
 @keyframes subir {
@@ -741,7 +753,11 @@ input[type="text"]:focus { background: #fff; }
   color: var(--tinta);
   line-height: 1.1;
 }
-.podio-1 .podio-pontos { font-size: 1.8rem; color: var(--ouro-fundo); }
+/* Tons escurecidos de propósito: sobre o degradê do metal, o ouro e o
+   bronze originais davam 4,16 e 4,22 de contraste. Estes passam de 4,8. */
+.podio-1 .podio-pontos { font-size: 1.8rem; color: #7d5610; }
+.podio-2 .podio-pontos { color: #4d545e; }
+.podio-3 .podio-pontos { color: #6e421e; }
 
 .podio-detalhe { font-size: 0.7rem; color: var(--tinta-suave); margin-top: 0.1rem; }
 

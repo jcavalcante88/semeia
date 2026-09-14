@@ -37,7 +37,7 @@ export default async function Inicio() {
 
       <h2>Comece pelo quiz</h2>
       <p>
-        Vinte e cinco perguntas sobre a Bíblia, com a resposta explicada na hora. Não
+        Cinquenta perguntas sobre a Bíblia, com a resposta explicada na hora. Não
         precisa saber nada antes: cada erro vem acompanhado do versículo que
         responde a pergunta.
       </p>

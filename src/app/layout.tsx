@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Você conhece a Bíblia?",
     description:
-      "25 perguntas com a resposta explicada na hora. Sem cadastro, sem senha.",
+      "50 perguntas com a resposta explicada na hora. Sem cadastro, sem senha.",
     url: SITE,
     siteName: "Semeia",
     locale: "pt_BR",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Você conhece a Bíblia?",
     description:
-      "25 perguntas com a resposta explicada na hora. Sem cadastro, sem senha.",
+      "50 perguntas com a resposta explicada na hora. Sem cadastro, sem senha.",
   },
 };
 

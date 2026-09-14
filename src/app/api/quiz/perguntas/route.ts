@@ -5,11 +5,17 @@ import type { PerguntaPublica } from "@/lib/tipos";
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
-/** Quantas perguntas entram numa rodada. */
-const POR_RODADA = 25;
+/**
+ * Quantas perguntas entram numa rodada.
+ *
+ * Ninguem precisa terminar: cada resposta e gravada na hora, entao sair no
+ * meio nao perde nada. Uma rodada maior e so um estoque maior antes de
+ * precisar voltar a tela inicial.
+ */
+const POR_RODADA = 50;
 
 /**
- * Sorteia ate 25 perguntas que a pessoa ainda nao respondeu.
+ * Sorteia ate 50 perguntas que a pessoa ainda nao respondeu.
  *
  * O `order by random()` e o que faz a rodada variar: mesmo com o mesmo
  * conjunto no banco, duas rodadas nunca vem na mesma ordem, e a pessoa
