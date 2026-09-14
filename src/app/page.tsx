@@ -1,4 +1,5 @@
 import { sql } from "@/lib/db";
+import { linkDoCapitulo, capituloDe } from "@/lib/biblia";
 import Link from "next/link";
 import Sequencia from "./Sequencia";
 import CompartilharPlacar from "./CompartilharPlacar";
@@ -15,6 +16,14 @@ const RESERVA = {
 };
 
 export default async function Inicio() {
+  // Lido do banco, e nao escrito na mao: numero cravado no texto vira mentira
+  // na primeira vez que voce acrescentar perguntas.
+  let TOTAL_PERGUNTAS = 100;
+  try {
+    const [c] = await sql`select count(*)::int as n from perguntas where ativa`;
+    if (c?.n) TOTAL_PERGUNTAS = Number(c.n);
+  } catch {}
+
   let versiculo = RESERVA;
   try {
     const [linha] = await sql`
@@ -27,25 +36,47 @@ export default async function Inicio() {
   }
 
 
+  const capitulo = linkDoCapitulo(versiculo.referencia);
+
   return (
     <main>
-      <p className="versiculo">{versiculo.texto}</p>
-      <p className="referencia">
-        {versiculo.referencia} &nbsp;·&nbsp; {versiculo.versao}
-      </p>
+      <section className="palavra">
+        <p className="palavra-rotulo">A palavra de hoje</p>
+        <p className="versiculo">{versiculo.texto}</p>
+        <p className="referencia">
+          {versiculo.referencia} &nbsp;·&nbsp; {versiculo.versao}
+        </p>
+
+        {/* Um versículo solto deixa a pessoa sem o contexto. Quem se interessou
+            merece um caminho para o capítulo inteiro, sem ter que ir ao Google. */}
+        {capitulo && (
+          <a
+            className="palavra-continuar"
+            href={capitulo}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Continuar lendo {capituloDe(versiculo.referencia)}
+            <span aria-hidden="true">→</span>
+          </a>
+        )}
+      </section>
 
       <Sequencia />
 
-      <h2>Comece pelo quiz</h2>
-      <p>
-        Cinquenta perguntas sobre a Bíblia, com a resposta explicada na hora. Não
-        precisa saber nada antes: cada erro vem acompanhado do versículo que
-        responde a pergunta.
-      </p>
-
-      <Link href="/quiz" className="botao">
-        Responder o quiz
-      </Link>
+      {/* Cartão dourado, e não um parágrafo seguido de botão: o quiz é a porta
+          de entrada do app e precisa parecer uma. */}
+      <section className="chamada-quiz">
+        <p className="chamada-selo">{TOTAL_PERGUNTAS} perguntas</p>
+        <h2 className="chamada-titulo">Você conhece a Bíblia?</h2>
+        <p className="chamada-texto">
+          A resposta explicada na hora, com o versículo que responde a pergunta.
+          Não precisa saber nada antes — e não tem cadastro.
+        </p>
+        <Link href="/quiz" className="botao chamada-botao">
+          Começar agora
+        </Link>
+      </section>
 
       <h2>Receba um versículo por dia</h2>
       <p>

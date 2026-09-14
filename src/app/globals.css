@@ -377,6 +377,85 @@ body {
   .folha { background: var(--vidro-forte); }
 }
 
+/* ---------------------------------------------------------------
+   A palavra de hoje
+   --------------------------------------------------------------- */
+.palavra {
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--ouro-claro);
+  margin-bottom: 1.5rem;
+}
+.palavra-rotulo {
+  margin: 0 0 0.6rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ouro-fundo);
+}
+.palavra-continuar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 1rem 0 1.25rem;
+  padding: 0.55rem 1.05rem;
+  border-radius: 999px;
+  border: 1px solid var(--ouro);
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--ouro-fundo);
+  font: 700 0.88rem var(--sans);
+  text-decoration: none;
+  transition: background 0.16s ease, color 0.16s ease;
+}
+.palavra-continuar:hover { background: var(--ouro-vivo); color: var(--tinta); }
+.palavra-continuar span { transition: transform 0.16s ease; }
+.palavra-continuar:hover span { transform: translateX(3px); }
+
+/* ---------------------------------------------------------------
+   Chamada do quiz
+   --------------------------------------------------------------- */
+.chamada-quiz {
+  margin: 2rem 0;
+  padding: 1.5rem 1.35rem;
+  border-radius: 20px;
+  border: 1px solid rgba(194, 143, 30, 0.45);
+  background: linear-gradient(
+    160deg,
+    rgba(255, 249, 229, 0.95) 0%,
+    rgba(248, 226, 166, 0.92) 100%
+  );
+  box-shadow: 0 14px 30px -18px rgba(160, 112, 20, 0.8);
+}
+.chamada-selo {
+  display: inline-block;
+  margin: 0 0 0.7rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  background: var(--ouro-fundo);
+  color: var(--papel);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.chamada-titulo {
+  font-family: var(--titulo);
+  font-size: clamp(1.45rem, 1.2rem + 1.1vw, 1.95rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.6rem;
+  text-wrap: balance;
+}
+.chamada-texto { margin: 0 0 1.1rem; font-size: 1rem; line-height: 1.6; }
+/* Sobre o cartão dourado, o botão claro destaca mais que outro dourado. */
+.chamada-botao {
+  background: var(--tinta);
+  color: var(--papel);
+  box-shadow: 0 8px 20px -10px rgba(59, 47, 23, 0.9);
+}
+.chamada-botao:hover:not(:disabled) { filter: brightness(1.15); }
+
 /* ---------- versiculo: continua sendo o heroi da tela ---------- */
 .versiculo {
   font-family: var(--serif);

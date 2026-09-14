@@ -169,14 +169,14 @@ scripts/icones.mjs                           gera os PNG do PWA com sharp
 public/{sw.js,manifest.json,pomba.png,icone-192.png,icone-512.png,badge.png}
 .github/workflows/mensagens.yml              cron de hora em hora
 .github/workflows/noticias.yml               cron 06:10 e 18:10 de Brasília
-src/lib/{db,tipos,pontos,sessao,rss,pix}.ts
+src/lib/{db,tipos,pontos,sessao,rss,pix,biblia}.ts
 src/app/globals.css
 src/app/globals.papel.css.bak                tema "papel" antigo, para voltar
 src/app/globals.ceu-azul.css.bak             tema "céu azul", idem
 src/app/layout.tsx
 src/app/{Logo,Navegacao,Voltar}.tsx          logo, menus e botão de voltar
 src/app/{icon,apple-icon,opengraph-image}.png  favicon e cartão do WhatsApp
-src/app/page.tsx                             versículo do dia + convite
+src/app/page.tsx                             palavra de hoje + chamada do quiz
 src/app/quiz/{page.tsx,Quiz.tsx,AtivarMensagens.tsx,Ouvir.tsx}
 src/app/ranking/page.tsx                     pódio + lista
 src/app/noticias/page.tsx
