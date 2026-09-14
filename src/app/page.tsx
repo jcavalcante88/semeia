@@ -1,6 +1,7 @@
 import { sql } from "@/lib/db";
 import Link from "next/link";
 import Sequencia from "./Sequencia";
+import CompartilharPlacar from "./CompartilharPlacar";
 
 export const revalidate = 300;
 
@@ -61,6 +62,8 @@ export default async function Inicio() {
       <Link href="/noticias" className="botao botao-vazado">
         Ver as notícias
       </Link>
+
+      <CompartilharPlacar />
 
       <h2>Ranking da semana</h2>
       <p>
