@@ -23,7 +23,9 @@ de interface também em português.
    O autor recebe push nos marcos (1, 3, 10, 25, 50, 100 orações), nunca a cada clique.
 6. **Revisar erros** — `/revisar` mostra o que a pessoa errou, com explicação e versículo.
 7. **Sequência de dias** — faixa discreta na home. Some quando quebra: sem cobrança.
-8. **Card de resultado** — imagem 1080x1920 gerada em `/api/og/resultado` para o story.
+8. **Card de resultado** — imagem 1080x1920 em `/api/og/resultado`, para o story. O metal
+   (bronze / prata / ouro) vem da fração do banco de perguntas já acertada: 30% e 60%.
+   É progressão, não aproveitamento — acertar 10 de 10 não é conhecer a Bíblia.
 9. **Ouvir a pergunta** — botão lê enunciado e alternativas com a voz do navegador
    (`speechSynthesis`), de graça e sem arquivo de áudio. O cronômetro pausa enquanto
    a voz fala, e nada toca sozinho. Sem voz em português, o botão não aparece.
