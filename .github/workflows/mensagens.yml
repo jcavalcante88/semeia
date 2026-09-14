@@ -1,0 +1,23 @@
+name: Mensagens diarias
+
+# O Vercel Hobby so permite 1 execucao de cron por dia.
+# O GitHub Actions roda de hora em hora, de graca, sem esse limite.
+on:
+  schedule:
+    - cron: "0 * * * *"   # todo minuto 0 de cada hora (UTC)
+  workflow_dispatch:      # botao manual para testar
+
+jobs:
+  disparar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Chamar a rota de disparo
+        run: |
+          codigo=$(curl -s -o /tmp/saida.json -w "%{http_code}" \
+            -X POST "${{ secrets.SITE_URL }}/api/cron/disparar" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}")
+          cat /tmp/saida.json
+          if [ "$codigo" != "200" ]; then
+            echo "Falhou com HTTP $codigo"
+            exit 1
+          fi

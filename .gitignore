@@ -1,0 +1,20 @@
+# dependências
+/node_modules
+
+# build do Next
+/.next
+/out
+next-env.d.ts
+*.tsbuildinfo
+
+# segredos — nunca versionar
+.env
+.env.local
+.env*.local
+
+# sistema
+.DS_Store
+Thumbs.db
+
+# pacote de distribuição do projeto
+*.zip

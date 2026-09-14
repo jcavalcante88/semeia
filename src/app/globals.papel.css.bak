@@ -1,0 +1,157 @@
+@import url("https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,500;1,6..72,400&family=Karla:wght@400;500;700&display=swap");
+
+:root {
+  --papel: #fdfbf7;
+  --papel-fundo: #f3efe6;
+  --pinho: #2b4739;
+  --musgo: #5e7a63;
+  --trigo: #c89b3c;
+  --barro: #9c4a3c;
+  --linha: #e2dcd0;
+
+  --serif: "Newsreader", Georgia, serif;
+  --sans: "Karla", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--papel-fundo);
+  color: var(--pinho);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.folha {
+  max-width: 34rem;
+  margin: 0 auto;
+  min-height: 100dvh;
+  background: var(--papel);
+  padding: 1.75rem 1.25rem 4rem;
+}
+
+/* ---------- versiculo em destaque ---------- */
+.versiculo {
+  font-family: var(--serif);
+  font-size: 1.7rem;
+  line-height: 1.45;
+  margin: 0 0 0.75rem;
+  text-wrap: balance;
+}
+.referencia {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  color: var(--musgo);
+}
+
+h1 { font-family: var(--serif); font-size: 2rem; font-weight: 500; margin: 0 0 0.5rem; }
+h2 { font-family: var(--serif); font-size: 1.35rem; font-weight: 500; margin: 2rem 0 0.75rem; }
+p  { line-height: 1.65; }
+
+/* ---------- botoes ---------- */
+.botao {
+  display: inline-block;
+  width: 100%;
+  padding: 0.9rem 1.1rem;
+  border: 0;
+  border-radius: 10px;
+  background: var(--pinho);
+  color: var(--papel);
+  font: 500 1rem var(--sans);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+.botao:disabled { opacity: 0.5; cursor: default; }
+.botao-vazado {
+  background: transparent;
+  color: var(--pinho);
+  border: 1px solid var(--linha);
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--linha);
+  border-radius: 10px;
+  font: 400 1rem var(--sans);
+  background: var(--papel);
+  color: var(--pinho);
+}
+
+:focus-visible { outline: 2px solid var(--trigo); outline-offset: 2px; }
+
+/* ---------- alternativas do quiz ---------- */
+.alternativa {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.6rem;
+  border: 1px solid var(--linha);
+  border-left: 4px solid var(--linha);
+  border-radius: 8px;
+  background: var(--papel);
+  color: var(--pinho);
+  font: 400 1rem/1.4 var(--sans);
+  cursor: pointer;
+}
+.alternativa:hover:not(:disabled) { border-color: var(--musgo); }
+.alternativa:disabled { cursor: default; }
+.alternativa.certa {
+  border-left-color: var(--musgo);
+  background: #eef3ee;
+}
+.alternativa.errada {
+  border-left-color: var(--barro);
+  background: #f8eeec;
+}
+
+.explicacao {
+  border-left: 3px solid var(--trigo);
+  padding: 0.2rem 0 0.2rem 1rem;
+  margin: 1.25rem 0;
+}
+.explicacao p { margin: 0 0 0.5rem; }
+
+/* ---------- ranking ---------- */
+.rank { list-style: none; margin: 0; padding: 0; }
+.rank li {
+  display: grid;
+  grid-template-columns: 2.2rem 1fr auto;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.7rem 0.5rem;
+  border-bottom: 1px solid var(--linha);
+}
+.rank .posicao { font-family: var(--serif); font-size: 1.1rem; color: var(--musgo); }
+.rank li:nth-child(-n + 3) .posicao { color: var(--trigo); font-size: 1.4rem; }
+.rank .apelido { font-weight: 500; }
+.rank .detalhe { display: block; font-size: 0.78rem; color: var(--musgo); font-weight: 400; }
+.rank .pontos { font-family: var(--serif); font-size: 1.15rem; }
+.rank li.eu { background: #f7f3e8; border-radius: 8px; }
+
+.abas { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+.abas a {
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--linha);
+  text-decoration: none;
+  color: var(--musgo);
+  font-size: 0.9rem;
+}
+.abas a[aria-current="page"] {
+  background: var(--pinho);
+  border-color: var(--pinho);
+  color: var(--papel);
+}
+
+.rodape { margin-top: 3rem; font-size: 0.78rem; color: var(--musgo); }
+.rodape a { color: var(--musgo); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

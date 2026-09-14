@@ -1,0 +1,25 @@
+name: Noticias do mundo gospel
+
+# Uma vez por dia. 09:10 UTC = 06:10 em Brasilia, entao as materias da
+# madrugada ja estao no ar quando alguem abre o app de manha.
+on:
+  schedule:
+    - cron: "10 9 * * *"
+  workflow_dispatch: # botao manual para testar
+
+jobs:
+  coletar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Chamar a rota de coleta
+        run: |
+          codigo=$(curl -s -o /tmp/saida.json -w "%{http_code}" \
+            --max-time 120 \
+            -X POST "${{ secrets.SITE_URL }}/api/cron/noticias" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}")
+          cat /tmp/saida.json
+          echo
+          if [ "$codigo" != "200" ]; then
+            echo "Falhou com HTTP $codigo"
+            exit 1
+          fi
