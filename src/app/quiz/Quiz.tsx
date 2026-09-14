@@ -271,7 +271,11 @@ export default function Quiz() {
 
       {resultado && (
         <>
-          <div className="explicacao">
+          <div
+            className={`explicacao ${
+              resultado.acertou ? "explicacao-certa" : "explicacao-errada"
+            }`}
+          >
             <p>
               <strong>
                 {resultado.acertou ? "Isso mesmo." : "Não era essa."}

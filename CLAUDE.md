@@ -205,6 +205,7 @@ vidro (`backdrop-filter`) de no máximo 34rem.
 --ouro-fundo  #8A5F12   ouro escuro para texto
 --ouro-selo   #B8860F   selo da logo e fundo do ícone do app
 --ouro-claro  #F2E0B4   bordas
+--acerto      #3A7448   acertou (verde, fora da família do ouro)
 --barro       #9C4A3C   errou
 --ceu-alto #8CC0E4 --ceu-meio #CFE6F4 --ceu-baixo #F9E2A6 --horizonte #FFFAEE
 ```

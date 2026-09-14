@@ -12,6 +12,11 @@
   --ouro: #c28f1e;         /* ouro principal */
   --ouro-vivo: #efc14e;    /* brilho e destaque */
   --ouro-fundo: #8a5f12;   /* ouro escuro, para texto sobre claro */
+  /* Acerto e erro precisam de cor PRÓPRIA, fora da família do ouro. Com o
+     acerto em creme, ele se confundia com o fundo dourado e só o erro tinha
+     sinal — o quiz ficava dizendo o que deu errado e calando o que deu certo. */
+  --acerto: #3a7448;       /* verde do acertou */
+  --acerto-fundo: rgba(228, 243, 229, 0.95);
   --barro: #9c4a3c;        /* errou */
   --ouro-claro: #f2e0b4;   /* bordas */
   --ouro-selo: #b8860f;    /* fundo do selo da logo e do icone do app */
@@ -522,7 +527,7 @@ input[type="text"]:focus { background: #fff; }
 }
 .revisao-marca {
   flex: none;
-  color: var(--ouro-fundo);
+  color: var(--acerto);
   font-size: 1.05rem;
   line-height: 1.5;
 }
@@ -597,8 +602,8 @@ input[type="text"]:focus { background: #fff; }
 .alternativa:disabled { cursor: default; }
 
 .alternativa.certa {
-  border-left-color: var(--tinta-suave);
-  background: rgba(252, 238, 197, 0.95);
+  border-left-color: var(--acerto);
+  background: var(--acerto-fundo);
   animation: acertou 0.45s ease;
 }
 .alternativa.errada {
@@ -623,6 +628,13 @@ input[type="text"]:focus { background: #fff; }
 }
 .explicacao p { margin: 0 0 0.5rem; }
 .explicacao p:last-child { margin-bottom: 0; }
+
+/* A caixa da explicação repete o sinal da alternativa: verde quando acertou,
+   barro quando não. Dourada nos dois casos, ela não dizia nada. */
+.explicacao-certa { border-left-color: var(--acerto); }
+.explicacao-certa strong { color: var(--acerto); }
+.explicacao-errada { border-left-color: var(--barro); }
+.explicacao-errada strong { color: var(--barro); }
 
 @keyframes surgir {
   from { opacity: 0; transform: translateY(8px); }
