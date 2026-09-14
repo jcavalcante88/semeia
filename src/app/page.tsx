@@ -52,7 +52,7 @@ export default async function Inicio() {
       <h2>Mundo gospel</h2>
       <p>
         O que está acontecendo no mundo cristão, reunido de portais de notícia
-        e atualizado uma vez por dia.
+        e atualizado duas vezes por dia.
       </p>
 
       <Link href="/noticias" className="botao botao-vazado">

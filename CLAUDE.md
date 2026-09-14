@@ -17,7 +17,7 @@ de interface também em português.
    que responde a pergunta.
 3. **Ranking público** — quem mais pontua aparece numa lista que todos veem, com
    pódio para os três primeiros.
-4. **Mundo gospel** — notícias coletadas de feeds RSS uma vez por dia, com título,
+4. **Mundo gospel** — notícias coletadas de feeds RSS a cada 12 horas, com título,
    resumo, imagem e link para a fonte.
 5. **Pedidos de oração** — a pessoa publica um pedido e outras marcam "orei por você".
 
@@ -90,7 +90,7 @@ O cookie é `secure` só em produção — em `localhost` o navegador descartari
 
 **7. O agendador é o GitHub Actions, não o Vercel Cron.**
 O plano Hobby da Vercel só permite 1 execução de cron por dia. São dois workflows:
-`mensagens.yml` de hora em hora e `noticias.yml` uma vez por dia, ambos protegidos
+`mensagens.yml` de hora em hora e `noticias.yml` a cada 12 horas, ambos protegidos
 por `Authorization: Bearer ${CRON_SECRET}`.
 A rota de mensagens cobre **a hora atual e a anterior**, porque o GitHub atrasa
 quando está congestionado — com igualdade exata o envio seria pulado em silêncio.
@@ -147,7 +147,7 @@ arte/pomba.png                               arte de origem (Icons8)
 scripts/icones.mjs                           gera os PNG do PWA com sharp
 public/{sw.js,manifest.json,pomba.png,icone-192.png,icone-512.png,badge.png}
 .github/workflows/mensagens.yml              cron de hora em hora
-.github/workflows/noticias.yml               cron diário, 06:10 de Brasília
+.github/workflows/noticias.yml               cron 06:10 e 18:10 de Brasília
 src/lib/{db,tipos,pontos,sessao,rss}.ts
 src/app/globals.css
 src/app/globals.papel.css.bak                tema "papel" antigo, para voltar

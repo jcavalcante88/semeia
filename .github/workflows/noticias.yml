@@ -1,10 +1,14 @@
 name: Noticias do mundo gospel
 
-# Uma vez por dia. 09:10 UTC = 06:10 em Brasilia, entao as materias da
-# madrugada ja estao no ar quando alguem abre o app de manha.
+# A cada 12 horas. Brasilia e UTC-3 o ano todo (o horario de verao acabou
+# em 2019), entao 09:10 e 21:10 UTC caem em 06:10 e 18:10 daqui:
+# as materias da madrugada estao no ar de manha, e as do dia, a noite.
+#
+# Nao ha risco em rodar mais vezes: a coluna `link` da tabela `noticias` e
+# unique e o insert usa `on conflict`, entao materia repetida nao entra.
 on:
   schedule:
-    - cron: "10 9 * * *"
+    - cron: "10 9,21 * * *"
   workflow_dispatch: # botao manual para testar
 
 jobs:

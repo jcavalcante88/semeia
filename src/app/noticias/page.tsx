@@ -2,7 +2,7 @@ import { sql } from "@/lib/db";
 import { unstable_cache } from "next/cache";
 import Voltar from "../Voltar";
 
-// Como as noticias mudam uma vez por dia, 15 minutos de cache sobra e
+// As noticias mudam duas vezes por dia (06:10 e 18:10), entao 15 minutos
 // mantem o Neon quase parado.
 const buscarNoticias = unstable_cache(
   async () =>
@@ -44,7 +44,7 @@ export default async function Noticias() {
     <main>
       <Voltar />
       <h1>Mundo gospel</h1>
-      <p className="referencia">Atualizado uma vez por dia</p>
+      <p className="referencia">Atualizado de manhã e à noite</p>
 
       {erro ? (
         <p style={{ marginTop: "1.5rem" }}>

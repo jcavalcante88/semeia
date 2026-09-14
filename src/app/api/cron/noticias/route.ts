@@ -15,7 +15,7 @@ const POR_FONTE = 20;
  * forma legal de agregar RSS. Copiar a materia inteira seria violacao de
  * direito autoral, entao o texto completo fica sempre no site de origem.
  *
- * Roda uma vez por dia pelo GitHub Actions, com o mesmo CRON_SECRET das
+ * Roda a cada 12 horas pelo GitHub Actions, com o mesmo CRON_SECRET das
  * mensagens. Um feed fora do ar nao derruba os outros.
  */
 export async function POST(req: Request) {
