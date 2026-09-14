@@ -13,7 +13,7 @@ import Apoiar from "./Apoiar";
  */
 const CHAVE = "+5511998817076";
 const NOME = "Jerry Camargo das Dores";
-const CIDADE = "São Paulo";
+const CIDADE = "Diadema";
 
 export const metadata = {
   title: "Apoiar | Semeia",

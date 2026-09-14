@@ -2,6 +2,7 @@ import { sql } from "@/lib/db";
 import Link from "next/link";
 import Sequencia from "./Sequencia";
 import CompartilharPlacar from "./CompartilharPlacar";
+import Shows, { type Evento } from "./Shows";
 
 export const revalidate = 300;
 
@@ -26,6 +27,21 @@ export default async function Inicio() {
     // segue com o versiculo de reserva
   }
 
+  // Só os próximos: show que já passou não serve para ninguém, e a lista
+  // se limpa sozinha sem você precisar apagar nada.
+  let eventos: Evento[] = [];
+  try {
+    eventos = (await sql`
+      select id, titulo, artista, quando, local, cidade, uf, link, video
+        from eventos
+       where ativo and quando > now() - interval '3 hours'
+       order by quando
+       limit 4
+    `) as unknown as Evento[];
+  } catch {
+    // sem tabela ou sem banco: a seção some, o resto da página continua
+  }
+
   return (
     <main>
       <p className="versiculo">{versiculo.texto}</p>
@@ -45,6 +61,8 @@ export default async function Inicio() {
       <Link href="/quiz" className="botao">
         Responder o quiz
       </Link>
+
+      <Shows eventos={eventos} />
 
       <h2>Receba um versículo por dia</h2>
       <p>

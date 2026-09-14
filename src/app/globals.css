@@ -475,6 +475,82 @@ input[type="text"]:focus { background: #fff; }
 :focus-visible { outline: 2px solid var(--tinta); outline-offset: 3px; }
 
 /* ---------------------------------------------------------------
+   Shows e eventos
+   --------------------------------------------------------------- */
+.eventos { list-style: none; margin: 1.25rem 0 0; padding: 0; }
+.eventos li {
+  margin-bottom: 0.9rem;
+  border-radius: 16px;
+  border: 1px solid var(--vidro-borda);
+  border-left: 4px solid var(--ouro);
+  background: rgba(255, 255, 255, 0.58);
+  overflow: hidden;
+}
+
+.evento-corpo { padding: 1rem 1.15rem 1.1rem; }
+
+.evento-quando {
+  margin: 0 0 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ouro-fundo);
+}
+.evento-titulo {
+  margin: 0;
+  font-family: var(--titulo);
+  font-weight: 600;
+  font-size: 1.16rem;
+  line-height: 1.28;
+}
+.evento-artista { margin: 0.15rem 0 0; font-size: 0.95rem; color: var(--tinta-suave); }
+.evento-local { margin: 0.5rem 0 0; font-size: 0.95rem; }
+.evento-acoes { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.85rem; }
+
+/* Vídeo: miniatura até alguém clicar, aí vira o player. */
+.evento-video {
+  display: block;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  padding: 0;
+  background: rgba(138, 95, 18, 0.12);
+  overflow: hidden;
+}
+.evento-video img,
+.evento-video iframe {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  border: 0;
+  object-fit: cover;
+  display: block;
+}
+.evento-video-capa { cursor: pointer; }
+
+.evento-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 0.25rem;
+  border-radius: 50%;
+  background: rgba(255, 253, 248, 0.92);
+  color: var(--ouro-fundo);
+  font-size: 1.5rem;
+  box-shadow: 0 6px 18px -8px rgba(60, 40, 10, 0.8);
+  transition: transform 0.16s ease;
+}
+.evento-video-capa:hover .evento-play { transform: translate(-50%, -50%) scale(1.08); }
+
+/* ---------------------------------------------------------------
    Apoiar (Pix)
    --------------------------------------------------------------- */
 .pix-caixa {
