@@ -33,7 +33,7 @@ export default function Quiz() {
         const d = await r.json();
         if (ativo) setPerfil(d.usuario ?? null);
       } catch {
-        // Sem perfil confirmado cai na tela de apelido. Pedir o apelido de novo
+        // Sem perfil confirmado cai na tela de nome. Pedir o nome de novo
         // e melhor do que travar a pessoa num "Carregando..." eterno.
         if (ativo) setPerfil(null);
       } finally {
@@ -106,7 +106,7 @@ export default function Quiz() {
   }
 
   /**
-   * Relogio de 7 segundos por pergunta.
+   * Relogio por pergunta (SEGUNDOS, no topo do arquivo).
    *
    * Ele so corre enquanto a pessoa ainda nao respondeu. Depois da resposta
    * ele para: a explicacao e o versiculo sao o motivo do app existir, e
@@ -329,7 +329,7 @@ function Cadastro({ aoEntrar }: { aoEntrar: (u: Perfil) => void }) {
       <Voltar>Cancelar</Voltar>
       <h1>Como você quer aparecer?</h1>
       <p>
-        Sem cadastro, sem e-mail, sem senha. Só um apelido — pode ser o primeiro
+        Sem cadastro, sem e-mail, sem senha. Só um nome — pode ser o primeiro
         nome ou qualquer coisa.
       </p>
 
@@ -337,7 +337,7 @@ function Cadastro({ aoEntrar }: { aoEntrar: (u: Perfil) => void }) {
         type="text"
         value={apelido}
         onChange={(e) => setApelido(e.target.value)}
-        placeholder="Seu apelido"
+        placeholder="Seu nome"
         maxLength={24}
       />
 
@@ -348,7 +348,7 @@ function Cadastro({ aoEntrar }: { aoEntrar: (u: Perfil) => void }) {
           onChange={(e) => setNoRanking(e.target.checked)}
         />
         <span>
-          Quero aparecer no ranking público com este apelido. Sem marcar, você
+          Quero aparecer no ranking público com este nome. Sem marcar, você
           joga normalmente e ninguém vê sua pontuação.
         </span>
       </label>

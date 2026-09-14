@@ -52,7 +52,7 @@ export default function AtivarMensagens() {
         await inscricao.unsubscribe().catch(() => {});
         setRecado(
           d?.erro === "Sem perfil."
-            ? "Escolha um apelido no quiz antes de ativar as mensagens."
+            ? "Escolha um nome no quiz antes de ativar as mensagens."
             : "Não deu para salvar sua inscrição. Tente de novo mais tarde.",
         );
         return setEstado("erro");

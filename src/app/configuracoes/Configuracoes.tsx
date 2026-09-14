@@ -89,7 +89,7 @@ export default function Configuracoes() {
         <Voltar />
         <h1>Ajustes</h1>
         <p>
-          Você ainda não escolheu um apelido. Comece pelo quiz — leva menos de
+          Você ainda não escolheu um nome. Comece pelo quiz — leva menos de
           um minuto e não pede cadastro.
         </p>
         <Link href="/quiz" className="botao">
@@ -113,7 +113,7 @@ export default function Configuracoes() {
         value={apelido}
         onChange={(e) => setApelido(e.target.value)}
         maxLength={24}
-        aria-label="Seu apelido"
+        aria-label="Seu nome"
       />
 
       <h2>Ranking público</h2>
