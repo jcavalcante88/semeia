@@ -63,12 +63,66 @@ async function badge(lado) {
     .toBuffer();
 }
 
+/**
+ * Cartao de compartilhamento (Open Graph), 1200x630.
+ *
+ * E o que aparece no WhatsApp, Instagram, Facebook e na previa do link em
+ * qualquer lugar. Fundo dourado, pomba a esquerda, nome e frase a direita.
+ *
+ * O texto e desenhado como SVG porque o arquivo e gerado aqui, na minha
+ * maquina, e vira PNG versionado — nao depende de fonte instalada no
+ * servidor da Vercel.
+ */
+async function cartaoCompartilhamento() {
+  const L = 1200;
+  const A = 630;
+
+  const texto = `<svg xmlns="http://www.w3.org/2000/svg" width="${L}" height="${A}">
+    <defs>
+      <linearGradient id="ouro" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#E8B43A"/>
+        <stop offset="55%" stop-color="#C28F1E"/>
+        <stop offset="100%" stop-color="#9A6B10"/>
+      </linearGradient>
+    </defs>
+    <rect width="${L}" height="${A}" fill="url(#ouro)"/>
+    <!-- clarao de luz atras da pomba, lembrando o sol da cidade dourada -->
+    <circle cx="330" cy="315" r="250" fill="#FFF6DC" opacity="0.22"/>
+    <text x="600" y="300" font-family="Georgia, serif" font-size="104"
+          font-weight="bold" fill="#FFFDF8">Semeia</text>
+    <text x="604" y="368" font-family="Georgia, serif" font-size="35"
+          fill="#FFF4D8">Um versículo por dia e um quiz</text>
+    <text x="604" y="416" font-family="Georgia, serif" font-size="35"
+          fill="#FFF4D8">para conhecer a Bíblia</text>
+    <text x="604" y="486" font-family="Georgia, serif" font-size="25"
+          fill="#FFEFC4" opacity="0.85">Sem cadastro. Sem senha.</text>
+  </svg>`;
+
+  return sharp(Buffer.from(texto))
+    .composite([
+      {
+        input: await sharp(POMBA).resize(420, 420, { fit: "contain" }).toBuffer(),
+        top: 105,
+        left: 120,
+      },
+    ])
+    .png()
+    .toBuffer();
+}
+
 const saidas = [
   // usada no cabecalho das laterais, dentro do selo pinho (2x para retina)
   ["public/pomba.png", await sharp(POMBA).resize(160, 160, { fit: "contain" }).png().toBuffer()],
   ["public/icone-192.png", await iconeApp(192)],
   ["public/icone-512.png", await iconeApp(512)],
   ["public/badge.png", await badge(96)],
+
+  // Convencoes de arquivo do App Router: o Next monta as tags <link> e as
+  // meta de Open Graph sozinho a partir destes nomes, dentro de src/app.
+  ["src/app/icon.png", await iconeApp(256)], // favicon da aba e da Vercel
+  ["src/app/apple-icon.png", await iconeApp(180)], // tela de inicio do iPhone
+  ["src/app/opengraph-image.png", await cartaoCompartilhamento()], // WhatsApp
+  ["src/app/twitter-image.png", await cartaoCompartilhamento()],
 ];
 
 for (const [caminho, buffer] of saidas) {
