@@ -577,6 +577,39 @@ input[type="text"]:focus { background: #fff; }
 .progresso-rodada { height: 4px; opacity: 0.75; }
 
 /* ---------------------------------------------------------------
+   Botão de ouvir a pergunta
+   --------------------------------------------------------------- */
+.pergunta-linha {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin: 1.1rem 0 1.5rem;
+}
+
+.ouvir {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: none;
+  margin-top: 0.15rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--ouro);
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--ouro-fundo);
+  font: 700 0.82rem var(--sans);
+  cursor: pointer;
+  transition: background 0.14s ease, color 0.14s ease;
+}
+.ouvir:hover { background: var(--ouro-vivo); color: var(--tinta); }
+.ouvir-falando {
+  background: var(--ouro-vivo);
+  color: var(--tinta);
+  border-color: var(--ouro-fundo);
+}
+
+/* ---------------------------------------------------------------
    Alternativas do quiz
    --------------------------------------------------------------- */
 .alternativa {

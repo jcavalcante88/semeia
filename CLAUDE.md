@@ -24,6 +24,9 @@ de interface também em português.
 6. **Revisar erros** — `/revisar` mostra o que a pessoa errou, com explicação e versículo.
 7. **Sequência de dias** — faixa discreta na home. Some quando quebra: sem cobrança.
 8. **Card de resultado** — imagem 1080x1920 gerada em `/api/og/resultado` para o story.
+9. **Ouvir a pergunta** — botão lê enunciado e alternativas com a voz do navegador
+   (`speechSynthesis`), de graça e sem arquivo de áudio. O cronômetro pausa enquanto
+   a voz fala, e nada toca sozinho. Sem voz em português, o botão não aparece.
 
 ## Tom
 
@@ -164,7 +167,7 @@ src/app/layout.tsx
 src/app/{Logo,Navegacao,Voltar}.tsx          logo, menus e botão de voltar
 src/app/{icon,apple-icon,opengraph-image}.png  favicon e cartão do WhatsApp
 src/app/page.tsx                             versículo do dia + convite
-src/app/quiz/{page.tsx,Quiz.tsx,AtivarMensagens.tsx}
+src/app/quiz/{page.tsx,Quiz.tsx,AtivarMensagens.tsx,Ouvir.tsx}
 src/app/ranking/page.tsx                     pódio + lista
 src/app/noticias/page.tsx
 src/app/oracao/{page.tsx,Oracao.tsx}

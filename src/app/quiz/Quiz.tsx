@@ -6,6 +6,7 @@ import type { PerguntaPublica, Perfil, Resultado } from "@/lib/tipos";
 import { ehResultado } from "@/lib/tipos";
 import AtivarMensagens from "./AtivarMensagens";
 import Voltar from "../Voltar";
+import Ouvir from "./Ouvir";
 
 /** Segundos para responder cada pergunta. */
 const SEGUNDOS = 25;
@@ -23,6 +24,7 @@ export default function Quiz() {
   const [placar, setPlacar] = useState({ acertos: 0, pontos: 0 });
   const [restante, setRestante] = useState(SEGUNDOS);
   const [pulou, setPulou] = useState(false);
+  const [ouvindo, setOuvindo] = useState(false);
 
   useEffect(() => {
     let ativo = true;
@@ -120,13 +122,18 @@ export default function Quiz() {
     if (!perguntas || resultado || pulou || enviandoResposta) return;
     if (indice >= perguntas.length) return;
 
+    // O relógio para enquanto a voz lê. Ouvir a pergunta leva uns 8 segundos;
+    // sem a pausa, quem depende do áudio começaria a rodada devendo tempo —
+    // e o recurso feito para incluir viraria desvantagem.
+    if (ouvindo) return;
+
     if (restante <= 0) {
       setPulou(true);
       return;
     }
     const id = setTimeout(() => setRestante((s) => s - 1), 1000);
     return () => clearTimeout(id);
-  }, [restante, perguntas, resultado, pulou, enviandoResposta, indice]);
+  }, [restante, perguntas, resultado, pulou, enviandoResposta, indice, ouvindo]);
 
   // Depois de avisar que pulou, segue sozinho para a proxima.
   useEffect(() => {
@@ -233,7 +240,18 @@ export default function Quiz() {
         />
       </div>
 
-      <h1 style={{ fontSize: "var(--t-h2)", margin: "1.1rem 0 1.5rem" }}>{p.enunciado}</h1>
+      <div className="pergunta-linha">
+        <h1 style={{ fontSize: "var(--t-h2)", margin: 0 }}>{p.enunciado}</h1>
+        {/* Le o enunciado E as alternativas: so a pergunta nao serve para
+            quem nao consegue ler as opcoes. */}
+        <Ouvir
+          key={p.id}
+          texto={`${p.enunciado}. ${p.alternativas
+            .map((a, i) => `Opção ${i + 1}: ${a}`)
+            .join(". ")}`}
+          aoMudar={setOuvindo}
+        />
+      </div>
 
       {p.alternativas.map((alt, i) => {
         let classe = "alternativa";
