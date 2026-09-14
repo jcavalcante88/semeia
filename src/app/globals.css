@@ -254,6 +254,34 @@ body {
 }
 
 /* ---------------------------------------------------------------
+   Cabecalho do celular: a marca, que so existe aqui
+   --------------------------------------------------------------- */
+.cabecalho-movel {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  padding: 0.6rem clamp(1.1rem, 4vw, 2rem);
+  background: var(--vidro-forte);
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
+  backdrop-filter: blur(16px) saturate(1.15);
+  border-bottom: 1px solid var(--vidro-borda);
+}
+
+.cabecalho-marca {
+  display: inline-flex;
+  text-decoration: none;
+  color: var(--tinta);
+}
+
+/* Acima de 992px a lateral esquerda ja mostra a marca: dois logos na
+   mesma tela seria repeticao. */
+@media (min-width: 62rem) {
+  .cabecalho-movel { display: none; }
+}
+
+/* ---------------------------------------------------------------
    Barra fixa do celular
    --------------------------------------------------------------- */
 .barra-inferior {
@@ -305,7 +333,9 @@ body {
   z-index: 1;
   max-width: 34rem;
   margin: 0 auto;
-  min-height: 100dvh;
+  /* Desconta o cabecalho do celular: com 100dvh cheio, a soma passava da
+     altura da tela e aparecia rolagem mesmo em pagina curta. */
+  min-height: calc(100dvh - 3.4rem);
   /* O 6rem no fim e o espaco da barra fixa do celular: sem ele, a barra
      cobre a ultima linha de texto. O abreviado tem que vir antes de
      qualquer padding-bottom, senao apaga o valor. */

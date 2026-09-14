@@ -12,7 +12,7 @@ de interface também em português.
 1. **Mensagens diárias** — o usuário escolhe horários (padrão 7h, 12h e 20h) e recebe
    um versículo por notificação push, mesmo com o app fechado.
 2. **Quiz** — 25 perguntas de múltipla escolha por rodada, sorteadas entre as que a
-   pessoa ainda não respondeu, com **10 segundos** para responder cada uma. Ela clica
+   pessoa ainda não respondeu, com **40 segundos** para responder cada uma. Ela clica
    numa alternativa e vê na hora se acertou, junto com a explicação e o versículo
    que responde a pergunta.
 3. **Ranking público** — quem mais pontua aparece numa lista que todos veem, com
@@ -29,12 +29,12 @@ o versículo explicando com gentileza, nunca uma reprovação. Sem som de erro, 
 nada que humilhe.
 
 > Até setembro de 2026 esta seção também dizia "sem contagem regressiva". Eu pedi
-> o cronômetro de 10 segundos. Ele existe, mas com duas travas que preservam o
+> o cronômetro por pergunta. Ele existe, mas com duas travas que preservam o
 > resto da regra: **o relógio para assim que a pessoa responde** (a explicação e o
 > versículo se leem sem pressa), e **estourar o tempo pula a pergunta, não a erra**
 > — ela volta numa rodada futura em vez de ser queimada pela regra da tentativa
 > única. Medi as 52 perguntas antes de escolher o número: média de 4,1s só de
-> leitura, e a mais longa leva 7,6s. Começou em 7s e passou para 10s.
+> leitura, e a mais longa leva 7,6s. Começou em 7s, passou para 10s e hoje está em 40s.
 > A constante é `SEGUNDOS` no topo de `src/app/quiz/Quiz.tsx`.
 
 A pessoa que chega pelo Instagram pode não ser cristã e não saber nada da Bíblia.
@@ -154,6 +154,7 @@ src/app/globals.papel.css.bak                tema "papel" antigo, para voltar
 src/app/globals.ceu-azul.css.bak             tema "céu azul", idem
 src/app/layout.tsx
 src/app/{Logo,Navegacao,Voltar}.tsx          logo, menus e botão de voltar
+src/app/{icon,apple-icon,opengraph-image}.png  favicon e cartão do WhatsApp
 src/app/page.tsx                             versículo do dia + convite
 src/app/quiz/{page.tsx,Quiz.tsx,AtivarMensagens.tsx}
 src/app/ranking/page.tsx                     pódio + lista
@@ -202,7 +203,8 @@ texto escuro, nunca branco: com branco daria 2,2:1.
 
 **Layout.** Acima de 992px são três colunas: menu à esquerda (com a pomba num selo
 pinho), conteúdo no centro, atalhos à direita. Abaixo disso, coluna única com barra
-fixa de 6 destinos no rodapé. A lista de destinos vive só em `Navegacao.tsx`;
+fixa de 6 destinos no rodapé, e a marca num cabeçalho grudado no topo
+() — sem ele o app ficava sem pomba e sem nome no celular. A lista de destinos vive só em `Navegacao.tsx`;
 mudando lá, ajuste `grid-template-columns` da `.barra-inferior`.
 
 **Tipos.** **Newsreader** para versículos, **Fraunces** para títulos, **Karla** para

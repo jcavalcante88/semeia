@@ -79,6 +79,23 @@ export function LateralDireita() {
   );
 }
 
+/**
+ * Cabecalho do celular.
+ *
+ * A pomba e o nome vivem na lateral esquerda, que some abaixo de 992px — e
+ * sem isto o app ficava sem marca nenhuma no telefone, que e onde quase todo
+ * mundo vai usar. Fica grudado no topo para a pessoa sempre saber onde esta.
+ */
+export function CabecalhoMovel() {
+  return (
+    <header className="cabecalho-movel">
+      <Link href="/" className="cabecalho-marca">
+        <Logo />
+      </Link>
+    </header>
+  );
+}
+
 /** Barra fixa do celular: o mesmo menu, no polegar. */
 export function BarraInferior() {
   const caminho = usePathname();

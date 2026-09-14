@@ -1,6 +1,11 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import { LateralEsquerda, LateralDireita, BarraInferior } from "./Navegacao";
+import {
+  LateralEsquerda,
+  LateralDireita,
+  BarraInferior,
+  CabecalhoMovel,
+} from "./Navegacao";
 
 /**
  * `metadataBase` e obrigatorio para o cartao de compartilhamento funcionar:
@@ -49,6 +54,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <span className="nuvem nuvem-3" />
           <span className="nuvem nuvem-4" />
         </div>
+        <CabecalhoMovel />
+
         <div className="app">
           <LateralEsquerda />
           <div className="folha">{children}</div>

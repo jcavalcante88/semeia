@@ -8,7 +8,7 @@ import AtivarMensagens from "./AtivarMensagens";
 import Voltar from "../Voltar";
 
 /** Segundos para responder cada pergunta. */
-const SEGUNDOS = 10;
+const SEGUNDOS = 40;
 
 export default function Quiz() {
   const [perfil, setPerfil] = useState<Perfil | null>(null);
