@@ -145,7 +145,6 @@ respostas        id, usuario_id, pergunta_id, acertou, pontos, respondida_em,
 noticias         id, titulo, resumo, link unique, fonte, imagem,
                  publicado_em, coletado_em, ativa
 fontes_noticias  id, nome, url unique, ativa   -- ligar/desligar feed sem deploy
-eventos          id, titulo, artista, quando, local, cidade, uf, link, video, ativo
 pedidos_oracao   id, usuario_id, texto, anonimo, criado_em, ativo
 oracoes          usuario_id + pedido_id (PK)   -- um "orei" por pessoa
 views            ranking_semana, ranking_geral
@@ -164,7 +163,6 @@ db/seed-perguntas.sql                        40 perguntas extras
 db/seed-perguntas-3.sql                      50 perguntas extras
 db/noticias.sql                              tabelas de notícia e fontes
 db/oracao.sql                                pedidos de oração
-db/eventos.sql                               shows gospel (dia, hora, local)
 db/limpar-teste.sql                          apaga usuários fictícios
 arte/pomba.png                               arte de origem (Icons8)
 scripts/icones.mjs                           gera os PNG do PWA com sharp
@@ -186,7 +184,6 @@ src/app/oracao/{page.tsx,Oracao.tsx}
 src/app/revisar/{page.tsx,Revisar.tsx}       perguntas erradas + explicação
 src/app/apoiar/{page.tsx,Apoiar.tsx}        doação por Pix, código gerado em src/lib/pix.ts
 src/app/Sequencia.tsx                        faixa de dias seguidos
-src/app/Shows.tsx                            próximos shows na home, vídeo sob clique
 src/app/configuracoes/{page.tsx,Configuracoes.tsx}
 src/app/api/usuario/route.ts
 src/app/api/quiz/{perguntas,responder}/route.ts
