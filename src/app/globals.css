@@ -475,6 +475,37 @@ input[type="text"]:focus { background: #fff; }
 :focus-visible { outline: 2px solid var(--tinta); outline-offset: 3px; }
 
 /* ---------------------------------------------------------------
+   Apoiar (Pix)
+   --------------------------------------------------------------- */
+.pix-caixa {
+  margin: 0.9rem 0 0;
+  padding: 1rem;
+  border-radius: 16px;
+  border: 1px solid var(--vidro-borda);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* O código tem 126 caracteres sem espaço nenhum: sem `anywhere` ele estoura
+   a largura da tela e empurra a página inteira para o lado. */
+.pix-codigo,
+.pix-chave {
+  display: block;
+  margin-bottom: 0.85rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  background: rgba(255, 252, 240, 0.9);
+  border: 1px solid var(--ouro-claro);
+  font-family: ui-monospace, "Cascadia Mono", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--tinta);
+  overflow-wrap: anywhere;
+  max-height: 7.5rem;
+  overflow-y: auto;
+}
+.pix-chave { font-size: 1rem; text-align: center; max-height: none; }
+
+/* ---------------------------------------------------------------
    Sequência de dias
    --------------------------------------------------------------- */
 .sequencia {

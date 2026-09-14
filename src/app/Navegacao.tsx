@@ -85,6 +85,20 @@ export function LateralDireita() {
           Configurações
         </Link>
       </div>
+
+      {/* Discreto de propósito: um cartão na lateral, nunca pop-up nem banner.
+          Pedir dinheiro na cara de quem acabou de chegar é o contrário de um
+          convite. */}
+      <div className="cartao-lateral">
+        <h2 className="cartao-titulo">Apoiar o Semeia</h2>
+        <p className="cartao-texto">
+          O app é gratuito e sem anúncio. Um Pix de qualquer valor ajuda a
+          manter no ar.
+        </p>
+        <Link href="/apoiar" className="botao botao-vazado botao-pequeno">
+          Fazer um Pix
+        </Link>
+      </div>
     </aside>
   );
 }

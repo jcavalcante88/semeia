@@ -118,6 +118,14 @@ As notícias são publicadas **automaticamente, sem revisão** — foi decisão 
 sabendo que manchete de política partidária pode aparecer. Para tirar uma:
 `update noticias set ativa = false where id = X`.
 
+**11. Doação é Pix, e só Pix.**
+Stripe e Mercado Pago cobram taxa e exigem conta de empresa. O Pix é gratuito,
+cai na hora e aceita qualquer valor. O código `copia e cola` é montado em
+`src/lib/pix.ts` sem dependência — é o padrão EMV do Banco Central, com CRC16
+no fim. Nada de pop-up nem banner: um cartão na lateral e um link no rodapé.
+Atenção: o plano Hobby da Vercel proíbe uso comercial. Doação é zona cinzenta,
+e eu aceito o risco enquanto o app for gratuito.
+
 **10. Arte de terceiros exige crédito visível.**
 A pomba vem do Icons8 e a licença gratuita pede link de volta. O crédito está no
 rodapé de `/configuracoes`. Trocando a arte, tire o crédito junto.
@@ -161,7 +169,7 @@ scripts/icones.mjs                           gera os PNG do PWA com sharp
 public/{sw.js,manifest.json,pomba.png,icone-192.png,icone-512.png,badge.png}
 .github/workflows/mensagens.yml              cron de hora em hora
 .github/workflows/noticias.yml               cron 06:10 e 18:10 de Brasília
-src/lib/{db,tipos,pontos,sessao,rss}.ts
+src/lib/{db,tipos,pontos,sessao,rss,pix}.ts
 src/app/globals.css
 src/app/globals.papel.css.bak                tema "papel" antigo, para voltar
 src/app/globals.ceu-azul.css.bak             tema "céu azul", idem
@@ -174,6 +182,7 @@ src/app/ranking/page.tsx                     pódio + lista
 src/app/noticias/page.tsx
 src/app/oracao/{page.tsx,Oracao.tsx}
 src/app/revisar/{page.tsx,Revisar.tsx}       perguntas erradas + explicação
+src/app/apoiar/{page.tsx,Apoiar.tsx}        doação por Pix, código gerado em src/lib/pix.ts
 src/app/Sequencia.tsx                        faixa de dias seguidos
 src/app/configuracoes/{page.tsx,Configuracoes.tsx}
 src/app/api/usuario/route.ts

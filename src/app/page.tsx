@@ -77,6 +77,8 @@ export default async function Inicio() {
 
       <footer className="rodape">
         Texto bíblico: Almeida 1911, domínio público.
+        <br />
+        Gratuito e sem anúncio. <Link href="/apoiar">Apoiar o Semeia</Link>.
       </footer>
     </main>
   );
