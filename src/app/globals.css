@@ -470,6 +470,20 @@ input[type="text"]:focus { background: #fff; }
 :focus-visible { outline: 2px solid var(--tinta); outline-offset: 3px; }
 
 /* ---------------------------------------------------------------
+   Card de resultado (o que vai para o story)
+   --------------------------------------------------------------- */
+.card-resultado {
+  display: block;
+  width: 100%;
+  max-width: 15rem;
+  height: auto;
+  margin: 1.25rem auto;
+  border-radius: 18px;
+  border: 1px solid var(--vidro-borda);
+  box-shadow: 0 14px 34px -18px rgba(138, 95, 18, 0.75);
+}
+
+/* ---------------------------------------------------------------
    Barra de progresso da rodada
    --------------------------------------------------------------- */
 .progresso {

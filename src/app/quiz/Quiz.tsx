@@ -378,11 +378,29 @@ function Fim({
   apelido: string;
 }) {
   const [recado, setRecado] = useState("");
+  const [ocupado, setOcupado] = useState(false);
   const texto = `Acertei ${acertos} de ${total} no quiz bíblico do Semeia. Tenta bater: `;
 
+  /** Endereco do card gerado pelo servidor, no formato de story. */
+  const cardUrl = `/api/og/resultado?a=${acertos}&t=${total}&n=${encodeURIComponent(apelido)}`;
+
+  /**
+   * Compartilha a IMAGEM quando o aparelho deixa, senao cai para o texto.
+   *
+   * `navigator.canShare({ files })` e a unica forma honesta de perguntar:
+   * quase todo celular aceita, quase todo computador nao. Sem essa checagem
+   * o share falharia calado justamente em quem esta no desktop.
+   */
   async function compartilhar() {
     const url = window.location.origin + "/quiz";
+    setOcupado(true);
+    setRecado("");
     try {
+      const arquivo = await baixarCard();
+      if (arquivo && navigator.canShare?.({ files: [arquivo] })) {
+        await navigator.share({ files: [arquivo], text: texto + url });
+        return;
+      }
       if (navigator.share) {
         await navigator.share({ title: "Semeia", text: texto, url });
         return;
@@ -394,6 +412,35 @@ function Fim({
       // desistindo, nao um erro: nao mostra recado nenhum.
       if (e instanceof DOMException && e.name === "AbortError") return;
       setRecado(`Não deu para compartilhar. O link é ${url}`);
+    } finally {
+      setOcupado(false);
+    }
+  }
+
+  async function baixarCard(): Promise<File | null> {
+    try {
+      const r = await fetch(cardUrl);
+      if (!r.ok) return null;
+      return new File([await r.blob()], "semeia.png", { type: "image/png" });
+    } catch {
+      return null;
+    }
+  }
+
+  /** Salvar direto na galeria, para quem prefere montar o story na mão. */
+  async function salvarImagem() {
+    setRecado("");
+    try {
+      const r = await fetch(cardUrl);
+      if (!r.ok) throw new Error();
+      const href = URL.createObjectURL(await r.blob());
+      const a = document.createElement("a");
+      a.href = href;
+      a.download = "semeia.png";
+      a.click();
+      URL.revokeObjectURL(href);
+    } catch {
+      setRecado("Não deu para gerar a imagem agora.");
     }
   }
 
@@ -410,9 +457,21 @@ function Fim({
         alguém enviou.
       </p>
 
-      <button className="botao" onClick={compartilhar}>
-        Desafiar alguém
+      {/* Previa do que vai ser compartilhado. Ver antes de mandar dá confiança
+          de postar — e a imagem já fica em cache para o share ser instantâneo. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img className="card-resultado" src={cardUrl} alt={`Você acertou ${acertos} de ${total}`} />
+
+      <button className="botao" onClick={compartilhar} disabled={ocupado}>
+        {ocupado ? "Preparando…" : "Compartilhar meu resultado"}
       </button>
+
+      <p style={{ marginTop: "0.6rem" }}>
+        <button className="botao botao-vazado" onClick={salvarImagem}>
+          Salvar imagem para o story
+        </button>
+      </p>
+
       {recado && (
         <p className="referencia" style={{ marginTop: "0.75rem" }}>
           {recado}
