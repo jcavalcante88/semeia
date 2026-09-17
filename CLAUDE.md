@@ -26,6 +26,11 @@ de interface também em português.
 8. **Card de resultado** — imagem 1080x1920 em `/api/og/resultado`, para o story. O metal
    (bronze / prata / ouro) vem da fração do banco de perguntas já acertada: 30% e 60%.
    É progressão, não aproveitamento — acertar 10 de 10 não é conhecer a Bíblia.
+10. **Enigma** — soletrar a resposta com letras embaralhadas, em `/enigma`. 61 níveis
+   montados das perguntas cuja resposta é uma palavra só, ordenados por tamanho
+   (NOÉ antes de CARPINTEIRO). **Não pontua no ranking** — progresso próprio, porque
+   o teclado já entrega as letras e isso enfraqueceria a garantia do ranking.
+   Nenhum nível fica trancado, e errar não custa nada.
 9. **Ouvir a pergunta** — botão lê enunciado e alternativas com a voz do navegador
    (`speechSynthesis`), de graça e sem arquivo de áudio. O cronômetro pausa enquanto
    a voz fala, e nada toca sozinho. Sem voz em português, o botão não aparece.
@@ -145,6 +150,8 @@ respostas        id, usuario_id, pergunta_id, acertou, pontos, respondida_em,
 noticias         id, titulo, resumo, link unique, fonte, imagem,
                  publicado_em, coletado_em, ativa
 fontes_noticias  id, nome, url unique, ativa   -- ligar/desligar feed sem deploy
+enigmas          nivel serial, pergunta_id unique, ativa
+enigmas_resolvidos usuario_id + nivel (PK)   -- progresso do enigma
 pedidos_oracao   id, usuario_id, texto, anonimo, criado_em, ativo
 oracoes          usuario_id + pedido_id (PK)   -- um "orei" por pessoa
 views            ranking_semana, ranking_geral
@@ -163,13 +170,14 @@ db/seed-perguntas.sql                        40 perguntas extras
 db/seed-perguntas-3.sql                      50 perguntas extras
 db/noticias.sql                              tabelas de notícia e fontes
 db/oracao.sql                                pedidos de oração
+db/enigma.sql                                níveis do enigma + progresso
 db/limpar-teste.sql                          apaga usuários fictícios
 arte/pomba.png                               arte de origem (Icons8)
 scripts/icones.mjs                           gera os PNG do PWA com sharp
 public/{sw.js,manifest.json,pomba.png,icone-192.png,icone-512.png,badge.png}
 .github/workflows/mensagens.yml              cron de hora em hora
 .github/workflows/noticias.yml               cron 06:10 e 18:10 de Brasília
-src/lib/{db,tipos,pontos,sessao,rss,pix,biblia}.ts
+src/lib/{db,tipos,pontos,sessao,rss,pix,biblia,enigma}.ts
 src/app/globals.css
 src/app/globals.papel.css.bak                tema "papel" antigo, para voltar
 src/app/globals.ceu-azul.css.bak             tema "céu azul", idem
@@ -182,6 +190,8 @@ src/app/ranking/page.tsx                     pódio + lista
 src/app/noticias/page.tsx
 src/app/oracao/{page.tsx,Oracao.tsx}
 src/app/revisar/{page.tsx,Revisar.tsx}       perguntas erradas + explicação
+src/app/enigma/{page.tsx,Enigma.tsx}         mapa de níveis + soletrar
+src/app/api/enigma/route.ts                  GET mapa/nível, POST confere a palavra
 src/app/apoiar/{page.tsx,Apoiar.tsx}        doação por Pix, código gerado em src/lib/pix.ts
 src/app/Sequencia.tsx                        faixa de dias seguidos
 src/app/configuracoes/{page.tsx,Configuracoes.tsx}
@@ -231,7 +241,7 @@ texto escuro, nunca branco: com branco daria 2,2:1.
 
 **Layout.** Acima de 992px são três colunas: menu à esquerda (com a pomba num selo
 pinho), conteúdo no centro, atalhos à direita. Abaixo disso, coluna única com barra
-fixa de 6 destinos no rodapé, e a marca num cabeçalho grudado no topo
+fixa de 7 destinos no rodapé, e a marca num cabeçalho grudado no topo
 () — sem ele o app ficava sem pomba e sem nome no celular. A lista de destinos vive só em `Navegacao.tsx`;
 mudando lá, ajuste `grid-template-columns` da `.barra-inferior`.
 

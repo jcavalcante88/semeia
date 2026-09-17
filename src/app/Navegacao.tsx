@@ -16,6 +16,7 @@ import Logo from "./Logo";
 const DESTINOS = [
   { href: "/", rotulo: "Início", icone: "✦" },
   { href: "/quiz", rotulo: "Quiz", icone: "✎" },
+  { href: "/enigma", rotulo: "Enigma", icone: "◆" },
   { href: "/oracao", rotulo: "Oração", icone: "✚" },
   { href: "/ranking", rotulo: "Ranking", icone: "☆" },
   { href: "/noticias", rotulo: "Gospel", icone: "◈" },
