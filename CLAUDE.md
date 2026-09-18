@@ -158,8 +158,15 @@ views            ranking_semana, ranking_geral
 ```
 
 Pontuação: fácil 10, médio 20, difícil 30. Errar vale 0. Nada de bônus de tempo.
-Hoje são 102 perguntas ativas. O alvo antes de divulgar é 150 — com poucas, a
-pessoa termina em dois minutos e não volta.
+Hoje são **152 perguntas ativas** (41 fáceis, 56 médias, 55 difíceis).
+
+**A resposta certa tem que se espalhar entre as quatro posições.** O app não
+embaralha na tela: `/api/quiz/responder` compara o índice que o navegador
+mandou com o `correta` do banco, e embaralhar no cliente quebraria essa
+conferência. Então a ordem gravada é a ordem que a pessoa vê. Em setembro de
+2026 o banco tinha 97 perguntas com a certa na 1ª opção, 37 na 2ª, 18 na 3ª e
+**nenhuma na 4ª** — chutar o primeiro botão acertava 64% das vezes. Depois de
+todo seed novo, rode `node db/redistribuir-alternativas.mjs`.
 
 ## Estrutura de arquivos
 
@@ -168,6 +175,8 @@ db/schema.sql
 db/seed.sql                                  12 versículos + 12 perguntas
 db/seed-perguntas.sql                        40 perguntas extras
 db/seed-perguntas-3.sql                      50 perguntas extras
+db/seed-perguntas-4.sql                      50 perguntas extras (34 dificeis)
+db/redistribuir-alternativas.mjs             espalha a resposta certa entre as 4 posicoes
 db/noticias.sql                              tabelas de notícia e fontes
 db/oracao.sql                                pedidos de oração
 db/enigma.sql                                níveis do enigma + progresso
