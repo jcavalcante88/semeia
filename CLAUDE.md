@@ -174,6 +174,8 @@ db/enigma.sql                                níveis do enigma + progresso
 db/limpar-teste.sql                          apaga usuários fictícios
 arte/pomba.png                               arte de origem (Icons8)
 scripts/icones.mjs                           gera os PNG do PWA com sharp
+scripts/reels.mjs                            um Reels de 15s por pergunta (sharp + ffmpeg)
+scripts/legendas.mjs                         as 102 legendas do Instagram, na ordem dos videos
 public/{sw.js,manifest.json,pomba.png,icone-192.png,icone-512.png,badge.png}
 .github/workflows/mensagens.yml              cron de hora em hora
 .github/workflows/noticias.yml               cron 06:10 e 18:10 de Brasília

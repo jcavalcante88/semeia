@@ -18,3 +18,7 @@ Thumbs.db
 
 # pacote de distribuição do projeto
 *.zip
+
+# Reels gerados por scripts/reels.mjs — saida, nao codigo.
+# Sao ~100 MP4; o repositorio nao e lugar de arquivo de video.
+/reels
