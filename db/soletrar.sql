@@ -1,10 +1,10 @@
--- Enigma: soletrar a resposta com letras embaralhadas.
+-- Soletrar: montar a resposta com letras embaralhadas.
 -- Rode uma vez, depois do schema.sql e dos seeds de perguntas.
 
 /* Quais perguntas viram nível, e em que ordem.
    O nível não fica guardado na pergunta: fica aqui. Assim dá para
    reordenar, tirar um nível ou acrescentar outro sem tocar no quiz. */
-create table if not exists enigmas (
+create table if not exists soletrar (
   nivel       serial primary key,
   pergunta_id int not null unique references perguntas(id) on delete cascade,
   ativa       boolean not null default true
@@ -12,7 +12,7 @@ create table if not exists enigmas (
 
 /* Progresso. A chave primária composta é a trava: resolver o mesmo nível
    duas vezes não conta duas vezes — a mesma ideia do "orei por você". */
-create table if not exists enigmas_resolvidos (
+create table if not exists soletrar_resolvidos (
   usuario_id   uuid not null references usuarios(id) on delete cascade,
   nivel        int  not null,
   tentativas   int  not null default 1,
@@ -20,8 +20,8 @@ create table if not exists enigmas_resolvidos (
   primary key (usuario_id, nivel)
 );
 
-create index if not exists enigmas_resolvidos_usuario_idx
-  on enigmas_resolvidos (usuario_id);
+create index if not exists soletrar_resolvidos_usuario_idx
+  on soletrar_resolvidos (usuario_id);
 
 /* Monta os níveis com as perguntas cuja resposta é UMA palavra.
    Resposta numérica ("40") ou com espaço ("Atos dos Apóstolos") não dá
@@ -31,7 +31,7 @@ create index if not exists enigmas_resolvidos_usuario_idx
    uma subida de dificuldade sem ninguém precisar classificar à mão.
 
    O intervalo À-ÿ cobre os acentos sem precisar da extensão unaccent. */
-insert into enigmas (pergunta_id)
+insert into soletrar (pergunta_id)
 select id
   from perguntas
  where ativa

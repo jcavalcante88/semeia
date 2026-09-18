@@ -1,10 +1,10 @@
 /**
- * Enigma: soletrar a resposta escolhendo letras embaralhadas.
+ * Soletrar: montar a resposta escolhendo letras embaralhadas.
  *
  * A regra de ouro do projeto continua valendo — a palavra certa NUNCA é
  * enviada ao navegador. O que sai daqui é o tamanho dela e um monte de
  * letras, onde as certas estão misturadas com engano. A conferência
- * acontece no servidor, em `/api/enigma`.
+ * acontece no servidor, em `/api/soletrar`.
  */
 
 /**
@@ -22,8 +22,8 @@ export function normalizar(palavra: string): string {
     .replace(/[^A-Z]/g, "");
 }
 
-/** Serve como enigma? Precisa ser uma palavra só, nem curta nem enorme. */
-export function serveComoEnigma(resposta: string): boolean {
+/** Serve para soletrar? Precisa ser uma palavra só, nem curta nem enorme. */
+export function serveComoSoletrar(resposta: string): boolean {
   const n = normalizar(resposta);
   return n.length >= 3 && n.length <= 12 && !/\s/.test(resposta.trim());
 }

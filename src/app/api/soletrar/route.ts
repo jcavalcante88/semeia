@@ -1,13 +1,13 @@
 import { sql } from "@/lib/db";
 import { usuarioAtual } from "@/lib/sessao";
-import { montarLetras, normalizar } from "@/lib/enigma";
+import { montarLetras, normalizar } from "@/lib/soletrar";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
 /**
  * GET sem parâmetro  -> o mapa: quantos níveis existem e quais já foram feitos.
- * GET ?nivel=N       -> o enigma: pergunta, tamanho da palavra e as letras.
+ * GET ?nivel=N       -> o nível: pergunta, tamanho da palavra e as letras.
  *
  * Em nenhum dos dois a resposta certa sai daqui. O navegador recebe o
  * TAMANHO e um teclado de letras embaralhadas — montar a palavra é o jogo.
@@ -23,7 +23,7 @@ export async function GET(req: Request) {
         select e.nivel,
                p.enunciado,
                p.alternativas->>p.correta as resposta
-          from enigmas e
+          from soletrar e
           join perguntas p on p.id = e.pergunta_id
          where e.nivel = ${nivel} and e.ativa
       `;
@@ -34,7 +34,7 @@ export async function GET(req: Request) {
       const resolvido = uid
         ? (
             await sql`
-              select 1 from enigmas_resolvidos
+              select 1 from soletrar_resolvidos
                where usuario_id = ${uid}::uuid and nivel = ${nivel}
             `
           ).length > 0
@@ -53,9 +53,9 @@ export async function GET(req: Request) {
       );
     }
 
-    const [t] = await sql`select count(*)::int as total from enigmas where ativa`;
+    const [t] = await sql`select count(*)::int as total from soletrar where ativa`;
     const feitos = uid
-      ? await sql`select nivel from enigmas_resolvidos where usuario_id = ${uid}::uuid`
+      ? await sql`select nivel from soletrar_resolvidos where usuario_id = ${uid}::uuid`
       : [];
 
     return Response.json(
@@ -88,7 +88,7 @@ export async function POST(req: Request) {
   try {
     const [e] = await sql`
       select p.alternativas->>p.correta as resposta, p.versiculo, p.explicacao
-        from enigmas e
+        from soletrar e
         join perguntas p on p.id = e.pergunta_id
        where e.nivel = ${nivel} and e.ativa
     `;
@@ -98,13 +98,13 @@ export async function POST(req: Request) {
 
     if (!certo) {
       // Errar não guarda nada e não custa nada: dá para tentar de novo.
-      // O enigma não tem a regra de tentativa única do quiz.
+      // O Soletrar não tem a regra de tentativa única do quiz.
       return Response.json({ certo: false }, { headers: { "Cache-Control": "no-store" } });
     }
 
     // `on conflict do nothing`: refazer um nível não duplica o progresso.
     await sql`
-      insert into enigmas_resolvidos (usuario_id, nivel)
+      insert into soletrar_resolvidos (usuario_id, nivel)
       values (${uid}::uuid, ${nivel})
       on conflict do nothing
     `;

@@ -554,7 +554,7 @@ input[type="text"]:focus { background: #fff; }
 :focus-visible { outline: 2px solid var(--tinta); outline-offset: 3px; }
 
 /* ---------------------------------------------------------------
-   Enigmas
+   Soletrar
    --------------------------------------------------------------- */
 .niveis {
   display: grid;
@@ -583,7 +583,7 @@ input[type="text"]:focus { background: #fff; }
   font-size: 1.15rem;
 }
 
-.enigma-pergunta {
+.soletrar-pergunta {
   font-family: var(--titulo);
   font-size: clamp(1.15rem, 1rem + 0.8vw, 1.45rem);
   font-weight: 600;
@@ -593,14 +593,14 @@ input[type="text"]:focus { background: #fff; }
 }
 
 /* As vagas da palavra */
-.enigma-palavra {
+.soletrar-palavra {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 0.4rem;
   margin: 0 0 1.25rem;
 }
-.enigma-vaga {
+.soletrar-vaga {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -613,18 +613,18 @@ input[type="text"]:focus { background: #fff; }
   font: 700 1.4rem var(--titulo);
   color: var(--tinta);
 }
-.enigma-vaga-cheia { border-color: var(--ouro); background: rgba(255, 255, 255, 0.9); }
-.enigma-vaga-certa {
+.soletrar-vaga-cheia { border-color: var(--ouro); background: rgba(255, 255, 255, 0.9); }
+.soletrar-vaga-certa {
   border-color: var(--acerto);
   background: var(--acerto-fundo);
   color: var(--acerto);
 }
 /* Errar muda a cor da borda e nada mais: sem tremor, sem som, sem drama. */
-.enigma-errou .enigma-vaga-cheia { border-color: var(--barro); }
-.enigma-recado { color: var(--barro); margin: -0.5rem 0 1rem; font-size: 0.95rem; }
+.soletrar-errou .soletrar-vaga-cheia { border-color: var(--barro); }
+.soletrar-recado { color: var(--barro); margin: -0.5rem 0 1rem; font-size: 0.95rem; }
 
 /* O teclado de letras */
-.enigma-letras {
+.soletrar-letras {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

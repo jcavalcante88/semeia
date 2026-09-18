@@ -14,7 +14,7 @@ type Puzzle = {
 };
 type Acerto = { resposta: string; explicacao: string; versiculo: string };
 
-export default function Enigma() {
+export default function Soletrar() {
   const [mapa, setMapa] = useState<Mapa | null>(null);
   const [puzzle, setPuzzle] = useState<Puzzle | null>(null);
   const [escolhidas, setEscolhidas] = useState<number[]>([]);
@@ -25,7 +25,7 @@ export default function Enigma() {
 
   const carregarMapa = useCallback(async () => {
     try {
-      const r = await fetch("/api/enigma");
+      const r = await fetch("/api/soletrar");
       if (!r.ok) throw new Error();
       setMapa(await r.json());
     } catch {
@@ -43,7 +43,7 @@ export default function Enigma() {
     setErrou(false);
     setEscolhidas([]);
     try {
-      const r = await fetch(`/api/enigma?nivel=${nivel}`);
+      const r = await fetch(`/api/soletrar?nivel=${nivel}`);
       if (!r.ok) throw new Error();
       setPuzzle(await r.json());
     } catch {
@@ -67,7 +67,7 @@ export default function Enigma() {
       setConferindo(true);
       setErrou(false);
       try {
-        const r = await fetch("/api/enigma", {
+        const r = await fetch("/api/soletrar", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ nivel: puzzle.nivel, palavra }),
@@ -114,7 +114,7 @@ export default function Enigma() {
     return (
       <main>
         <Voltar />
-        <h1>Enigmas</h1>
+        <h1>Soletrar</h1>
         <p className="referencia">
           {mapa ? `${feitos.length} de ${mapa.total} resolvidos` : "Carregando…"}
         </p>
@@ -152,14 +152,14 @@ export default function Enigma() {
         )}
 
         <footer className="rodape">
-          Os enigmas não pontuam no ranking — é outro jogo, com progresso
+          Soletrar não pontua no ranking — é outro jogo, com progresso
           próprio.
         </footer>
       </main>
     );
   }
 
-  /* ---------------- um enigma ---------------- */
+  /* ---------------- um nível ---------------- */
   const palavraNaTela = Array.from({ length: puzzle.tamanho }, (_, i) =>
     i < escolhidas.length ? puzzle.letras[escolhidas[i]] : null,
   );
@@ -173,14 +173,14 @@ export default function Enigma() {
         <span className="referencia">Nível {puzzle.nivel}</span>
       </nav>
 
-      <p className="enigma-pergunta">{puzzle.enunciado}</p>
+      <p className="soletrar-pergunta">{puzzle.enunciado}</p>
 
-      <div className={`enigma-palavra${errou ? " enigma-errou" : ""}`}>
+      <div className={`soletrar-palavra${errou ? " soletrar-errou" : ""}`}>
         {palavraNaTela.map((letra, i) => (
           <span
             key={i}
-            className={`enigma-vaga${letra ? " enigma-vaga-cheia" : ""}${
-              acerto ? " enigma-vaga-certa" : ""
+            className={`soletrar-vaga${letra ? " soletrar-vaga-cheia" : ""}${
+              acerto ? " soletrar-vaga-certa" : ""
             }`}
           >
             {letra ?? ""}
@@ -189,7 +189,7 @@ export default function Enigma() {
       </div>
 
       {errou && (
-        <p className="enigma-recado">
+        <p className="soletrar-recado">
           Ainda não é essa. Apague e tente outra combinação.
         </p>
       )}
@@ -208,7 +208,7 @@ export default function Enigma() {
               Próximo nível
             </button>
           ) : (
-            <p>Você resolveu o último nível. Novos enigmas entram com as perguntas novas.</p>
+            <p>Você resolveu o último nível. Níveis novos entram com as perguntas novas.</p>
           )}
           <p style={{ marginTop: "0.6rem" }}>
             <button className="botao botao-vazado" onClick={voltarAoMapa}>
@@ -218,7 +218,7 @@ export default function Enigma() {
         </>
       ) : (
         <>
-          <ul className="enigma-letras">
+          <ul className="soletrar-letras">
             {puzzle.letras.map((l, i) => (
               <li key={i}>
                 <button
