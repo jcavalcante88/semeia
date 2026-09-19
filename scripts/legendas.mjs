@@ -50,7 +50,7 @@ perguntas.forEach((p, i) => {
     `${p.explicacao}`,
     `📖 ${p.versiculo}`,
     ``,
-    `Tem mais 100 perguntas como essa no Semeia, de graça e sem cadastro. Link na bio.`,
+    `Tem mais ${perguntas.length - 1} perguntas como essa no Semeia, de graça e sem cadastro. Link na bio.`,
     ``,
     TAGS[i % TAGS.length],
     ``,

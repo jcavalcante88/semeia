@@ -10,7 +10,8 @@ de interface também em português.
 ## O que o app faz
 
 1. **Mensagens diárias** — o usuário escolhe horários (padrão 7h, 12h e 20h) e recebe
-   um versículo por notificação push, mesmo com o app fechado.
+   um versículo por notificação push, mesmo com o app fechado. A rota de disparo
+   nunca repete: `envios` tem `(usuario_id, mensagem_id)` como chave.
 2. **Quiz** — 50 perguntas de múltipla escolha por rodada, sorteadas entre as que a
    pessoa ainda não respondeu, com **25 segundos** para responder cada uma. Ela clica
    numa alternativa e vê na hora se acertou, junto com a explicação e o versículo
@@ -164,7 +165,17 @@ views            ranking_semana, ranking_geral
 ```
 
 Pontuação: fácil 10, médio 20, difícil 30. Errar vale 0. Nada de bônus de tempo.
-Hoje são **152 perguntas ativas** (41 fáceis, 56 médias, 55 difíceis).
+Hoje são **300 perguntas ativas** (64 fáceis, 109 médias, 127 difíceis) e
+**87 versículos**.
+
+**A "palavra de hoje" é rodízio, nunca sorteio.** Ela era
+`order by random() limit 1` com `revalidate = 300`: trocava a cada 5 minutos
+— não tinha nada de "hoje" — e, como sorteio não tem memória, o mesmo
+versículo voltava duas e três vezes seguidas. Hoje a posição vem do relógio,
+num bloco de 12 horas (vira à meia-noite e ao meio-dia de Brasília), andando
+na fila e só dando a volta depois de passar pelos 87. A conta de fuso é do
+Postgres, como manda a regra 3. **Sorteio aqui parece aleatório e é sentido
+como repetição** — a pessoa nota a repetição, nunca as 85 que não saíram.
 
 **A resposta certa tem que se espalhar entre as quatro posições.** O app não
 embaralha na tela: `/api/quiz/responder` compara o índice que o navegador
@@ -182,6 +193,10 @@ db/seed.sql                                  12 versículos + 12 perguntas
 db/seed-perguntas.sql                        40 perguntas extras
 db/seed-perguntas-3.sql                      50 perguntas extras
 db/seed-perguntas-4.sql                      50 perguntas extras (34 dificeis)
+db/seed-perguntas-5.sql                      52 perguntas: parabolas e milagres
+db/seed-perguntas-6.sql                      49 perguntas: Genesis, Exodo, reis
+db/seed-perguntas-7.sql                      46 perguntas: profetas e exilio
+db/seed-mensagens.sql                        75 versiculos extras (total 87)
 db/redistribuir-alternativas.mjs             espalha a resposta certa entre as 4 posicoes
 db/noticias.sql                              tabelas de notícia e fontes
 db/oracao.sql                                pedidos de oração
