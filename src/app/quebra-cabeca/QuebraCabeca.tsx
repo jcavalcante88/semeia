@@ -52,7 +52,6 @@ export default function QuebraCabeca() {
   const [quadro, setQuadro] = useState<Quadro | null>(null);
   const [pecas, setPecas] = useState<number[]>([]);
   const [jogadas, setJogadas] = useState(0);
-  const [espiando, setEspiando] = useState(false);
   const [montados, setMontados] = useState<string[]>([]);
   const tabuleiro = useRef<HTMLDivElement>(null);
 
@@ -84,7 +83,6 @@ export default function QuebraCabeca() {
     setQuadro(q);
     setPecas(embaralhar());
     setJogadas(0);
-    setEspiando(false);
   }
 
   /** Move a peça da casa `i`, se ela fizer divisa com o buraco. */
@@ -236,18 +234,19 @@ export default function QuebraCabeca() {
 
       <h1 className="quadro-titulo">{quadro.titulo}</h1>
 
-      {/* Três camadas para a moldura ter relevo: a banda dourada larga, o
-          filete escuro que faz o rebaixo, e o tabuleiro como tela. Uma borda
-          só, por mais grossa que fosse, ficaria chapada. */}
-      <div className="moldura">
-        <div className="moldura-rebaixo">
+      <div className="quadro-mesa">
+        {/* Três camadas para a moldura ter relevo: a banda dourada larga, o
+            filete escuro que faz o rebaixo, e o tabuleiro como tela. Uma borda
+            só, por mais grossa que fosse, ficaria chapada. */}
+        <div className="moldura">
+          <div className="moldura-rebaixo">
           <div
             ref={tabuleiro}
             className={`tabuleiro${pronto ? " tabuleiro-pronto" : ""}`}
             style={{ gridTemplateColumns: `repeat(${LADO}, 1fr)` }}
           >
             {pecas.map((peca, casa) => {
-              const escondida = peca === VAZIO && !pronto && !espiando;
+              const escondida = peca === VAZIO && !pronto;
               const linha = Math.floor(peca / LADO);
               const coluna = peca % LADO;
               return (
@@ -271,8 +270,17 @@ export default function QuebraCabeca() {
                 />
               );
             })}
+            </div>
           </div>
         </div>
+
+        {/* O modelo. Ele estava atrás de um botão "segure para ver", que só
+            servia por instantes e obrigava a tirar a mão do jogo. Fixo ao
+            lado, a pessoa confere a qualquer momento sem parar de jogar. */}
+        <aside className="modelo">
+          <img src={fundo} alt={`Imagem completa de ${quadro.titulo}, para consultar`} />
+          <span className="modelo-rotulo">modelo</span>
+        </aside>
       </div>
 
       {pronto ? (
@@ -290,18 +298,6 @@ export default function QuebraCabeca() {
       )}
 
       <div className="quadro-acoes">
-        {!pronto && (
-          <button
-            className="botao botao-vazado"
-            onMouseDown={() => setEspiando(true)}
-            onMouseUp={() => setEspiando(false)}
-            onMouseLeave={() => setEspiando(false)}
-            onTouchStart={() => setEspiando(true)}
-            onTouchEnd={() => setEspiando(false)}
-          >
-            Segure para ver a imagem
-          </button>
-        )}
         <button className="botao botao-vazado" onClick={() => abrir(quadro)}>
           {pronto ? "Montar de novo" : "Embaralhar"}
         </button>

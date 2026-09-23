@@ -1401,9 +1401,44 @@ textarea:focus { background: #fff; }
   baixo sumiriam. Como box-sizing: border-box vale para tudo, o recheio da
   moldura ja esta contado nesse limite.
 */
+/*
+  Tabuleiro e modelo. O modelo tem largura fixa e a moldura fica com o resto:
+  assim o tabuleiro continua sendo a peca grande da tela.
+*/
+.quadro-mesa {
+  display: flex;
+  gap: 0.55rem;
+
+  /*
+    No celular estreito o modelo vai ACIMA do tabuleiro, encostado a direita.
+    Ao lado, ele so cabia com uns 45px — pequeno demais para servir de guia,
+    que e justamente para o que ele existe. O column-reverse sobe o modelo
+    sem trocar a ordem no HTML, entao o tabuleiro continua vindo primeiro
+    para quem le a tela por leitor de voz.
+  */
+  flex-direction: column-reverse;
+  /* stretch, e nao flex-end: em coluna o "flex: 1" da moldura governa a
+     ALTURA, nao a largura. Com flex-end ela encolhia ate o tamanho do
+     conteudo e o tabuleiro virava um selo. O modelo se realinha sozinho
+     logo abaixo. */
+  align-items: stretch;
+}
+
+.modelo { align-self: flex-end; }
+
+@media (min-width: 30rem) {
+  .quadro-mesa {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+  }
+}
+
 .moldura {
-  width: min(100%, 60vh);
-  margin: 0 auto;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 60vh;
+  margin: 0;
   padding: clamp(0.85rem, 4vw, 1.6rem);
   border-radius: 5px;
 
@@ -1499,3 +1534,56 @@ textarea:focus { background: #fff; }
   margin-top: 1rem;
 }
 .quadro-acoes .botao { flex: 1 1 auto; }
+
+/* ---------------------------------------------------------------
+   O modelo: a imagem inteira ao lado do tabuleiro
+   --------------------------------------------------------------- */
+
+/*
+  Largura fixa, em vw, para nao roubar o tabuleiro num celular estreito: em
+  360px o modelo fica com 50px e ainda sobram cerca de 56px por peca, acima
+  do minimo confortavel para o dedo.
+*/
+.modelo {
+  flex: none;
+  width: clamp(84px, 26vw, 104px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  /* Acompanha a rolagem: numa tela baixa o modelo continua a vista enquanto
+     a pessoa mexe nas pecas de baixo. */
+  position: sticky;
+  top: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+@media (min-width: 30rem) {
+  .modelo {
+    width: clamp(92px, 17vw, 132px);
+    margin-bottom: 0;
+    /* Em linha, o flex-end da versao empilhada vira "colado embaixo": aqui
+       o modelo tem que subir e ficar na altura do topo do quadro. */
+    align-self: flex-start;
+  }
+}
+
+.modelo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 2px;
+  /* A mesma moldura do tabuleiro, em miniatura: os dois sao o mesmo quadro. */
+  border: 3px solid transparent;
+  border-image: linear-gradient(138deg, #f8e7b6, #8a5f12 34%, #efc14e 52%, #6a4610 86%, #d9a93a) 1;
+  box-shadow: 0 4px 10px -5px rgba(59, 47, 23, 0.6);
+}
+
+.modelo-rotulo {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
