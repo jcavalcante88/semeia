@@ -3,6 +3,7 @@ import { linkDoCapitulo, capituloDe } from "@/lib/biblia";
 import Link from "next/link";
 import Sequencia from "./Sequencia";
 import CompartilharPlacar from "./CompartilharPlacar";
+import CompartilharVersiculo from "./CompartilharVersiculo";
 
 export const revalidate = 300;
 
@@ -72,19 +73,30 @@ export default async function Inicio() {
           {versiculo.referencia} &nbsp;·&nbsp; {versiculo.versao}
         </p>
 
-        {/* Um versículo solto deixa a pessoa sem o contexto. Quem se interessou
-            merece um caminho para o capítulo inteiro, sem ter que ir ao Google. */}
-        {capitulo && (
-          <a
-            className="palavra-continuar"
-            href={capitulo}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Continuar lendo {capituloDe(versiculo.referencia)}
-            <span aria-hidden="true">→</span>
-          </a>
-        )}
+        {/* As duas coisas que alguém quer fazer com um versículo que o tocou:
+            ler o resto e mandar para uma pessoa. Juntas, e no mesmo peso. */}
+        <div className="palavra-acoes">
+          {/* Um versículo solto deixa a pessoa sem o contexto. Quem se
+              interessou merece um caminho para o capítulo inteiro, sem ter
+              que ir ao Google. */}
+          {capitulo && (
+            <a
+              className="palavra-continuar"
+              href={capitulo}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Continuar lendo {capituloDe(versiculo.referencia)}
+              <span aria-hidden="true">→</span>
+            </a>
+          )}
+
+          <CompartilharVersiculo
+            texto={versiculo.texto}
+            referencia={versiculo.referencia}
+            versao={versiculo.versao}
+          />
+        </div>
       </section>
 
       <Sequencia />

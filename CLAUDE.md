@@ -24,6 +24,15 @@ de interface também em português.
    O autor recebe push nos marcos (1, 3, 10, 25, 50, 100 orações), nunca a cada clique.
 6. **Revisar erros** — `/revisar` mostra o que a pessoa errou, com explicação e versículo.
 7. **Sequência de dias** — faixa discreta na home. Some quando quebra: sem cobrança.
+13. **Mandar o versículo para alguém** — botão ao lado de "continuar lendo",
+   na tela inicial. O app já compartilhava o PLACAR, que fala de quem
+   compartilha; este manda o versículo, que fala de quem recebe. É a porta de
+   entrada mais honesta que existe aqui: quem chega vem por um versículo que
+   alguém escolheu mandar, não por propaganda de aplicativo. Usa
+   `navigator.share` no celular, cai no `wa.me` no computador e, se o
+   pop-up for bloqueado, copia para a área de transferência. O link vai para a
+   **home**, não para o quiz: quem recebe um versículo quer ler o versículo.
+
 8. **Card de resultado** — imagem 1080x1920 em `/api/og/resultado`, para o story. O metal
    (bronze / prata / ouro) vem da fração do banco de perguntas já acertada: 30% e 60%.
    É progressão, não aproveitamento — acertar 10 de 10 não é conhecer a Bíblia.
@@ -294,6 +303,7 @@ src/app/api/soletrar/route.ts                GET mapa/nível, POST confere a pal
 next.config.mjs                              redireciona /enigma -> /soletrar
 src/app/apoiar/{page.tsx,Apoiar.tsx}        doação por Pix, código gerado em src/lib/pix.ts
 src/app/Sequencia.tsx                        faixa de dias seguidos
+src/app/CompartilharVersiculo.tsx            manda a palavra de hoje para alguém
 src/app/configuracoes/{page.tsx,Configuracoes.tsx}
 src/app/api/usuario/route.ts
 src/app/api/quiz/{perguntas,responder}/route.ts

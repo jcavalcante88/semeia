@@ -1701,3 +1701,36 @@ textarea:focus { background: #fff; }
   color: var(--tinta-suave);
   line-height: 1.45;
 }
+
+/* Os dois caminhos do versiculo, lado a lado: ler o capitulo e mandar para
+   alguem. A margem saiu dos botoes e veio para o grupo, senao eles ficavam
+   com espacamentos diferentes quando um dos dois sumia. */
+.palavra-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0 1.25rem;
+}
+.palavra-acoes .palavra-continuar { margin: 0; }
+
+.palavra-enviar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1.05rem;
+  border-radius: 999px;
+  border: 1px solid var(--ouro);
+  background: var(--ouro-vivo);
+  color: var(--tinta);
+  font: 700 0.88rem var(--sans);
+  cursor: pointer;
+  transition: filter 0.16s ease, transform 0.16s ease;
+}
+.palavra-enviar:hover:not(:disabled) { filter: brightness(1.06); transform: translateY(-1px); }
+.palavra-enviar:disabled { opacity: 0.7; cursor: default; }
+.palavra-enviar span { transition: transform 0.16s ease; }
+.palavra-enviar:hover:not(:disabled) span { transform: translate(2px, -2px); }
+
+/* Quebra a linha dentro do grupo, para o recado nao ficar ao lado do botao. */
+.palavra-recado { flex-basis: 100%; margin: 0; }
