@@ -1,32 +1,38 @@
 [
   {
-    "nome": "davi-e-golias",
-    "titulo": "Davi e Golias",
-    "versiculo": "1 Samuel 17:45",
-    "significado": "Um pastor adolescente enfrentou o guerreiro que assustava um exército inteiro. Ele recusou a armadura do rei e foi com o que sabia usar: uma funda e cinco pedras do ribeiro."
+    "nome": "jesus-e-os-discipulos",
+    "titulo": "Jesus e os discípulos",
+    "versiculo": "Marcos 10:32",
+    "significado": "Eles andaram juntos por três anos, a pé, de vila em vila. O ensino de Jesus não aconteceu numa sala de aula: aconteceu na estrada, conversando enquanto caminhavam."
   },
   {
-    "nome": "arca-de-noe",
-    "titulo": "A arca de Noé",
-    "versiculo": "Gênesis 8:11",
-    "significado": "Depois do dilúvio, a pomba voltou com uma folha de oliveira no bico: a água estava baixando. O arco-íris veio em seguida, como promessa de que não haveria outro."
+    "nome": "a-pomba",
+    "titulo": "A pomba",
+    "versiculo": "Mateus 3:16",
+    "significado": "Quando Jesus foi batizado, o Espírito desceu sobre ele como uma pomba. É a mesma ave que voltou à arca com a folha de oliveira — na Bíblia, pomba é sinal de que a paz chegou."
   },
   {
-    "nome": "cavaleiro-do-apocalipse",
-    "titulo": "O cavaleiro do Apocalipse",
-    "versiculo": "Apocalipse 6:2",
-    "significado": "João viu quatro cavaleiros saírem quando o livro foi aberto. O primeiro vinha num cavalo branco, com um arco e uma coroa — a visão anuncia que a história tem dono e tem fim."
+    "nome": "o-caminho-estreito",
+    "titulo": "O caminho estreito",
+    "versiculo": "Mateus 7:14",
+    "significado": "Jesus falou de dois caminhos: um largo e fácil, outro estreito e apertado. Não disse que o estreito é ruim — disse que é o que leva à vida, e que poucos o encontram."
   },
   {
-    "nome": "rio-da-vida",
-    "titulo": "O rio da vida",
-    "versiculo": "Apocalipse 22:1",
-    "significado": "João viu um rio de água viva saindo do trono, e nas duas margens a árvore da vida. É a última cena da Bíblia: um jardim de novo, como no começo, mas sem nada que machuque."
+    "nome": "a-ceia",
+    "titulo": "A ceia",
+    "versiculo": "Lucas 22:19",
+    "significado": "Na última noite, Jesus partiu o pão e disse: fazei isto em memória de mim. Estavam todos ali, inclusive quem ia negá-lo e quem ia entregá-lo."
   },
   {
-    "nome": "volta-nas-nuvens",
-    "titulo": "A volta nas nuvens",
-    "versiculo": "Apocalipse 1:7",
-    "significado": "Eis que vem com as nuvens, e todo olho o verá. A promessa que fecha a Bíblia não é de fuga do mundo, e sim de alguém voltando para ele."
+    "nome": "pescadores-de-homens",
+    "titulo": "Pescadores de homens",
+    "versiculo": "Mateus 4:19",
+    "significado": "Pedro e André estavam trabalhando quando Jesus passou e disse: vinde após mim, e eu vos farei pescadores de homens. Largaram as redes ali mesmo."
+  },
+  {
+    "nome": "as-portas-de-jerusalem",
+    "titulo": "As portas de Jerusalém",
+    "versiculo": "Salmos 122:2",
+    "significado": "Jerusalém era o destino das grandes viagens: três vezes por ano o povo subia para as festas. Chegar às portas, depois de dias de estrada, era o fim de uma caminhada esperada o ano inteiro."
   }
 ]

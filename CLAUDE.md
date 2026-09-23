@@ -49,12 +49,20 @@ de interface também em português.
    > resolve. Por isso embaralho fazendo jogadas legais a partir da imagem
    > pronta. Testei 20 mil embaralhadas: nenhuma sem solução.
 
-   > **As imagens do Jerry substituem os desenhos.** `scripts/quadros.mjs`
-   > desenha cenas em SVG, que entraram só porque daqui não dá para baixar arte
-   > (o servidor do Wikimedia recusa). Elas são provisórias e perdem feio para
-   > as imagens que ele manda. **Imagem com marca d'água não entra**: o app é
-   > público, publicar é redistribuir, e já recusei três por isso — uma foto de
-   > produção com atores reais e duas de banco de imagens.
+   > **Todo quadro vem de uma imagem que eu mando.** A lista é
+   > `scripts/quadros-lista.mjs` e a importação é `scripts/importar-quadro.mjs`,
+   > que recorta em 720x720. Houve uma fase com cenas desenhadas em SVG, porque
+   > daqui não dá para baixar arte nenhuma (o servidor do Wikimedia recusa toda
+   > requisição); sumiram assim que chegaram imagens de verdade.
+   >
+   > **Imagem com marca d'água de quem vende não entra**: o app é público,
+   > publicar é redistribuir. Já recusei três — uma foto de produção com atores
+   > reais e duas de banco de imagens. Marca do próprio gerador de IA numa
+   > imagem que eu gerei é outra coisa: a imagem é minha.
+   >
+   > **Imagem com linhas de quebra-cabeça desenhadas atrapalha.** O jogo corta
+   > em 16 quadrados, e as linhas falsas não coincidem com os cortes reais —
+   > fica poluído. Peça a arte sem elas. E menos de 720px de origem sai borrada.
 
 9. **Ouvir a pergunta** — botão lê enunciado e alternativas com a voz do navegador
    (`speechSynthesis`), de graça e sem arquivo de áudio. O cronômetro pausa enquanto
@@ -223,7 +231,7 @@ db/limpar-teste.sql                          apaga usuários fictícios
 arte/pomba.png                               arte de origem (Icons8)
 scripts/icones.mjs                           gera os PNG do PWA com sharp
 scripts/quadros-lista.mjs                    a lista unica dos quadros (titulo, versiculo, significado)
-scripts/quadros.mjs                          desenha os quadros de origem "desenho"
+scripts/quadros-json.mjs                     gera src/lib/quadros.json a partir da lista
 scripts/importar-quadro.mjs                  recorta uma imagem enviada em 720x720
 src/lib/quadros.ts                           le src/lib/quadros.json, gerado pela lista
 public/quadros/*.png                         as cenas do quebra-cabeca

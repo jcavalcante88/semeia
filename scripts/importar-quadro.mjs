@@ -14,7 +14,8 @@
  *         foco: attention (padrao) | centre | top | bottom | left | right
  */
 import sharp from "sharp";
-import { mkdirSync, existsSync } from "node:fs";
+import { existsSync, mkdirSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { LISTA } from "./quadros-lista.mjs";
 
 const L = 720;
@@ -46,6 +47,8 @@ if (entrada.origem !== "imagem") {
 const posicao =
   foco === "attention" ? sharp.strategy.attention : foco === "entropy" ? sharp.strategy.entropy : foco;
 
+mkdirSync(SAIDA, { recursive: true });
+
 const origem = sharp(arquivo);
 const antes = await origem.metadata();
 
@@ -62,4 +65,12 @@ console.log(
     ` -> ${depois.width}x${depois.height} png  (${SAIDA}/${nome}.png)`,
 );
 
-mkdirSync(SAIDA, { recursive: true });
+// Aviso, nao erro: a imagem entra mesmo assim, so fica menos nitida.
+if (antes.width < L || antes.height < L) {
+  console.log(`  aviso: a origem tem menos de ${L}px — a peca vai sair borrada.`);
+}
+
+// O app le o JSON, nao a lista. Regerar aqui evita o esquecimento que
+// deixaria um quadro novo sem titulo nem significado na tela.
+execFileSync("node", ["scripts/quadros-json.mjs"], { stdio: "inherit" });
+
