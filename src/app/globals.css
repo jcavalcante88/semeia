@@ -297,7 +297,7 @@ body {
   bottom: 0;
   display: grid;
   /* Um destino por coluna. Mudou a lista em Navegacao.tsx? Mude aqui. */
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(9, 1fr);
   background: var(--vidro-forte);
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
@@ -314,10 +314,10 @@ body {
   padding: 0.55rem 0.06rem 0.6rem;
   text-decoration: none;
   color: var(--tinta-suave);
-  /* Com 8 colunas num celular de 360px sobram 45px por item. "Ranking" e
-     "Soletrar" sao os rotulos mais longos e precisam caber inteiros nessa
-     largura — por isso a letra encolheu junto com a coluna. */
-  font-size: 0.5rem;
+  /* Com 9 colunas num celular de 320px sobram 35px por item. "Soletrar" e
+     "Ranking" sao os rotulos mais longos e precisam caber inteiros nessa
+     largura — por isso a letra encolhe junto com a coluna. */
+  font-size: 0.46rem;
   font-weight: 600;
   text-align: center;
   transition: color 0.14s ease;
@@ -1586,4 +1586,118 @@ textarea:focus { background: #fff; }
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--tinta-suave);
+}
+
+/* ---------------------------------------------------------------
+   Desafio do dia
+   --------------------------------------------------------------- */
+
+.desafio-rotulo {
+  margin: 0.25rem 0 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ouro-fundo);
+}
+
+/* Cinco marcas, uma por pergunta. Mostra de relance quanto falta e como foi
+   ate aqui — numa prova de 5, contar na cabeca ja e atrito. */
+.desafio-trilha {
+  display: flex;
+  gap: 0.3rem;
+  margin: 0 0 1.1rem;
+}
+.desafio-passo {
+  flex: 1;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--ouro-claro);
+}
+.desafio-passo.passo-certo { background: var(--acerto); }
+.desafio-passo.passo-errado { background: var(--barro); }
+.desafio-passo.passo-atual { box-shadow: 0 0 0 2px var(--ouro-vivo); }
+
+.desafio-pergunta {
+  font-size: var(--t-h2);
+  line-height: 1.3;
+  margin: 0 0 1rem;
+}
+
+/* A nota do dia, grande o bastante para ser o que a pessoa vai contar para
+   alguem. E o unico numero que importa nesta tela. */
+.desafio-placar {
+  text-align: center;
+  margin: 1.5rem 0 0.5rem;
+}
+.desafio-nota {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-family: var(--titulo);
+  font-size: clamp(3.5rem, 2.5rem + 5vw, 5.5rem);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ouro-fundo);
+}
+.desafio-de {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--tinta-suave);
+}
+
+.desafio-sequencia {
+  margin: 0.8rem 0 0;
+  font-size: 0.95rem;
+  color: var(--tinta);
+}
+.desafio-sequencia strong { color: var(--ouro-fundo); }
+
+.desafio-media {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--tinta-suave);
+  margin: 0.75rem 0 0;
+}
+
+/* O cartao da tela inicial: a porta de entrada do habito diario. */
+.chamada-desafio {
+  display: block;
+  text-decoration: none;
+  color: var(--tinta);
+  border: 1px solid var(--ouro-claro);
+  border-radius: 16px;
+  padding: 1rem 1.1rem;
+  margin: 1.5rem 0 0;
+  background:
+    linear-gradient(135deg, rgba(239, 193, 78, 0.22), rgba(255, 253, 248, 0.7));
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+}
+.chamada-desafio:hover,
+.chamada-desafio:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -10px rgba(138, 95, 18, 0.6);
+}
+.chamada-desafio-rotulo {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ouro-fundo);
+  margin-bottom: 0.2rem;
+}
+.chamada-desafio-titulo {
+  display: block;
+  font-family: var(--titulo);
+  font-size: 1.18rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+.chamada-desafio-texto {
+  display: block;
+  font-size: 0.88rem;
+  color: var(--tinta-suave);
+  line-height: 1.45;
 }

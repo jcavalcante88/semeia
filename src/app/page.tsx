@@ -89,6 +89,18 @@ export default async function Inicio() {
 
       <Sequencia />
 
+      {/* O desafio vem ANTES do quiz de propósito. O quiz é a porta de entrada
+          de quem chega; o desafio é o motivo de voltar amanhã, e é curto o
+          bastante para caber num dia corrido. Quem abre o app por hábito quer
+          achar isto primeiro. */}
+      <Link href="/desafio" className="chamada-desafio">
+        <span className="chamada-desafio-rotulo">Desafio de hoje</span>
+        <span className="chamada-desafio-titulo">Cinco perguntas, um minuto</span>
+        <span className="chamada-desafio-texto">
+          As mesmas cinco para todo mundo, até a meia-noite. Amanhã são outras.
+        </span>
+      </Link>
+
       {/* Cartão dourado, e não um parágrafo seguido de botão: o quiz é a porta
           de entrada do app e precisa parecer uma. */}
       <section className="chamada-quiz">

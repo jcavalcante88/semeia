@@ -64,6 +64,29 @@ de interface também em português.
    > em 16 quadrados, e as linhas falsas não coincidem com os cortes reais —
    > fica poluído. Peça a arte sem elas. E menos de 720px de origem sai borrada.
 
+12. **Desafio do dia** — 5 perguntas em `/desafio`, **as mesmas para todo
+   mundo**, trocando à meia-noite de Brasília. É o motivo de voltar amanhã: o
+   quiz é grande e finito (o Jefferson respondeu 50 num dia e sumiu), o desafio
+   é curto e novo todo dia. Mostra a sequência de dias seguidos e a média de
+   acertos de hoje — só dá para comparar porque as cinco são as mesmas.
+
+   > **Ele corre POR FORA do quiz, de propósito.** Grava em
+   > `desafio_respostas`, nunca em `respostas`: o quiz tem
+   > `unique (usuario_id, pergunta_id)`, uma tentativa por pergunta para
+   > sempre, e gravar ali queimaria a pergunta no quiz — seria mudar o
+   > comportamento dele sem uma linha de código mudar. Também **não pontua no
+   > ranking**.
+   >
+   > Quem escolhe as cinco é a view `desafio_de_hoje`: `md5(id)` faz um
+   > embaralhamento fixo do banco (mistura a dificuldade, coisa que ordenar por
+   > id não faria) e a data desliza uma janela de 5 sobre ele — 60 dias para dar
+   > a volta nas 300. **A view não tem `correta` nem `explicacao`**, então não
+   > existe caminho em que ela vaze; o gabarito só sai no POST, depois da
+   > escolha, e uma vez por dia (chave primária `(usuario_id, dia, pergunta_id)`).
+   >
+   > A data é do Postgres, no fuso de São Paulo. Nunca do navegador: bastaria
+   > adiantar o celular para jogar o desafio de amanhã.
+
 9. **Ouvir a pergunta** — botão lê enunciado e alternativas com a voz do navegador
    (`speechSynthesis`), de graça e sem arquivo de áudio. O cronômetro pausa enquanto
    a voz fala, e nada toca sozinho. Sem voz em português, o botão não aparece.
@@ -183,6 +206,8 @@ respostas        id, usuario_id, pergunta_id, acertou, pontos, respondida_em,
 noticias         id, titulo, resumo, link unique, fonte, imagem,
                  publicado_em, coletado_em, ativa
 fontes_noticias  id, nome, url unique, ativa   -- ligar/desligar feed sem deploy
+desafio_respostas usuario_id + dia + pergunta_id (PK)  -- uma tentativa por dia
+views            desafio_de_hoje  -- as 5 perguntas de hoje, sem gabarito
 soletrar         nivel serial, pergunta_id unique, ativa
 soletrar_resolvidos usuario_id + nivel (PK)  -- progresso do Soletrar
 pedidos_oracao   id, usuario_id, texto, anonimo, criado_em, ativo
@@ -227,6 +252,7 @@ db/redistribuir-alternativas.mjs             espalha a resposta certa entre as 4
 db/noticias.sql                              tabelas de notícia e fontes
 db/oracao.sql                                pedidos de oração
 db/soletrar.sql                              níveis do Soletrar + progresso
+db/desafio.sql                               tabela do desafio + view desafio_de_hoje
 db/limpar-teste.sql                          apaga usuários fictícios
 arte/pomba.png                               arte de origem (Icons8)
 scripts/icones.mjs                           gera os PNG do PWA com sharp
@@ -255,6 +281,8 @@ src/app/oracao/{page.tsx,Oracao.tsx}
 src/app/revisar/{page.tsx,Revisar.tsx}       perguntas erradas + explicação
 src/app/soletrar/{page.tsx,Soletrar.tsx}     mapa de níveis + montar a palavra
 src/app/quebra-cabeca/{page.tsx,QuebraCabeca.tsx}  jogo das 15 peças
+src/app/desafio/{page.tsx,Desafio.tsx}       as 5 perguntas do dia
+src/app/api/desafio/route.ts                 GET as 5 de hoje, POST confere uma
 src/app/api/soletrar/route.ts                GET mapa/nível, POST confere a palavra
 next.config.mjs                              redireciona /enigma -> /soletrar
 src/app/apoiar/{page.tsx,Apoiar.tsx}        doação por Pix, código gerado em src/lib/pix.ts
@@ -306,7 +334,7 @@ texto escuro, nunca branco: com branco daria 2,2:1.
 
 **Layout.** Acima de 992px são três colunas: menu à esquerda (com a pomba num selo
 pinho), conteúdo no centro, atalhos à direita. Abaixo disso, coluna única com barra
-fixa de 8 destinos no rodapé, e a marca num cabeçalho grudado no topo
+fixa de 9 destinos no rodapé, e a marca num cabeçalho grudado no topo
 () — sem ele o app ficava sem pomba e sem nome no celular. A lista de destinos vive só em `Navegacao.tsx`;
 mudando lá, ajuste `grid-template-columns` da `.barra-inferior`.
 
