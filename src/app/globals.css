@@ -1734,3 +1734,78 @@ textarea:focus { background: #fff; }
 
 /* Quebra a linha dentro do grupo, para o recado nao ficar ao lado do botao. */
 .palavra-recado { flex-basis: 100%; margin: 0; }
+
+/* ---------------------------------------------------------------
+   O mural de oracao fora da propria pagina
+   --------------------------------------------------------------- */
+
+/*
+  Deliberadamente mais quieto que os cartoes de quiz e desafio: sem ouro
+  cheio, sem borda grossa. Pedido de oracao costuma carregar doenca, familia
+  e vicio — chamar atencao com a mesma voz de um jogo seria fora de tom.
+*/
+.mural-home,
+.mural-convite {
+  display: block;
+  text-decoration: none;
+  color: var(--tinta);
+  border: 1px solid var(--ouro-claro);
+  border-left: 3px solid var(--ouro);
+  border-radius: 0 14px 14px 0;
+  padding: 0.95rem 1.1rem;
+  background: rgba(255, 255, 255, 0.55);
+  transition: background 0.16s ease, transform 0.16s ease;
+}
+.mural-home { margin: 1.5rem 0 0; }
+.mural-convite { margin: 1.25rem 0 0; }
+
+.mural-home:hover,
+.mural-home:focus-visible,
+.mural-convite:hover,
+.mural-convite:focus-visible {
+  background: rgba(255, 255, 255, 0.82);
+  transform: translateX(2px);
+}
+
+.mural-rotulo {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ouro-fundo);
+  margin-bottom: 0.4rem;
+}
+
+/* O pedido em si vem na serifa dos versiculos, nao na fonte de interface:
+   e a voz de alguem, nao um rotulo do app. */
+.mural-pedido {
+  display: block;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  line-height: 1.45;
+  margin-bottom: 0.4rem;
+}
+
+.mural-texto {
+  display: block;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--tinta-suave);
+  margin-bottom: 0.5rem;
+}
+
+.mural-quem {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--tinta-suave);
+  margin-bottom: 0.55rem;
+}
+.mural-quem strong { color: var(--acerto); }
+
+.mural-acao {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ouro-fundo);
+}

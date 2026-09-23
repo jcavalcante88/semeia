@@ -4,6 +4,7 @@ import Link from "next/link";
 import Sequencia from "./Sequencia";
 import CompartilharPlacar from "./CompartilharPlacar";
 import CompartilharVersiculo from "./CompartilharVersiculo";
+import MuralNaHome from "./MuralNaHome";
 
 export const revalidate = 300;
 
@@ -126,6 +127,12 @@ export default async function Inicio() {
           Começar agora
         </Link>
       </section>
+
+      {/* O mural vinha ficando invisivel: a home linkava para quiz, desafio,
+          noticias, ranking e apoiar, e nao para a oracao. Em dez dias entrou
+          UM pedido — e ele recebeu tres oracoes, ou seja, quem chegava usava.
+          Faltava o caminho, nao o interesse. */}
+      <MuralNaHome />
 
       <h2>Receba um versículo por dia</h2>
       <p>

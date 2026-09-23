@@ -173,6 +173,18 @@ export default function Desafio() {
             satisfeita e querendo voltar amanhã. */}
         <AtivarMensagens />
 
+        {/* E o melhor momento para falar de oração também é agora: o app está
+            aberto, o jogo acabou, e a pessoa não precisa procurar nada. Antes
+            ela só descobria o mural se explorasse o menu. */}
+        <Link href="/oracao" className="mural-convite">
+          <span className="mural-rotulo">Pedidos de oração</span>
+          <span className="mural-texto">
+            Tem alguém, ou alguma coisa, que você queria que a gente orasse
+            por? Pode escrever sem se identificar.
+          </span>
+          <span className="mural-acao">Ver o mural →</span>
+        </Link>
+
         <p style={{ marginTop: "1rem" }}>
           <Link href="/quiz" className="botao botao-vazado">
             Jogar o quiz completo

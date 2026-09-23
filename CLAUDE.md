@@ -22,6 +22,25 @@ de interface também em português.
    resumo, imagem e link para a fonte.
 5. **Pedidos de oração** — a pessoa publica um pedido e outras marcam "orei por você".
    O autor recebe push nos marcos (1, 3, 10, 25, 50, 100 orações), nunca a cada clique.
+
+   > **O mural aparece na home e no fim do desafio.** Em dez dias ele recebeu
+   > UM pedido — e esse pedido recebeu três orações, ou seja, quem chegava lá
+   > usava. Faltava o caminho: a home linkava para quiz, desafio, notícias,
+   > ranking e apoiar, e **não linkava para a oração**. A única porta era um
+   > ícone na barra de baixo, entre outros oito.
+   >
+   > `MuralNaHome.tsx` mostra o pedido mais recente **de verdade**, com a
+   > contagem de orações. Nada de pedido inventado para encher o mural: mural
+   > que parece vazio continua vazio, e a saída honesta é mostrar que ele não
+   > está vazio, não fingir que não está.
+   >
+   > O cartão é de propósito mais quieto que os de quiz e desafio — sem ouro
+   > cheio, sem borda grossa. Pedido de oração carrega doença, família e vício;
+   > chamar atenção com a mesma voz de um jogo seria fora de tom.
+   >
+   > **O app nunca mostra QUEM orou**, nem para o autor do pedido: a API
+   > devolve só a contagem. Isso é comportamento, não acaso — não transforme
+   > em lista de nomes sem me perguntar.
 6. **Revisar erros** — `/revisar` mostra o que a pessoa errou, com explicação e versículo.
 7. **Sequência de dias** — faixa discreta na home. Some quando quebra: sem cobrança.
 13. **Mandar o versículo para alguém** — botão ao lado de "continuar lendo",
@@ -303,6 +322,7 @@ next.config.mjs                              redireciona /enigma -> /soletrar
 src/app/apoiar/{page.tsx,Apoiar.tsx}        doação por Pix, código gerado em src/lib/pix.ts
 src/app/Sequencia.tsx                        faixa de dias seguidos
 src/app/CompartilharVersiculo.tsx            manda a palavra de hoje para alguém
+src/app/MuralNaHome.tsx                      último pedido de oração na tela inicial
 src/app/configuracoes/{page.tsx,Configuracoes.tsx}
 src/app/api/usuario/route.ts
 src/app/api/quiz/{perguntas,responder}/route.ts
