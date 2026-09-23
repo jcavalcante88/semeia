@@ -269,7 +269,6 @@ db/noticias.sql                              tabelas de notícia e fontes
 db/oracao.sql                                pedidos de oração
 db/soletrar.sql                              níveis do Soletrar + progresso
 db/desafio.sql                               tabela do desafio + view desafio_de_hoje
-db/limpar-teste.sql                          apaga usuários fictícios
 arte/pomba.png                               arte de origem (Icons8)
 scripts/icones.mjs                           gera os PNG do PWA com sharp
 scripts/quadros-lista.mjs                    a lista unica dos quadros (titulo, versiculo, significado)
@@ -379,4 +378,7 @@ não do próprio elemento. Já sumi com a logo inteira assim uma vez.
 - Se eu pedir algo que quebra uma das regras acima, me avise antes de fazer.
 - Não crie testes automatizados por enquanto.
 - Antes de apagar linha do banco, olhe o que vai sair. Já quase apaguei um usuário
-  real achando que era de teste.
+  real achando que era de teste. **Nome não identifica ninguém** — pode existir uma
+  Ana de verdade. Junte uma segunda condição que só o registro de teste satisfaz,
+  como a data de criação: os cinco fictícios foram apagados com
+  `criado_em < 2026-09-13 18:52`, o minuto em que eu os criei.
