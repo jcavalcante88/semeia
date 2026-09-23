@@ -38,6 +38,24 @@ de interface também em português.
    > As tabelas do banco foram renomeadas com `alter table` (os 61 níveis e
    > o progresso de quem já jogou continuam lá), e `next.config.mjs`
    > redireciona `/enigma` para `/soletrar` de forma permanente.
+11. **Quebra-cabeça** — o jogo das quinze peças que deslizam, em `/quebra-cabeca`.
+   Cada quadro é uma cena bíblica cortada em 4x4; ao montar, a pessoa lê o que a
+   cena conta, com o versículo. Toque, arrasto e setas do teclado — celular e
+   computador. **Não pontua no ranking**, como o Soletrar. O que já foi montado
+   fica no `localStorage`, não no banco: não há nada a proteger de DevTools aqui.
+
+   > **Embaralhar sorteando as 16 posições dá um tabuleiro impossível em metade
+   > das vezes** — o jogo dos 15 tem duas classes de permutação e só uma se
+   > resolve. Por isso embaralho fazendo jogadas legais a partir da imagem
+   > pronta. Testei 20 mil embaralhadas: nenhuma sem solução.
+
+   > **As imagens do Jerry substituem os desenhos.** `scripts/quadros.mjs`
+   > desenha cenas em SVG, que entraram só porque daqui não dá para baixar arte
+   > (o servidor do Wikimedia recusa). Elas são provisórias e perdem feio para
+   > as imagens que ele manda. **Imagem com marca d'água não entra**: o app é
+   > público, publicar é redistribuir, e já recusei três por isso — uma foto de
+   > produção com atores reais e duas de banco de imagens.
+
 9. **Ouvir a pergunta** — botão lê enunciado e alternativas com a voz do navegador
    (`speechSynthesis`), de graça e sem arquivo de áudio. O cronômetro pausa enquanto
    a voz fala, e nada toca sozinho. Sem voz em português, o botão não aparece.
@@ -204,6 +222,11 @@ db/soletrar.sql                              níveis do Soletrar + progresso
 db/limpar-teste.sql                          apaga usuários fictícios
 arte/pomba.png                               arte de origem (Icons8)
 scripts/icones.mjs                           gera os PNG do PWA com sharp
+scripts/quadros-lista.mjs                    a lista unica dos quadros (titulo, versiculo, significado)
+scripts/quadros.mjs                          desenha os quadros de origem "desenho"
+scripts/importar-quadro.mjs                  recorta uma imagem enviada em 720x720
+src/lib/quadros.ts                           le src/lib/quadros.json, gerado pela lista
+public/quadros/*.png                         as cenas do quebra-cabeca
 scripts/reels.mjs                            um Reels de 15s por pergunta (sharp + ffmpeg)
 scripts/legendas.mjs                         as 102 legendas do Instagram, na ordem dos videos
 public/{sw.js,manifest.json,pomba.png,icone-192.png,icone-512.png,badge.png}
@@ -223,6 +246,7 @@ src/app/noticias/page.tsx
 src/app/oracao/{page.tsx,Oracao.tsx}
 src/app/revisar/{page.tsx,Revisar.tsx}       perguntas erradas + explicação
 src/app/soletrar/{page.tsx,Soletrar.tsx}     mapa de níveis + montar a palavra
+src/app/quebra-cabeca/{page.tsx,QuebraCabeca.tsx}  jogo das 15 peças
 src/app/api/soletrar/route.ts                GET mapa/nível, POST confere a palavra
 next.config.mjs                              redireciona /enigma -> /soletrar
 src/app/apoiar/{page.tsx,Apoiar.tsx}        doação por Pix, código gerado em src/lib/pix.ts
@@ -274,7 +298,7 @@ texto escuro, nunca branco: com branco daria 2,2:1.
 
 **Layout.** Acima de 992px são três colunas: menu à esquerda (com a pomba num selo
 pinho), conteúdo no centro, atalhos à direita. Abaixo disso, coluna única com barra
-fixa de 7 destinos no rodapé, e a marca num cabeçalho grudado no topo
+fixa de 8 destinos no rodapé, e a marca num cabeçalho grudado no topo
 () — sem ele o app ficava sem pomba e sem nome no celular. A lista de destinos vive só em `Navegacao.tsx`;
 mudando lá, ajuste `grid-template-columns` da `.barra-inferior`.
 

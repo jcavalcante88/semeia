@@ -297,7 +297,7 @@ body {
   bottom: 0;
   display: grid;
   /* Um destino por coluna. Mudou a lista em Navegacao.tsx? Mude aqui. */
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(8, 1fr);
   background: var(--vidro-forte);
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
@@ -311,12 +311,13 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 0.15rem;
-  padding: 0.55rem 0.1rem 0.6rem;
+  padding: 0.55rem 0.06rem 0.6rem;
   text-decoration: none;
   color: var(--tinta-suave);
-  /* Com 7 colunas num celular de 360px sobram 51px por item. "Ranking" e
-     o rotulo mais longo e precisa caber inteiro nessa largura. */
-  font-size: 0.56rem;
+  /* Com 8 colunas num celular de 360px sobram 45px por item. "Ranking" e
+     "Soletrar" sao os rotulos mais longos e precisam caber inteiros nessa
+     largura — por isso a letra encolheu junto com a coluna. */
+  font-size: 0.5rem;
   font-weight: 600;
   text-align: center;
   transition: color 0.14s ease;
@@ -1335,3 +1336,105 @@ textarea:focus { background: #fff; }
   }
   .nuvem { display: none; }
 }
+
+/* ---------------------------------------------------------------
+   Quebra-cabeca deslizante
+   --------------------------------------------------------------- */
+
+/* Lista de quadros: dois por linha no celular, tres a partir de 30rem. */
+.quadros {
+  list-style: none;
+  padding: 0;
+  margin: 1.25rem 0 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.7rem;
+}
+@media (min-width: 30rem) {
+  .quadros { grid-template-columns: repeat(3, 1fr); }
+}
+
+.quadro {
+  width: 100%;
+  padding: 0;
+  border: 1px solid var(--ouro-claro);
+  border-radius: 0.9rem;
+  background: var(--papel);
+  cursor: pointer;
+  overflow: hidden;
+  display: block;
+  text-align: left;
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+}
+.quadro:hover,
+.quadro:focus-visible { transform: translateY(-2px); box-shadow: 0 6px 18px rgb(59 47 23 / 0.16); }
+.quadro img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+.quadro-nome {
+  display: block;
+  padding: 0.45rem 0.55rem 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--tinta);
+  line-height: 1.25;
+}
+.quadro-feito { color: var(--acerto); }
+
+.quadro-titulo { margin: 0.4rem 0 0.9rem; }
+
+/*
+  O tabuleiro e sempre quadrado e nunca passa da largura do cartao nem da
+  altura util da tela — no celular deitado, um quadrado de 100% de largura
+  ficaria mais alto que a janela e as pecas de baixo sumiriam.
+*/
+.tabuleiro {
+  display: grid;
+  gap: 3px;
+  width: min(100%, 60vh);
+  aspect-ratio: 1;
+  margin: 0 auto;
+  padding: 3px;
+  background: var(--ouro-claro);
+  border-radius: 0.8rem;
+  /* Impede o navegador de rolar a pagina durante o arrasto no tabuleiro. */
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.peca {
+  border: 0;
+  padding: 0;
+  border-radius: 0.35rem;
+  background-color: var(--papel);
+  background-repeat: no-repeat;
+  cursor: pointer;
+  /* Sem transicao de posicao: a peca troca de casa, nao anda pela tela.
+     Animar aqui exigiria posicao absoluta e nao paga o que custa. */
+  transition: filter 0.12s ease;
+}
+.peca:hover:not(:disabled) { filter: brightness(1.08); }
+.peca:disabled { cursor: default; }
+.peca-vazia { background: transparent; box-shadow: inset 0 0 0 2px var(--ouro-claro); }
+
+/* Montado: as juntas somem e a imagem vira uma so. */
+.tabuleiro-pronto { gap: 0; padding: 0; background: transparent; }
+.tabuleiro-pronto .peca { border-radius: 0; }
+.tabuleiro-pronto .peca:first-child { border-top-left-radius: 0.8rem; }
+.tabuleiro-pronto .peca:nth-child(4) { border-top-right-radius: 0.8rem; }
+.tabuleiro-pronto .peca:nth-child(13) { border-bottom-left-radius: 0.8rem; }
+.tabuleiro-pronto .peca:last-child { border-bottom-right-radius: 0.8rem; }
+
+.quadro-dica {
+  margin: 0.9rem 0 0;
+  font-size: 0.85rem;
+  color: var(--tinta-suave);
+  text-align: center;
+}
+
+.quadro-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.quadro-acoes .botao { flex: 1 1 auto; }

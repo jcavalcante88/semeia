@@ -17,6 +17,7 @@ const DESTINOS = [
   { href: "/", rotulo: "Início", icone: "✦" },
   { href: "/quiz", rotulo: "Quiz", icone: "✎" },
   { href: "/soletrar", rotulo: "Soletrar", icone: "◆" },
+  { href: "/quebra-cabeca", rotulo: "Montar", icone: "▦" },
   { href: "/oracao", rotulo: "Oração", icone: "✚" },
   { href: "/ranking", rotulo: "Ranking", icone: "☆" },
   { href: "/noticias", rotulo: "Gospel", icone: "◈" },
