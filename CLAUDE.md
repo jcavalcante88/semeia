@@ -86,6 +86,13 @@ de interface também em português.
    >
    > A data é do Postgres, no fuso de São Paulo. Nunca do navegador: bastaria
    > adiantar o celular para jogar o desafio de amanhã.
+   >
+   > **O quiz deixa para o fim as perguntas já vistas no desafio.** É a única
+   > linha do quiz que o desafio encostou: um termo a mais no `order by` de
+   > `/api/quiz/perguntas`. Elas **continuam na fila** — excluir tiraria pontos
+   > de quem joga o desafio, e o desafio não pode custar nada. Medido com 40
+   > perguntas marcadas como vistas: 0 repetidas em 20 rodadas, contra 6,7 por
+   > rodada que apareceriam sem isso.
 
 9. **Ouvir a pergunta** — botão lê enunciado e alternativas com a voz do navegador
    (`speechSynthesis`), de graça e sem arquivo de áudio. O cronômetro pausa enquanto

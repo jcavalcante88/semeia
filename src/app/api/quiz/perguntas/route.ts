@@ -41,7 +41,22 @@ export async function GET() {
                 and r.usuario_id = ${uid}::uuid
            )
          )
-       order by random()
+       order by
+         /*
+          * Quem ja viu a pergunta no desafio do dia vai encontra-la por
+          * ultimo aqui — mas ela CONTINUA na fila. Excluir seria tirar
+          * pontos de quem joga o desafio, e o desafio nao pode custar nada.
+          *
+          * false vem antes de true no Postgres, entao o que a pessoa ainda
+          * nao viu sobe. Com 300 perguntas e 50 por rodada, na pratica a
+          * repetida so aparece quando o resto ja acabou.
+          */
+         exists (
+           select 1 from desafio_respostas d
+            where d.pergunta_id = p.id
+              and d.usuario_id = ${uid}::uuid
+         ),
+         random()
        limit ${POR_RODADA}
     `;
 
