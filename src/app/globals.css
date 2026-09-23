@@ -1368,7 +1368,16 @@ textarea:focus { background: #fff; }
 }
 .quadro:hover,
 .quadro:focus-visible { transform: translateY(-2px); box-shadow: 0 6px 18px rgb(59 47 23 / 0.16); }
-.quadro img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+/* A miniatura ganha a mesma moldura do tabuleiro, so que fina: a lista vira
+   uma parede de quadros em vez de uma grade de cartoes. */
+.quadro img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border: 5px solid transparent;
+  border-image: linear-gradient(138deg, #f8e7b6, #8a5f12 34%, #efc14e 52%, #6a4610 86%, #d9a93a) 1;
+}
 .quadro-nome {
   display: block;
   padding: 0.45rem 0.55rem 0.55rem;
@@ -1381,20 +1390,70 @@ textarea:focus { background: #fff; }
 
 .quadro-titulo { margin: 0.4rem 0 0.9rem; }
 
+/* ---------------------------------------------------------------
+   A moldura: o tabuleiro vira quadro pendurado na parede
+   --------------------------------------------------------------- */
+
 /*
-  O tabuleiro e sempre quadrado e nunca passa da largura do cartao nem da
-  altura util da tela — no celular deitado, um quadrado de 100% de largura
-  ficaria mais alto que a janela e as pecas de baixo sumiriam.
+  A moldura e quem manda no tamanho, nao o tabuleiro. Ela nunca passa da
+  largura do cartao nem da altura util da tela — no celular deitado, um
+  quadrado de 100% de largura ficaria mais alto que a janela e as pecas de
+  baixo sumiriam. Como box-sizing: border-box vale para tudo, o recheio da
+  moldura ja esta contado nesse limite.
 */
+.moldura {
+  width: min(100%, 60vh);
+  margin: 0 auto;
+  padding: clamp(0.85rem, 4vw, 1.6rem);
+  border-radius: 5px;
+
+  /*
+    O ouro do tema e uma cor so, e cor chapada nao parece metal. O que da o
+    dourado e a VARIACAO: claro na quina que pega luz, escuro no vinco. Por
+    isso o degrade em diagonal, alternando claro e escuro varias vezes ao
+    longo da banda.
+  */
+  background: linear-gradient(
+    138deg,
+    #f8e7b6 0%,
+    #d9a93a 14%,
+    #8a5f12 34%,
+    #efc14e 50%,
+    #b8860f 66%,
+    #6a4610 86%,
+    #d9a93a 100%
+  );
+
+  box-shadow:
+    /* quinas: luz em cima, sombra embaixo — e o que da o relevo */
+    inset 0 2px 1px rgba(255, 253, 248, 0.65),
+    inset 2px 0 1px rgba(255, 253, 248, 0.3),
+    inset 0 -2px 2px rgba(59, 47, 23, 0.45),
+    inset -2px 0 2px rgba(59, 47, 23, 0.35),
+    /* o quadro projeta sombra na parede */
+    0 3px 8px -3px rgba(59, 47, 23, 0.45),
+    0 20px 36px -18px rgba(59, 47, 23, 0.65);
+}
+
+/* O filete escuro entre a moldura e a tela: e ele que afunda a imagem. */
+.moldura-rebaixo {
+  padding: 7px;
+  border-radius: 2px;
+  background: linear-gradient(160deg, #6a4610, #b8860f 46%, #6a4610);
+  box-shadow:
+    inset 0 2px 3px rgba(43, 33, 12, 0.7),
+    inset 0 -1px 0 rgba(255, 253, 248, 0.25);
+}
+
 .tabuleiro {
   display: grid;
   gap: 3px;
-  width: min(100%, 60vh);
+  width: 100%;
   aspect-ratio: 1;
-  margin: 0 auto;
+  /* As frestas entre as pecas sao ESCURAS, nao douradas: dentro de uma
+     moldura de ouro, fresta dourada faz a imagem se dissolver na moldura. */
+  background: #43351a;
   padding: 3px;
-  background: var(--ouro-claro);
-  border-radius: 0.8rem;
   /* Impede o navegador de rolar a pagina durante o arrasto no tabuleiro. */
   touch-action: none;
   -webkit-user-select: none;
@@ -1404,7 +1463,7 @@ textarea:focus { background: #fff; }
 .peca {
   border: 0;
   padding: 0;
-  border-radius: 0.35rem;
+  border-radius: 2px;
   background-color: var(--papel);
   background-repeat: no-repeat;
   cursor: pointer;
@@ -1414,15 +1473,17 @@ textarea:focus { background: #fff; }
 }
 .peca:hover:not(:disabled) { filter: brightness(1.08); }
 .peca:disabled { cursor: default; }
-.peca-vazia { background: transparent; box-shadow: inset 0 0 0 2px var(--ouro-claro); }
+/* O buraco e um vao na tela, nao uma peca clara: fundo escuro e sombra
+   interna, para parecer que ali falta alguma coisa. */
+.peca-vazia {
+  background: #2f2511;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.55);
+}
 
 /* Montado: as juntas somem e a imagem vira uma so. */
-.tabuleiro-pronto { gap: 0; padding: 0; background: transparent; }
+.tabuleiro-pronto { gap: 0; padding: 0; }
 .tabuleiro-pronto .peca { border-radius: 0; }
-.tabuleiro-pronto .peca:first-child { border-top-left-radius: 0.8rem; }
-.tabuleiro-pronto .peca:nth-child(4) { border-top-right-radius: 0.8rem; }
-.tabuleiro-pronto .peca:nth-child(13) { border-bottom-left-radius: 0.8rem; }
-.tabuleiro-pronto .peca:last-child { border-bottom-right-radius: 0.8rem; }
+
 
 .quadro-dica {
   margin: 0.9rem 0 0;

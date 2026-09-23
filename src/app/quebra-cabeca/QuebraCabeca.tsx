@@ -236,36 +236,43 @@ export default function QuebraCabeca() {
 
       <h1 className="quadro-titulo">{quadro.titulo}</h1>
 
-      <div
-        ref={tabuleiro}
-        className={`tabuleiro${pronto ? " tabuleiro-pronto" : ""}`}
-        style={{ gridTemplateColumns: `repeat(${LADO}, 1fr)` }}
-      >
-        {pecas.map((peca, casa) => {
-          const escondida = peca === VAZIO && !pronto && !espiando;
-          const linha = Math.floor(peca / LADO);
-          const coluna = peca % LADO;
-          return (
-            <button
-              key={casa}
-              className={`peca${escondida ? " peca-vazia" : ""}`}
-              onClick={() => mover(casa)}
-              disabled={escondida || pronto}
-              aria-label={escondida ? "Espaço vazio" : `Peça ${peca + 1}`}
-              style={
-                escondida
-                  ? undefined
-                  : {
-                      backgroundImage: `url(${fundo})`,
-                      backgroundSize: `${LADO * 100}% ${LADO * 100}%`,
-                      backgroundPosition: `${(coluna / (LADO - 1)) * 100}% ${
-                        (linha / (LADO - 1)) * 100
-                      }%`,
-                    }
-              }
-            />
-          );
-        })}
+      {/* Três camadas para a moldura ter relevo: a banda dourada larga, o
+          filete escuro que faz o rebaixo, e o tabuleiro como tela. Uma borda
+          só, por mais grossa que fosse, ficaria chapada. */}
+      <div className="moldura">
+        <div className="moldura-rebaixo">
+          <div
+            ref={tabuleiro}
+            className={`tabuleiro${pronto ? " tabuleiro-pronto" : ""}`}
+            style={{ gridTemplateColumns: `repeat(${LADO}, 1fr)` }}
+          >
+            {pecas.map((peca, casa) => {
+              const escondida = peca === VAZIO && !pronto && !espiando;
+              const linha = Math.floor(peca / LADO);
+              const coluna = peca % LADO;
+              return (
+                <button
+                  key={casa}
+                  className={`peca${escondida ? " peca-vazia" : ""}`}
+                  onClick={() => mover(casa)}
+                  disabled={escondida || pronto}
+                  aria-label={escondida ? "Espaço vazio" : `Peça ${peca + 1}`}
+                  style={
+                    escondida
+                      ? undefined
+                      : {
+                          backgroundImage: `url(${fundo})`,
+                          backgroundSize: `${LADO * 100}% ${LADO * 100}%`,
+                          backgroundPosition: `${(coluna / (LADO - 1)) * 100}% ${
+                            (linha / (LADO - 1)) * 100
+                          }%`,
+                        }
+                  }
+                />
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       {pronto ? (
