@@ -106,7 +106,7 @@ export default async function Inicio() {
           de quem chega; o desafio é o motivo de voltar amanhã, e é curto o
           bastante para caber num dia corrido. Quem abre o app por hábito quer
           achar isto primeiro. */}
-      <Link href="/desafio" className="chamada-desafio">
+      <Link href="/desafio" className="chamada-desafio" data-revela>
         <span className="chamada-desafio-rotulo">Desafio de hoje</span>
         <span className="chamada-desafio-titulo">Cinco perguntas, um minuto</span>
         <span className="chamada-desafio-texto">
@@ -116,7 +116,7 @@ export default async function Inicio() {
 
       {/* Cartão dourado, e não um parágrafo seguido de botão: o quiz é a porta
           de entrada do app e precisa parecer uma. */}
-      <section className="chamada-quiz">
+      <section className="chamada-quiz" data-revela>
         <p className="chamada-selo">{TOTAL_PERGUNTAS} perguntas</p>
         <h2 className="chamada-titulo">Você conhece a Bíblia?</h2>
         <p className="chamada-texto">
@@ -134,32 +134,32 @@ export default async function Inicio() {
           Faltava o caminho, nao o interesse. */}
       <MuralNaHome />
 
-      <h2>Receba um versículo por dia</h2>
+      <h2 data-revela>Receba um versículo por dia</h2>
       <p>
         Depois do quiz você pode escolher os horários em que quer receber uma
         mensagem no celular. São três por dia, no máximo, e dá para desligar a
         qualquer momento.
       </p>
 
-      <h2>Mundo gospel</h2>
+      <h2 data-revela>Mundo gospel</h2>
       <p>
         O que está acontecendo no mundo cristão, reunido de portais de notícia
         e atualizado duas vezes por dia.
       </p>
 
-      <Link href="/noticias" className="botao botao-vazado">
+      <Link href="/noticias" className="botao botao-vazado" data-revela>
         Ver as notícias
       </Link>
 
       <CompartilharPlacar />
 
-      <h2>Ranking da semana</h2>
+      <h2 data-revela>Ranking da semana</h2>
       <p>
         Quem mais pontuou desde segunda-feira. A lista zera toda semana, então
         quem chegou hoje ainda alcança quem começou no mês passado.
       </p>
 
-      <Link href="/ranking" className="botao">
+      <Link href="/ranking" className="botao" data-revela>
         Ver o ranking da semana
       </Link>
 

@@ -130,7 +130,7 @@ function Noticia({ n, destaque = false }: { n: Record<string, any>; destaque?: b
   );
 
   return (
-    <li>
+    <li data-revela>
       <a href={n.link} target="_blank" rel="noopener noreferrer nofollow">
         {destaque ? (
           <>

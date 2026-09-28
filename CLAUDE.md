@@ -381,6 +381,24 @@ A fonte é maior só em `/noticias`, que é leitura rápida, não meditação.
 Mobile primeiro. Foco de teclado visível. `prefers-reduced-motion` respeitado: com
 ele ligado as nuvens somem e as animações param.
 
+**Movimento.** Os blocos sobem e aparecem conforme a tela rola, marcados com
+`data-revela`. É `animation-timeline: view()` — o cronômetro é a própria
+rolagem, sem biblioteca e sem JavaScript.
+
+> **Não troque por IntersectionObserver.** Aquele jeito começa com
+> `opacity: 0` e depende do script rodar: se ele falhar ou demorar, a página
+> fica em branco. Aqui o bloco `@supports` só liga a animação onde o
+> navegador aguenta — quem não aguenta mostra o conteúdo parado, que é o
+> certo. E roda na thread de composição, então não engasga com o dedo na tela.
+
+**Só `opacity` e `transform` são animados.** Qualquer outra propriedade
+obriga o navegador a refazer o layout a cada quadro.
+
+**No celular não existe `:hover`.** Todo efeito de botão tem que ter par no
+`:active`, senão o toque no telefone — que é onde quase todo mundo usa — não
+dá resposta nenhuma. Os cartões grandes também afundam ao toque: sem isso, em
+conexão ruim a pessoa toca três vezes achando que não pegou.
+
 **Cuidado com `padding` em porcentagem** — ele resolve contra a largura do **pai**,
 não do próprio elemento. Já sumi com a logo inteira assim uma vez.
 

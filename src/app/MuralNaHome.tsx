@@ -54,7 +54,7 @@ export default async function MuralNaHome() {
   /* Mural vazio: o convite é para escrever, não para ler. */
   if (!pedido) {
     return (
-      <Link href="/oracao" className="mural-home">
+      <Link href="/oracao" className="mural-home" data-revela>
         <span className="mural-rotulo">Pedidos de oração</span>
         <span className="mural-texto">
           Ainda não há nenhum pedido. Se você está passando por algo, pode ser
@@ -70,7 +70,7 @@ export default async function MuralNaHome() {
   const trecho = pedido.texto.length > 150 ? pedido.texto.slice(0, 150).trimEnd() + "…" : pedido.texto;
 
   return (
-    <Link href="/oracao" className="mural-home">
+    <Link href="/oracao" className="mural-home" data-revela>
       <span className="mural-rotulo">
         {total === 1 ? "Um pedido de oração" : `${total} pedidos de oração`}
       </span>

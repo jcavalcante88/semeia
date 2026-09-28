@@ -196,7 +196,7 @@ export default function QuebraCabeca() {
         <ul className="quadros">
           {QUADROS.map((q) => (
             <li key={q.nome}>
-              <button className="quadro" onClick={() => abrir(q)}>
+              <button className="quadro" onClick={() => abrir(q)} data-revela>
                 <img src={`/quadros/${q.nome}.png`} alt="" loading="lazy" />
                 <span className="quadro-nome">
                   {montados.includes(q.nome) && (

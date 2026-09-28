@@ -1809,3 +1809,110 @@ textarea:focus { background: #fff; }
   font-weight: 700;
   color: var(--ouro-fundo);
 }
+
+/* ---------------------------------------------------------------
+   Movimento: revelar ao rolar, e botoes com resposta ao toque
+   --------------------------------------------------------------- */
+
+/*
+  Os blocos sobem e aparecem conforme a tela rola.
+
+  Feito com `animation-timeline: view()`, que e o cronometro da propria
+  rolagem — sem biblioteca, sem JavaScript e sem observador. Isso importa por
+  dois motivos:
+
+  1. Nao existe risco de conteudo invisivel. A versao com IntersectionObserver
+     comeca com `opacity: 0` e depende do script rodar; se ele falhar ou
+     demorar, a pagina fica em branco. Aqui, navegador que nao suporta
+     simplesmente mostra o conteudo parado, que e o certo.
+  2. Roda na thread de composicao, entao nao engasga com o dedo na tela.
+
+  So `opacity` e `transform` sao animados — qualquer outra propriedade
+  obrigaria o navegador a recalcular layout a cada quadro.
+*/
+@keyframes revelar {
+  from { opacity: 0; transform: translateY(26px) scale(0.985); }
+  to   { opacity: 1; transform: none; }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-revela] {
+      animation: revelar linear both;
+      animation-timeline: view();
+      /* Termina antes do meio da subida: o bloco fica inteiro a vista bem
+         antes de parar no centro, senao a pessoa le um texto que ainda se
+         mexe. */
+      animation-range: entry 0% entry 55%;
+    }
+  }
+}
+
+/*
+  O brilho que atravessa o botao dourado.
+
+  No celular nao existe `:hover`, entao o mesmo efeito dispara no `:active` —
+  sem isso, o toque no telefone (que e onde quase todo mundo usa) nao teria
+  resposta nenhuma alem da cor.
+*/
+.botao {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.botao::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    115deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 62%
+  );
+  transform: translateX(-130%);
+  transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+  pointer-events: none;
+}
+.botao:hover:not(:disabled)::after,
+.botao:active:not(:disabled)::after { transform: translateX(130%); }
+.botao-vazado::after { display: none; }
+
+/* Afunda ao toque. Escala, e nao deslocamento: o botao ocupa a largura toda,
+   e mover para baixo num botao largo parece defeito, nao clique. */
+.botao:active:not(:disabled) { transform: scale(0.982); }
+
+/*
+  Os cartoes grandes tambem respondem ao dedo. Sem isto, tocar num cartao da
+  home nao da sinal nenhum ate a proxima pagina carregar — e em conexao ruim
+  a pessoa toca duas, tres vezes achando que nao pegou.
+*/
+.chamada-desafio:active,
+.mural-home:active,
+.mural-convite:active,
+.quadro:active,
+.palavra-continuar:active,
+.palavra-enviar:active:not(:disabled) {
+  transform: scale(0.985);
+}
+
+/* As alternativas do quiz e do desafio sao onde o dedo mais bate. */
+.alternativa {
+  transition: transform 0.12s ease, background 0.16s ease, border-color 0.16s ease;
+}
+.alternativa:active:not(:disabled) { transform: scale(0.99); }
+
+/*
+  A entrada da pagina.
+
+  Curta de proposito — 0,3s. Animacao de entrada longa atrasa a leitura toda
+  vez que a pessoa troca de tela, e este app se usa em sessoes de um minuto.
+*/
+@media (prefers-reduced-motion: no-preference) {
+  main { animation: entrar 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+}
+@keyframes entrar {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
