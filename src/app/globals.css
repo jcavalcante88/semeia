@@ -1336,14 +1336,9 @@ textarea:focus { background: #fff; }
   }
   .nuvem { display: none; }
 
-  /*
-    Zerar a duracao NAO desliga animacao guiada por rolagem: ela nao anda pelo
-    relogio, anda pela posicao da tela, e duracao nao tem efeito nenhum sobre
-    isso. Sem esta linha, quem pede menos movimento continuava vendo os blocos
-    subirem — e, pior, o conteudo abaixo da dobra ficava em opacidade 0 ate a
-    pessoa rolar ate ele.
-  */
-  [data-revela] { animation: none !important; }
+  /* Cinto e suspensorio: o script ja nao poe a classe quando o sistema pede
+     menos movimento, e aqui o conteudo aparece inteiro de qualquer jeito. */
+  .revela-ligado [data-revela] { opacity: 1 !important; transform: none !important; }
 }
 
 /* ---------------------------------------------------------------
@@ -1823,47 +1818,32 @@ textarea:focus { background: #fff; }
    Movimento: revelar ao rolar, e botoes com resposta ao toque
    --------------------------------------------------------------- */
 
+/* Os blocos sobem e aparecem conforme a tela rola. */
+
 /*
-  Os blocos sobem e aparecem conforme a tela rola.
+  O CSS so esconde o que estiver dentro de `.revela-ligado`, e essa classe e
+  posta pelo PROPRIO script (src/app/Revelar.tsx). Sem script — falhou, demorou,
+  aparelho velho — nada esconde e a pagina aparece inteira e parada.
 
-  Feito com `animation-timeline: view()`, que e o cronometro da propria
-  rolagem — sem biblioteca, sem JavaScript e sem observador. Isso importa por
-  dois motivos:
-
-  1. Nao existe risco de conteudo invisivel. A versao com IntersectionObserver
-     comeca com `opacity: 0` e depende do script rodar; se ele falhar ou
-     demorar, a pagina fica em branco. Aqui, navegador que nao suporta
-     simplesmente mostra o conteudo parado, que e o certo.
-  2. Roda na thread de composicao, entao nao engasga com o dedo na tela.
-
-  So `opacity` e `transform` sao animados — qualquer outra propriedade
-  obrigaria o navegador a recalcular layout a cada quadro.
+  A primeira versao usava `animation-timeline: view()`, CSS puro e mais
+  elegante. Nao funcionou no celular do Jerry, e o pior e que sumia CALADA:
+  sem suporte do navegador, o `@supports` simplesmente pulava a regra e nao
+  havia erro nenhum para investigar. Efeito que falha em silencio e pior do
+  que efeito nenhum.
 */
-@keyframes revelar {
-  from { opacity: 0; transform: translateY(26px) scale(0.985); }
-  to   { opacity: 1; transform: none; }
+.revela-ligado [data-revela] {
+  opacity: 0;
+  transform: translateY(26px) scale(0.985);
 }
 
-/*
-  NAO envolva isto em prefers-reduced-motion: no-preference.
-
-  no-preference exige que o navegador diga ATIVAMENTE que nao ha
-  preferencia, e varios ambientes nao dizem nada ou respondem reduce por
-  padrao. O resultado e animacao que nunca liga, sem erro nenhum para
-  explicar o porque. Foi o que aconteceu aqui na primeira versao.
-
-  O resto do app ja faz do jeito certo: anima por padrao, e o bloco
-  prefers-reduced-motion: reduce la em cima desliga tudo de uma vez.
-*/
-@supports (animation-timeline: view()) {
-  [data-revela] {
-    animation: revelar linear both;
-    animation-timeline: view();
-    /* Termina antes do meio da subida: o bloco fica inteiro a vista bem
-       antes de parar no centro, senao a pessoa le um texto que ainda se
-       mexe. */
-    animation-range: entry 0% entry 55%;
-  }
+.revela-ligado [data-revela].revelado {
+  opacity: 1;
+  transform: none;
+  /* So `opacity` e `transform`: qualquer outra propriedade obrigaria o
+     navegador a refazer o layout a cada quadro e a rolagem travaria. */
+  transition:
+    opacity 0.5s ease,
+    transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 /*
@@ -1932,3 +1912,24 @@ main { animation: entrar 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: none; }
 }
+
+/* Pagina de diagnostico — provisoria, pode sair junto com ela. */
+.diagnostico { list-style: none; padding: 0; margin: 1.25rem 0 0; }
+.diagnostico li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.35rem 1rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--ouro-claro);
+}
+.diagnostico-nome { font-size: 0.85rem; color: var(--tinta-suave); }
+.diagnostico-valor {
+  font-size: 0.85rem;
+  font-weight: 700;
+  /* Quebra o user agent, que e uma linha enorme sem espaco. */
+  overflow-wrap: anywhere;
+  text-align: right;
+}
+.diagnostico-ok { color: var(--acerto); }
+.diagnostico-ruim { color: var(--barro); }
