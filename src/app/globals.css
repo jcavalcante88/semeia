@@ -1335,6 +1335,15 @@ textarea:focus { background: #fff; }
     transition-duration: 0.001ms !important;
   }
   .nuvem { display: none; }
+
+  /*
+    Zerar a duracao NAO desliga animacao guiada por rolagem: ela nao anda pelo
+    relogio, anda pela posicao da tela, e duracao nao tem efeito nenhum sobre
+    isso. Sem esta linha, quem pede menos movimento continuava vendo os blocos
+    subirem — e, pior, o conteudo abaixo da dobra ficava em opacidade 0 ate a
+    pessoa rolar ate ele.
+  */
+  [data-revela] { animation: none !important; }
 }
 
 /* ---------------------------------------------------------------
@@ -1835,16 +1844,25 @@ textarea:focus { background: #fff; }
   to   { opacity: 1; transform: none; }
 }
 
+/*
+  NAO envolva isto em prefers-reduced-motion: no-preference.
+
+  no-preference exige que o navegador diga ATIVAMENTE que nao ha
+  preferencia, e varios ambientes nao dizem nada ou respondem reduce por
+  padrao. O resultado e animacao que nunca liga, sem erro nenhum para
+  explicar o porque. Foi o que aconteceu aqui na primeira versao.
+
+  O resto do app ja faz do jeito certo: anima por padrao, e o bloco
+  prefers-reduced-motion: reduce la em cima desliga tudo de uma vez.
+*/
 @supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    [data-revela] {
-      animation: revelar linear both;
-      animation-timeline: view();
-      /* Termina antes do meio da subida: o bloco fica inteiro a vista bem
-         antes de parar no centro, senao a pessoa le um texto que ainda se
-         mexe. */
-      animation-range: entry 0% entry 55%;
-    }
+  [data-revela] {
+    animation: revelar linear both;
+    animation-timeline: view();
+    /* Termina antes do meio da subida: o bloco fica inteiro a vista bem
+       antes de parar no centro, senao a pessoa le um texto que ainda se
+       mexe. */
+    animation-range: entry 0% entry 55%;
   }
 }
 
@@ -1909,9 +1927,7 @@ textarea:focus { background: #fff; }
   Curta de proposito — 0,3s. Animacao de entrada longa atrasa a leitura toda
   vez que a pessoa troca de tela, e este app se usa em sessoes de um minuto.
 */
-@media (prefers-reduced-motion: no-preference) {
-  main { animation: entrar 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
-}
+main { animation: entrar 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
 @keyframes entrar {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: none; }
