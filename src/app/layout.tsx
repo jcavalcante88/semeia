@@ -6,7 +6,6 @@ import {
   BarraInferior,
   CabecalhoMovel,
 } from "./Navegacao";
-import Revelar from "./Revelar";
 
 /**
  * `metadataBase` e obrigatorio para o cartao de compartilhamento funcionar:
@@ -55,8 +54,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <span className="nuvem nuvem-3" />
           <span className="nuvem nuvem-4" />
         </div>
-        {/* Liga a revelacao ao rolar. Nao desenha nada. */}
-        <Revelar />
         <CabecalhoMovel />
 
         <div className="app">
