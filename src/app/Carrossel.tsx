@@ -34,14 +34,19 @@ const PASSO_MS = 5000;
  * tela lê a lista inteira. Carrossel feito com `transform` e um índice em
  * JavaScript quebra as quatro coisas.
  *
- * Ele anda sozinho a cada 5 segundos, e PARA PARA SEMPRE assim que a pessoa
- * encosta nele. Carrossel que continua andando enquanto você lê é a razão de
- * quase todo mundo odiar carrossel.
+ * Ele anda sozinho a cada 5 segundos e PAUSA assim que a pessoa encosta —
+ * carrossel que continua andando enquanto você lê é a razão de quase todo
+ * mundo odiar carrossel. A diferença para a primeira versão é que agora a
+ * pausa é reversível: tem botão para voltar a andar, e botões para ir ao
+ * cartão anterior e ao próximo.
  */
 export default function Carrossel({ cartoes }: { cartoes: Cartao[] }) {
   const tira = useRef<HTMLUListElement>(null);
   const [atual, setAtual] = useState(0);
-  const [automatico, setAutomatico] = useState(true);
+  const [tocando, setTocando] = useState(true);
+  /* De 0 a 1, quanto falta para o próximo cartão. Alimenta a barrinha, que é
+     o que torna a pausa VISÍVEL — sem ela, parado e andando são iguais. */
+  const [progresso, setProgresso] = useState(0);
 
   /*
    * A largura de UM cartão, medida no elemento.
@@ -64,11 +69,42 @@ export default function Carrossel({ cartoes }: { cartoes: Cartao[] }) {
     setAtual(Math.round(el.scrollLeft / largura));
   }, [larguraDoCartao]);
 
-  /* Assim que a pessoa toca, arrasta ou usa o teclado, o passeio acaba. */
+  /**
+   * Anda `quanto` cartões, dando a volta nas duas pontas: do último vai para
+   * o primeiro, e do primeiro volta para o último. Botão que não faz nada na
+   * ponta parece quebrado.
+   */
+  const andar = useCallback(
+    (quanto: number) => {
+      const el = tira.current;
+      const largura = larguraDoCartao();
+      if (!el || !largura) return;
+      const agora = Math.round(el.scrollLeft / largura);
+      const destino = (agora + quanto + cartoes.length) % cartoes.length;
+      el.scrollTo({ left: destino * largura, behavior: "smooth" });
+    },
+    [cartoes.length, larguraDoCartao],
+  );
+
+  /*
+   * Quem pediu menos movimento no sistema começa com o carrossel PARADO.
+   *
+   * Antes eu simplesmente não deixava andar nunca — e aí o botão de tocar
+   * não fazia nada para essas pessoas, o que é pior do que não ter botão.
+   * A preferência do sistema decide como ele começa; o botão continua
+   * valendo, porque apertar tocar é um pedido explícito.
+   */
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setTocando(false);
+    }
+  }, []);
+
+  /* Encostar pausa. O botão de tocar traz de volta. */
   useEffect(() => {
     const el = tira.current;
     if (!el) return;
-    const parar = () => setAutomatico(false);
+    const parar = () => setTocando(false);
     el.addEventListener("pointerdown", parar);
     el.addEventListener("wheel", parar, { passive: true });
     el.addEventListener("keydown", parar);
@@ -79,30 +115,49 @@ export default function Carrossel({ cartoes }: { cartoes: Cartao[] }) {
     };
   }, []);
 
+  /*
+   * O relógio do passeio.
+   *
+   * Corre de 50 em 50 ms em vez de um salto de 5 s, porque a barrinha precisa
+   * andar junto. É barato: só soma um número e pinta uma barra por quadro,
+   * sem tocar em layout.
+   */
   useEffect(() => {
-    if (!automatico || cartoes.length < 2) return;
-    // Quem pediu menos movimento no sistema não recebe carrossel andando
-    // sozinho — ele continua funcionando com o dedo.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!tocando || cartoes.length < 2) return;
+
+    const TIQUE = 50;
+    let passado = 0;
 
     const relogio = window.setInterval(() => {
-      const el = tira.current;
-      if (!el) return;
-      // Se a aba está em segundo plano, não adianta andar: quando a pessoa
-      // voltar terá perdido metade dos cartões sem ver nenhum.
+      // Aba em segundo plano: o tempo não corre. Sem isto, quem volta depois
+      // de um minuto perdeu doze cartões sem ver nenhum.
       if (document.hidden) return;
-      const largura = larguraDoCartao();
-      if (!largura) return;
-      const proximo = (Math.round(el.scrollLeft / largura) + 1) % cartoes.length;
-      el.scrollTo({ left: proximo * largura, behavior: "smooth" });
-    }, PASSO_MS);
+      passado += TIQUE;
+      if (passado < PASSO_MS) {
+        setProgresso(passado / PASSO_MS);
+        return;
+      }
+      passado = 0;
+      setProgresso(0);
+      andar(1);
+    }, TIQUE);
+
     return () => window.clearInterval(relogio);
-  }, [automatico, cartoes.length, larguraDoCartao]);
+  }, [tocando, cartoes.length, andar]);
+
+  /* Os botões de anterior e próximo pausam: quem está navegando à mão não
+     quer o carrossel puxando o tapete no meio da leitura. */
+  function passar(quanto: number) {
+    setTocando(false);
+    setProgresso(0);
+    andar(quanto);
+  }
 
   function irPara(i: number) {
     const el = tira.current;
     if (!el) return;
-    setAutomatico(false);
+    setTocando(false);
+    setProgresso(0);
     el.scrollTo({ left: i * larguraDoCartao(), behavior: "smooth" });
   }
 
@@ -122,16 +177,59 @@ export default function Carrossel({ cartoes }: { cartoes: Cartao[] }) {
         ))}
       </ul>
 
-      <div className="carrossel-bolinhas">
-        {cartoes.map((c, i) => (
-          <button
-            key={`${c.tipo}-${c.id}`}
-            className={`carrossel-bolinha${i === atual ? " bolinha-ativa" : ""}`}
-            onClick={() => irPara(i)}
-            aria-label={`Ir para o destaque ${i + 1} de ${cartoes.length}`}
-            aria-current={i === atual ? "true" : undefined}
-          />
-        ))}
+      {/* A barrinha do tempo. É ela que faz a pausa ser VISÍVEL: parada
+          significa parado. Sem ela, quem aperta pausa não tem como saber se
+          funcionou até esperar cinco segundos. */}
+      <div className="carrossel-tempo" aria-hidden="true">
+        <span
+          className="carrossel-tempo-cheio"
+          style={{ transform: `scaleX(${tocando ? progresso : 0})` }}
+        />
+      </div>
+
+      <div className="carrossel-controles">
+        <button
+          className="carrossel-botao"
+          onClick={() => passar(-1)}
+          aria-label="Destaque anterior"
+        >
+          <span aria-hidden="true">‹</span>
+        </button>
+
+        <button
+          className="carrossel-botao carrossel-tocar"
+          onClick={() => setTocando((t) => !t)}
+          aria-label={tocando ? "Pausar" : "Voltar a passar sozinho"}
+        >
+          <span aria-hidden="true">{tocando ? "❚❚" : "▶"}</span>
+        </button>
+
+        <button
+          className="carrossel-botao"
+          onClick={() => passar(1)}
+          aria-label="Próximo destaque"
+        >
+          <span aria-hidden="true">›</span>
+        </button>
+
+        {/* As bolinhas ficam ao lado dos botões, não numa linha só delas:
+            com 15 cartões elas viravam uma faixa comprida que empurrava a
+            palavra de hoje para longe. */}
+        <div className="carrossel-bolinhas">
+          {cartoes.map((c, i) => (
+            <button
+              key={`${c.tipo}-${c.id}`}
+              className={`carrossel-bolinha${i === atual ? " bolinha-ativa" : ""}`}
+              onClick={() => irPara(i)}
+              aria-label={`Ir para o destaque ${i + 1} de ${cartoes.length}`}
+              aria-current={i === atual ? "true" : undefined}
+            />
+          ))}
+        </div>
+
+        <span className="carrossel-conta">
+          {atual + 1}/{cartoes.length}
+        </span>
       </div>
     </section>
   );

@@ -24,6 +24,17 @@ de interface também em português.
    > lado a lado; medindo a tira, ele pularia de dois em dois e a bolinha
    > acenderia errada.
    >
+   > **Tem botão de pausar, anterior e próximo**, mais uma barrinha que enche
+   > em 5 segundos. A barra existe para a pausa ser VISÍVEL: sem ela, quem
+   > aperta pausa só descobre se funcionou depois de esperar cinco segundos.
+   > As pontas dão a volta — botão que não faz nada na ponta parece quebrado.
+   >
+   > **Movimento reduzido decide como o carrossel COMEÇA, não o proíbe.** A
+   > primeira versão simplesmente não deixava andar nunca com essa preferência
+   > ligada — e aí o botão de tocar não fazia nada para essas pessoas, o que é
+   > pior do que não ter botão. Hoje ele começa parado e o botão vale, porque
+   > apertar tocar é um pedido explícito.
+   >
    > **A tabela `eventos` nasce vazia e só recebe show de verdade.** Nenhum
    > feed RSS traz agenda, e show inventado aparece na tela com data, hora e
    > endereço — alguém pode sair de casa por causa dele. Eu já tinha deixado

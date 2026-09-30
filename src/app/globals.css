@@ -1854,7 +1854,10 @@ textarea:focus { background: #fff; }
   display: block;
   position: relative;
   height: 100%;
-  min-height: 12.5rem;
+  /* Baixo de proposito. O carrossel e a primeira coisa da tela, mas o
+     coracao do app e a palavra de hoje logo abaixo — cartao alto demais
+     empurraria ela para fora da primeira tela do celular. */
+  min-height: 11rem;
   text-decoration: none;
   color: var(--tinta);
   background: var(--papel);
@@ -1866,7 +1869,10 @@ textarea:focus { background: #fff; }
 .carrossel-imagem {
   display: block;
   width: 100%;
-  height: 9.5rem;
+  /* Proporcao fixa em vez de altura fixa: a foto acompanha a largura da tela
+     e nao fica uma tarja espremida no celular estreito. */
+  aspect-ratio: 16 / 9;
+  max-height: 9rem;
   object-fit: cover;
 }
 
@@ -1941,12 +1947,73 @@ textarea:focus { background: #fff; }
 
 /* As bolinhas dizem quantos cartoes existem e em qual a pessoa esta — sem
    elas, carrossel parece uma tela so que as vezes muda sozinha. */
+/* ---- barra do tempo, botoes e bolinhas ---- */
+
+.carrossel-tempo {
+  height: 3px;
+  margin-top: 0.4rem;
+  border-radius: 3px;
+  background: var(--ouro-claro);
+  overflow: hidden;
+}
+.carrossel-tempo-cheio {
+  display: block;
+  height: 100%;
+  background: var(--ouro);
+  transform-origin: left center;
+  /* So `transform`: encher a barra mudando a largura obrigaria o navegador a
+     refazer o layout vinte vezes por segundo. */
+  transition: transform 0.05s linear;
+}
+
+.carrossel-controles {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.carrossel-botao {
+  flex: none;
+  /* 40px de lado: o minimo que um dedo acerta sem errar. */
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--ouro-claro);
+  border-radius: 50%;
+  background: var(--papel);
+  color: var(--ouro-fundo);
+  font-size: 1.05rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.16s ease, transform 0.12s ease;
+}
+.carrossel-botao:hover { background: var(--ouro-vivo); color: var(--tinta); }
+.carrossel-botao:active { transform: scale(0.94); }
+.carrossel-tocar {
+  background: var(--ouro-vivo);
+  color: var(--tinta);
+  font-size: 0.8rem;
+}
+
+.carrossel-conta {
+  flex: none;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--tinta-suave);
+  font-variant-numeric: tabular-nums;
+}
+
 .carrossel-bolinhas {
+  flex: 1 1 auto;
+  min-width: 0;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 0.3rem;
-  margin-top: 0.6rem;
+  gap: 0.28rem;
 }
 .carrossel-bolinha {
   width: 7px;
