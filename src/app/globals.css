@@ -1854,10 +1854,11 @@ textarea:focus { background: #fff; }
   display: block;
   position: relative;
   height: 100%;
-  /* Baixo de proposito. O carrossel e a primeira coisa da tela, mas o
-     coracao do app e a palavra de hoje logo abaixo — cartao alto demais
-     empurraria ela para fora da primeira tela do celular. */
-  min-height: 11rem;
+  /* Ha um limite: o carrossel e a primeira coisa da tela, mas o coracao do
+     app e a palavra de hoje logo abaixo. Cartao alto demais empurra ela para
+     fora da primeira tela do celular, e aquela frase e o motivo de o app
+     existir. */
+  min-height: 13.5rem;
   text-decoration: none;
   color: var(--tinta);
   background: var(--papel);
@@ -1870,9 +1871,11 @@ textarea:focus { background: #fff; }
   display: block;
   width: 100%;
   /* Proporcao fixa em vez de altura fixa: a foto acompanha a largura da tela
-     e nao fica uma tarja espremida no celular estreito. */
+     e nao fica uma tarja espremida no celular estreito.
+     O teto de 11,5rem e onde um celular de 360px fecha os 16/9 exatos — ou
+     seja, ate esse tamanho a foto aparece inteira, sem corte. */
   aspect-ratio: 16 / 9;
-  max-height: 9rem;
+  max-height: 11.5rem;
   object-fit: cover;
 }
 
