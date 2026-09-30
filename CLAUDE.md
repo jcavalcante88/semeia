@@ -335,6 +335,7 @@ src/lib/{db,tipos,pontos,sessao,rss,pix,biblia,soletrar}.ts
 src/app/globals.css
 src/app/globals.papel.css.bak                tema "papel" antigo, para voltar
 src/app/globals.ceu-azul.css.bak             tema "céu azul", idem
+src/app/globals.branco-ouro.css.bak          tema "branco e ouro", idem
 src/app/layout.tsx
 src/app/{Logo,Navegacao,Voltar}.tsx          logo, menus e botão de voltar
 src/app/{icon,apple-icon,opengraph-image}.png  favicon e cartão do WhatsApp
@@ -372,34 +373,41 @@ src/app/api/cron/noticias/route.ts           runtime nodejs
 
 ## Visual
 
-**Branco e ouro, a cidade sobre as nuvens.** Fundo fixo: azul no alto, clarão
-dourado no meio (um `radial-gradient` que faz de sol) e branco quente embaixo,
-com quatro nuvens de CSS puro atravessando devagar. O conteúdo vive num cartão de
-vidro (`backdrop-filter`) de no máximo 34rem.
+**Azul, púrpura e escarlata: as cores do tabernáculo.** São as três citadas
+juntas dezenas de vezes em Êxodo — as cortinas, o véu, as vestes do sacerdote.
+Eram os três tingimentos mais caros do mundo antigo, e é por isso que estão lá.
+O fundo é **linho**, não branco puro: o tabernáculo era tecido de linho fino
+*com* fios dessas cores. Cor forte em tudo cansa; ela vale como fio.
 
-> O tema mudou duas vezes. Era "papel claro, sem gradiente" até setembro de 2026;
-> virou céu azul; hoje é branco e ouro. Os dois anteriores estão guardados em
-> `src/app/globals.papel.css.bak` e `src/app/globals.ceu-azul.css.bak` — um `cp`
-> restaura qualquer um.
+> O tema mudou três vezes. Era "papel claro" até setembro de 2026; virou céu
+> azul; virou branco e ouro; hoje é o tabernáculo. Os três anteriores estão em
+> `src/app/globals.papel.css.bak`, `globals.ceu-azul.css.bak` e
+> `globals.branco-ouro.css.bak` — um `cp` restaura qualquer um.
 
 ```
---papel       #FFFDF8   cartão de vidro
---tinta       #3B2F17   texto principal (11:1 sobre o branco)
---tinta-suave #7A6535   texto secundário (4,6:1)
---ouro        #C28F1E   ouro principal
---ouro-vivo   #EFC14E   brilho, botões, item de menu ativo
---ouro-fundo  #8A5F12   ouro escuro para texto
---ouro-selo   #B8860F   selo da logo e fundo do ícone do app
---ouro-claro  #F2E0B4   bordas
---acerto      #3A7448   acertou (verde, fora da família do ouro)
---barro       #9C4A3C   errou
---ceu-alto #8CC0E4 --ceu-meio #CFE6F4 --ceu-baixo #F9E2A6 --horizonte #FFFAEE
+--papel       #FDFBF6   linho
+--tinta       #1B2340   texto principal (14,9:1 sobre o linho)
+--tinta-suave #4D5570   texto secundário (7,3:1)
+--azul        #1D3C8F   tekhelet, o azul das franjas e do véu
+--azul-vivo   #2E5BBF   brilho, botões, item de menu ativo
+--azul-fundo  #142A63   azul escuro para texto
+--azul-claro  #C9D6F0   bordas
+--purpura     #6B2151   argaman, a realeza — selo da pomba, fonte da notícia
+--purpura-vivo #8B2F6B
+--acerto      #1E6B3A   acertou (verde, fora da família das três)
+--escarlata   #A4162B   tola'at shani — erros e selos cheios
 ```
 
-**Ouro não carrega texto pequeno.** `#C28F1E` sobre branco dá 3:1, abaixo do
-mínimo legível. Por isso o texto é `--tinta`, um marrom-dourado profundo, e o
-ouro fica nos botões, bordas e destaques — peças grandes. Botão dourado leva
-texto escuro, nunca branco: com branco daria 2,2:1.
+**Azul e púrpura carregam texto BRANCO** (10:1 e 10,7:1). Isso é o contrário do
+tema de ouro, onde branco sobre ouro dava 2,2:1 e **todo** botão precisava de
+texto escuro. Toda a paleta foi medida antes de entrar: a mais apertada é o
+verde do acerto, com 6,3:1.
+
+**A escarlata mora nos selos cheios e nos erros, nunca em texto corrido.** Selo
+escarlata lê-se como destaque editorial; um parágrafo escarlata pareceria erro.
+Ela também é a cor do erro por um motivo que está no próprio texto: "ainda que
+os vossos pecados sejam como a escarlata, eles se tornarão brancos como a neve"
+(Isaías 1:18).
 
 **Layout.** Acima de 992px são três colunas: menu à esquerda (com a pomba num selo
 pinho), conteúdo no centro, atalhos à direita. Abaixo disso, coluna única com a

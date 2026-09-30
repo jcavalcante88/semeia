@@ -281,7 +281,7 @@ export default function Quiz() {
       {erroResposta && (
         <p
           className="referencia"
-          style={{ color: "var(--barro)", marginTop: "0.75rem" }}
+          style={{ color: "var(--escarlata)", marginTop: "0.75rem" }}
         >
           {erroResposta}
         </p>
@@ -380,7 +380,7 @@ function Cadastro({ aoEntrar }: { aoEntrar: (u: Perfil) => void }) {
         </span>
       </label>
 
-      {erro && <p style={{ color: "var(--barro)" }}>{erro}</p>}
+      {erro && <p style={{ color: "var(--escarlata)" }}>{erro}</p>}
 
       <button
         className="botao"

@@ -154,8 +154,6 @@ export function MenuFlutuante() {
     return () => window.removeEventListener("keydown", tecla);
   }, [aberto]);
 
-  const atual = DESTINOS.find((d) => estaAtivo(caminho, d.href));
-
   return (
     <>
       {/* A cortina escurece o fundo e fecha ao toque. Fica antes do painel no
@@ -202,11 +200,7 @@ export function MenuFlutuante() {
           <span className="menu-gatilho-icone" aria-hidden="true">
             {aberto ? "✕" : "☰"}
           </span>
-          {/* Fechado, o botao diz onde a pessoa esta. Botao de menu sem
-              nenhuma pista vira adivinhacao. */}
-          <span className="menu-gatilho-texto">
-            {aberto ? "Fechar" : (atual?.rotulo ?? "Menu")}
-          </span>
+          <span className="menu-gatilho-texto">{aberto ? "Fechar" : "Opções"}</span>
         </button>
       </nav>
     </>

@@ -124,7 +124,7 @@ export default function Soletrar() {
           tentar quantas vezes quiser.
         </p>
 
-        {erro && <p style={{ color: "var(--barro)" }}>{erro}</p>}
+        {erro && <p style={{ color: "var(--escarlata)" }}>{erro}</p>}
 
         {proximo && (
           <button className="botao" onClick={() => abrir(proximo)}>
@@ -242,7 +242,7 @@ export default function Soletrar() {
         </>
       )}
 
-      {erro && <p style={{ color: "var(--barro)", marginTop: "0.75rem" }}>{erro}</p>}
+      {erro && <p style={{ color: "var(--escarlata)", marginTop: "0.75rem" }}>{erro}</p>}
 
       <footer className="rodape">
         Sem pressa e sem cronômetro. <Link href="/quiz">O quiz</Link> é que

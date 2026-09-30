@@ -169,7 +169,7 @@ export default function Oracao() {
             </span>
           </div>
 
-          {erro && <p style={{ color: "var(--barro)" }}>{erro}</p>}
+          {erro && <p style={{ color: "var(--escarlata)" }}>{erro}</p>}
           {recado && <p style={{ color: "var(--tinta-suave)" }}>{recado}</p>}
 
           <button

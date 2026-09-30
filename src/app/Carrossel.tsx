@@ -282,6 +282,12 @@ function Noticia({ cartao }: { cartao: Extract<Cartao, { tipo: "noticia" }> }) {
         <span className="carrossel-selo">{cartao.fonte}</span>
         <span className="carrossel-titulo">{cartao.titulo}</span>
         {cartao.resumo && <span className="carrossel-resumo">{cartao.resumo}</span>}
+        {/* O cartao inteiro ja e clicavel, mas ninguem descobre isso so
+            olhando. O botao diz em palavras para onde o toque leva — e diz
+            tambem que a materia completa esta FORA do Semeia. */}
+        <span className="carrossel-botao-ler">
+          Ver notícia completa <span aria-hidden="true">→</span>
+        </span>
       </span>
     </a>
   );

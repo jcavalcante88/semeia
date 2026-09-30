@@ -1,51 +1,37 @@
 @import url("https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,500;0,600;1,6..72,400&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Karla:wght@400;500;600;700&display=swap");
 
 :root {
-  /* --- azul, purpura e escarlata: as cores do tabernaculo ---
-
-     Sao as tres cores citadas juntas dezenas de vezes em Exodo — as
-     cortinas, o veu, as vestes do sacerdote. Eram os tres tingimentos mais
-     caros do mundo antigo, e e por isso que estao la.
-
-     O fundo e linho, nao branco puro: o tabernaculo era tecido de linho fino
-     COM fios dessas tres cores. Cor forte em tudo cansa; ela vale como fio.
-
-     Vantagem pratica sobre o ouro que estava aqui antes: azul e purpura sao
-     escuros o bastante para carregar texto BRANCO (10:1 e 10,7:1). O ouro
-     dava 2,2:1 com branco e obrigava todo botao a ter texto escuro. */
-  --papel: #fdfbf6;        /* linho */
-  --tinta: #1b2340;        /* texto principal — 14,9:1 sobre o linho */
-  --tinta-suave: #4d5570;  /* texto secundario — 7,3:1 */
-
-  --azul: #1d3c8f;         /* tekhelet, o azul das franjas e do veu */
-  --azul-vivo: #2e5bbf;    /* brilho e destaque */
-  --azul-fundo: #142a63;   /* azul escuro, para texto sobre claro */
-  --azul-claro: #c9d6f0;   /* bordas */
-
-  --purpura: #6b2151;      /* argaman, a cor da realeza */
-  --purpura-vivo: #8b2f6b;
-
-  /* Acerto e erro precisam de cor PRÓPRIA, fora da familia das tres. Com o
-     acerto na mesma faixa do fundo, ele se confundia e só o erro tinha
+  /* --- branco e ouro: a cidade de ouro sobre as nuvens ---
+     `--tinta` e um marrom-dourado profundo, e nao ouro puro, porque ouro
+     sobre branco nao alcanca contraste de leitura: #c28f1e sobre branco da
+     3:1, abaixo do minimo. O ouro fica nos botoes, bordas e destaques, onde
+     a peca e grande e a cor nao precisa carregar texto pequeno. */
+  --papel: #fffdf8;
+  --tinta: #3b2f17;        /* texto principal — 11:1 sobre o branco */
+  --tinta-suave: #7a6535;  /* texto secundario — 4,6:1 */
+  --ouro: #c28f1e;         /* ouro principal */
+  --ouro-vivo: #efc14e;    /* brilho e destaque */
+  --ouro-fundo: #8a5f12;   /* ouro escuro, para texto sobre claro */
+  /* Acerto e erro precisam de cor PRÓPRIA, fora da família do ouro. Com o
+     acerto em creme, ele se confundia com o fundo dourado e só o erro tinha
      sinal — o quiz ficava dizendo o que deu errado e calando o que deu certo. */
-  --acerto: #1e6b3a;       /* verde do acertou — 6,3:1 */
-  --acerto-fundo: rgba(226, 242, 231, 0.95);
-  /* Escarlata e a cor do erro por um motivo que esta no proprio texto:
-     "ainda que os vossos pecados sejam como a escarlata, eles se tornarao
-     brancos como a neve" (Isaias 1:18). */
-  --escarlata: #a4162b;    /* tola'at shani — 7,4:1 */
+  --acerto: #3a7448;       /* verde do acertou */
+  --acerto-fundo: rgba(228, 243, 229, 0.95);
+  --barro: #9c4a3c;        /* errou */
+  --ouro-claro: #f2e0b4;   /* bordas */
+  --ouro-selo: #b8860f;    /* fundo do selo da logo e do icone do app */
 
-  /* --- ceu: azul profundo no alto, linho embaixo --- */
-  --ceu-alto: #2e5bbf;
-  --ceu-meio: #8fa8dd;
-  --ceu-baixo: #dfd8ea;
-  --horizonte: #fdfbf6;
+  /* --- ceu: azul alto, sol dourado no meio, nuvem branca embaixo --- */
+  --ceu-alto: #8cc0e4;
+  --ceu-meio: #cfe6f4;
+  --ceu-baixo: #f9e2a6;
+  --horizonte: #fffaee;
 
   /* --- vidro --- */
-  --vidro: rgba(253, 251, 246, 0.8);
-  --vidro-forte: rgba(253, 251, 246, 0.93);
-  --vidro-borda: rgba(201, 214, 240, 0.9);
-  --vidro-sombra: 0 10px 30px -12px rgba(20, 42, 99, 0.35);
+  --vidro: rgba(255, 253, 246, 0.76);
+  --vidro-forte: rgba(255, 253, 246, 0.9);
+  --vidro-borda: rgba(255, 244, 214, 0.9);
+  --vidro-sombra: 0 10px 30px -12px rgba(138, 95, 18, 0.3);
 
   --serif: "Newsreader", Georgia, serif;
   --titulo: "Fraunces", "Newsreader", Georgia, serif;
@@ -191,7 +177,7 @@ body {
   align-items: center;
   justify-content: center;
   flex: none;
-  background: var(--purpura);
+  background: var(--ouro-selo);
   border-radius: 28%;
   box-shadow: 0 4px 12px -6px rgba(160, 112, 20, 0.8);
   /* Sem padding em %: porcentagem de padding resolve contra a largura do
@@ -230,8 +216,8 @@ body {
 }
 .menu-item:hover { background: rgba(255, 255, 255, 0.6); transform: translateX(2px); }
 .menu-item[aria-current="page"] {
-  background: var(--azul-vivo);
-  color: #fff;
+  background: var(--ouro-vivo);
+  color: var(--tinta);
 }
 .menu-icone { font-size: 1rem; width: 1.1rem; text-align: center; opacity: 0.85; }
 
@@ -327,36 +313,15 @@ body {
   padding: 0.8rem 1.4rem;
   border: 0;
   border-radius: 999px;
-  background: linear-gradient(180deg, var(--azul-vivo) 0%, var(--azul) 100%);
-  color: #fff;
+  background: linear-gradient(180deg, var(--ouro-vivo) 0%, #d8a52c 100%);
+  color: var(--tinta);
   font: 700 0.95rem var(--sans);
   cursor: pointer;
   box-shadow: 0 8px 22px -8px rgba(160, 112, 20, 0.85);
   transition: transform 0.16s ease;
 }
-.menu-gatilho:active { transform: scale(0.94); }
-
-/*
-  Um pulso lento, so enquanto o menu esta FECHADO.
-  E a unica coisa que se move sozinha na tela, e existe por um motivo: os
-  nove destinos agora estao escondidos atras deste botao, e quem nao sabe
-  disso precisa de um aceno. Para assim que o menu abre — ai ja cumpriu o
-  papel e ficaria so incomodando.
-*/
-.menu-movel:not(.menu-aberto) .menu-gatilho { animation: pulsar 2.8s ease-in-out infinite; }
-@keyframes pulsar {
-  0%, 100% { box-shadow: 0 8px 22px -8px rgba(20, 42, 99, 0.85), 0 0 0 0 rgba(46, 91, 191, 0.5); }
-  50%      { box-shadow: 0 8px 22px -8px rgba(20, 42, 99, 0.85), 0 0 0 10px rgba(46, 91, 191, 0); }
-}
-
-.menu-gatilho-icone {
-  font-size: 1.05rem;
-  line-height: 1;
-  /* Gira meia volta ao virar X: o botao se TRANSFORMA em fechar, em vez de
-     trocar de desenho num piscar. */
-  transition: transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-.menu-aberto .menu-gatilho-icone { transform: rotate(180deg); }
+.menu-gatilho:active { transform: scale(0.96); }
+.menu-gatilho-icone { font-size: 1.05rem; line-height: 1; }
 .menu-gatilho-texto { max-width: 9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 /* O painel dos destinos, em duas colunas. */
@@ -413,7 +378,7 @@ body {
   font: 600 0.9rem var(--sans);
 }
 .menu-destino:active { background: rgba(255, 255, 255, 0.7); }
-.menu-destino[aria-current="page"] { background: var(--azul-vivo); color: #fff; }
+.menu-destino[aria-current="page"] { background: var(--ouro-vivo); }
 .menu-destino-icone { font-size: 1rem; width: 1.2rem; text-align: center; opacity: 0.85; }
 
 /* A cortina fecha o menu ao toque e escurece o que esta atras. */
@@ -512,17 +477,16 @@ body {
    --------------------------------------------------------------- */
 .palavra {
   padding-bottom: 0.25rem;
-  border-bottom: 1px solid var(--azul-claro);
+  border-bottom: 1px solid var(--ouro-claro);
   margin-bottom: 1.5rem;
 }
-/* Escarlata: destaca o rotulo mais importante da home sem aumentar corpo. */
 .palavra-rotulo {
   margin: 0 0 0.6rem;
   font-size: 0.74rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--escarlata);
+  color: var(--ouro-fundo);
 }
 .palavra-continuar {
   display: inline-flex;
@@ -531,14 +495,14 @@ body {
   margin: 1rem 0 1.25rem;
   padding: 0.55rem 1.05rem;
   border-radius: 999px;
-  border: 1px solid var(--azul);
+  border: 1px solid var(--ouro);
   background: rgba(255, 255, 255, 0.6);
-  color: var(--azul-fundo);
+  color: var(--ouro-fundo);
   font: 700 0.88rem var(--sans);
   text-decoration: none;
   transition: background 0.16s ease, color 0.16s ease;
 }
-.palavra-continuar:hover { background: var(--azul-vivo); color: #fff; }
+.palavra-continuar:hover { background: var(--ouro-vivo); color: var(--tinta); }
 .palavra-continuar span { transition: transform 0.16s ease; }
 .palavra-continuar:hover span { transform: translateX(3px); }
 
@@ -557,13 +521,12 @@ body {
   );
   box-shadow: 0 14px 30px -18px rgba(160, 112, 20, 0.8);
 }
-/* Selo da chamada do quiz: escarlata, a terceira cor do tabernaculo. */
 .chamada-selo {
   display: inline-block;
   margin: 0 0 0.7rem;
   padding: 0.3rem 0.8rem;
   border-radius: 999px;
-  background: var(--escarlata);
+  background: var(--ouro-fundo);
   color: var(--papel);
   font-size: 0.72rem;
   font-weight: 700;
@@ -637,10 +600,10 @@ p { line-height: 1.68; max-width: 62ch; }
   padding: 0.95rem 1.15rem;
   border: 0;
   border-radius: 14px;
-  /* Azul com texto BRANCO: da 10:1. Era o contrario no tema de ouro, onde
-     branco sobre ouro dava 2,2:1 e todo botao precisava de texto escuro. */
-  background: linear-gradient(180deg, var(--azul-vivo) 0%, var(--azul) 100%);
-  color: #fff;
+  /* Ouro com texto escuro. Ouro com texto branco daria 2,2:1 e ficaria
+     ilegivel — aqui o marrom sobre o ouro da 6:1. */
+  background: linear-gradient(180deg, var(--ouro-vivo) 0%, #d8a52c 100%);
+  color: var(--tinta);
   font: 700 1.02rem var(--sans);
   letter-spacing: 0.01em;
   text-align: center;
@@ -700,7 +663,7 @@ input[type="text"]:focus { background: #fff; }
   width: 100%;
   aspect-ratio: 1;
   border-radius: 14px;
-  border: 1px solid var(--azul-claro);
+  border: 1px solid var(--ouro-claro);
   background: rgba(255, 255, 255, 0.6);
   color: var(--tinta);
   font: 700 1rem var(--sans);
@@ -709,8 +672,8 @@ input[type="text"]:focus { background: #fff; }
 }
 .nivel:hover { background: rgba(255, 255, 255, 0.95); transform: translateY(-2px); }
 .nivel-feito {
-  background: linear-gradient(180deg, var(--azul-vivo) 0%, var(--azul) 100%);
-  border-color: var(--azul);
+  background: linear-gradient(180deg, var(--ouro-vivo) 0%, #d8a52c 100%);
+  border-color: var(--ouro);
   color: var(--tinta);
   font-size: 1.15rem;
 }
@@ -739,21 +702,21 @@ input[type="text"]:focus { background: #fff; }
   width: 2.5rem;
   height: 3rem;
   border-radius: 10px;
-  border: 2px solid var(--azul-claro);
+  border: 2px solid var(--ouro-claro);
   border-bottom-width: 3px;
   background: rgba(255, 255, 255, 0.5);
   font: 700 1.4rem var(--titulo);
   color: var(--tinta);
 }
-.soletrar-vaga-cheia { border-color: var(--azul); background: rgba(255, 255, 255, 0.9); }
+.soletrar-vaga-cheia { border-color: var(--ouro); background: rgba(255, 255, 255, 0.9); }
 .soletrar-vaga-certa {
   border-color: var(--acerto);
   background: var(--acerto-fundo);
   color: var(--acerto);
 }
 /* Errar muda a cor da borda e nada mais: sem tremor, sem som, sem drama. */
-.soletrar-errou .soletrar-vaga-cheia { border-color: var(--escarlata); }
-.soletrar-recado { color: var(--escarlata); margin: -0.5rem 0 1rem; font-size: 0.95rem; }
+.soletrar-errou .soletrar-vaga-cheia { border-color: var(--barro); }
+.soletrar-recado { color: var(--barro); margin: -0.5rem 0 1rem; font-size: 0.95rem; }
 
 /* O teclado de letras */
 .soletrar-letras {
@@ -769,14 +732,14 @@ input[type="text"]:focus { background: #fff; }
   width: 3rem;
   height: 3rem;
   border-radius: 12px;
-  border: 1px solid var(--azul);
+  border: 1px solid var(--ouro);
   background: rgba(255, 255, 255, 0.75);
   color: var(--tinta);
   font: 700 1.25rem var(--titulo);
   cursor: pointer;
   transition: transform 0.12s ease, background 0.12s ease, opacity 0.12s ease;
 }
-.letra:hover:not(:disabled) { background: var(--azul-vivo); transform: translateY(-2px); }
+.letra:hover:not(:disabled) { background: var(--ouro-vivo); transform: translateY(-2px); }
 .letra-usada { opacity: 0.25; cursor: default; }
 
 /* ---------------------------------------------------------------
@@ -799,7 +762,7 @@ input[type="text"]:focus { background: #fff; }
   padding: 0.7rem 0.85rem;
   border-radius: 10px;
   background: rgba(255, 252, 240, 0.9);
-  border: 1px solid var(--azul-claro);
+  border: 1px solid var(--ouro-claro);
   font-family: ui-monospace, "Cascadia Mono", Menlo, Consolas, monospace;
   font-size: 0.78rem;
   line-height: 1.5;
@@ -820,7 +783,7 @@ input[type="text"]:focus { background: #fff; }
   margin: 1.5rem 0 0;
   padding: 0.7rem 1rem;
   border-radius: 14px;
-  border: 1px solid var(--azul-claro);
+  border: 1px solid var(--ouro-claro);
   background: rgba(255, 249, 232, 0.75);
   font-size: 0.92rem;
   line-height: 1.35;
@@ -832,7 +795,7 @@ input[type="text"]:focus { background: #fff; }
   font-size: 1.7rem;
   font-weight: 600;
   line-height: 1;
-  color: var(--azul-fundo);
+  color: var(--ouro-fundo);
 }
 
 /* ---------------------------------------------------------------
@@ -844,7 +807,7 @@ input[type="text"]:focus { background: #fff; }
   margin-bottom: 0.85rem;
   border-radius: 16px;
   border: 1px solid var(--vidro-borda);
-  border-left: 4px solid var(--azul);
+  border-left: 4px solid var(--ouro);
   background: rgba(255, 255, 255, 0.55);
 }
 .revisao-enunciado {
@@ -895,7 +858,7 @@ input[type="text"]:focus { background: #fff; }
 .progresso-barra {
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--azul-vivo), var(--azul));
+  background: linear-gradient(90deg, var(--ouro-vivo), var(--ouro));
   transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -906,7 +869,7 @@ input[type="text"]:focus { background: #fff; }
 /* Nos ultimos 2 segundos a barra avisa mudando de cor. Sem piscar, sem som,
    sem tremor: o app nao assusta ninguem. */
 .progresso-tempo.apertado .progresso-barra {
-  background: linear-gradient(90deg, var(--purpura-vivo), var(--escarlata));
+  background: linear-gradient(90deg, #e08b5a, var(--barro));
 }
 
 /* progresso da rodada inteira: fininho, so para orientar */
@@ -931,18 +894,18 @@ input[type="text"]:focus { background: #fff; }
   margin-top: 0.15rem;
   padding: 0.45rem 0.9rem;
   border-radius: 999px;
-  border: 1px solid var(--azul);
+  border: 1px solid var(--ouro);
   background: rgba(255, 255, 255, 0.6);
-  color: var(--azul-fundo);
+  color: var(--ouro-fundo);
   font: 700 0.82rem var(--sans);
   cursor: pointer;
   transition: background 0.14s ease, color 0.14s ease;
 }
-.ouvir:hover { background: var(--azul-vivo); color: var(--tinta); }
+.ouvir:hover { background: var(--ouro-vivo); color: var(--tinta); }
 .ouvir-falando {
-  background: var(--azul-vivo);
+  background: var(--ouro-vivo);
   color: var(--tinta);
-  border-color: var(--azul-fundo);
+  border-color: var(--ouro-fundo);
 }
 
 /* ---------------------------------------------------------------
@@ -976,7 +939,7 @@ input[type="text"]:focus { background: #fff; }
   animation: acertou 0.45s ease;
 }
 .alternativa.errada {
-  border-left-color: var(--escarlata);
+  border-left-color: var(--barro);
   background: rgba(250, 233, 229, 0.95);
 }
 
@@ -988,7 +951,7 @@ input[type="text"]:focus { background: #fff; }
 }
 
 .explicacao {
-  border-left: 3px solid var(--azul);
+  border-left: 3px solid var(--ouro);
   background: rgba(255, 255, 255, 0.5);
   border-radius: 0 12px 12px 0;
   padding: 0.85rem 1rem;
@@ -1002,8 +965,8 @@ input[type="text"]:focus { background: #fff; }
    barro quando não. Dourada nos dois casos, ela não dizia nada. */
 .explicacao-certa { border-left-color: var(--acerto); }
 .explicacao-certa strong { color: var(--acerto); }
-.explicacao-errada { border-left-color: var(--escarlata); }
-.explicacao-errada strong { color: var(--escarlata); }
+.explicacao-errada { border-left-color: var(--barro); }
+.explicacao-errada strong { color: var(--barro); }
 
 @keyframes surgir {
   from { opacity: 0; transform: translateY(8px); }
@@ -1091,9 +1054,9 @@ input[type="text"]:focus { background: #fff; }
 }
 /* Tons escurecidos de propósito: sobre o degradê do metal, o ouro e o
    bronze originais davam 4,16 e 4,22 de contraste. Estes passam de 4,8. */
-.podio-1 .podio-pontos { font-size: 1.8rem; color: var(--azul-fundo); }
-.podio-2 .podio-pontos { color: var(--purpura); }
-.podio-3 .podio-pontos { color: var(--escarlata); }
+.podio-1 .podio-pontos { font-size: 1.8rem; color: #7d5610; }
+.podio-2 .podio-pontos { color: #4d545e; }
+.podio-3 .podio-pontos { color: #6e421e; }
 
 .podio-detalhe { font-size: 0.7rem; color: var(--tinta-suave); margin-top: 0.1rem; }
 
@@ -1219,7 +1182,7 @@ textarea:focus { background: #fff; }
   margin-bottom: 0.8rem;
   border-radius: 16px;
   border: 1px solid var(--vidro-borda);
-  border-left: 4px solid var(--azul);
+  border-left: 4px solid var(--ouro);
   background: rgba(255, 255, 255, 0.55);
 }
 
@@ -1247,14 +1210,14 @@ textarea:focus { background: #fff; }
   gap: 0.5rem;
   padding: 0.55rem 1rem;
   border-radius: 999px;
-  border: 1px solid var(--azul);
+  border: 1px solid var(--ouro);
   background: transparent;
   color: var(--tinta);
   font: 600 0.88rem var(--sans);
   cursor: pointer;
   transition: background 0.14s ease, color 0.14s ease, transform 0.14s ease;
 }
-.orei:hover:not(:disabled) { background: var(--azul-vivo); color: var(--tinta); transform: translateY(-1px); }
+.orei:hover:not(:disabled) { background: var(--ouro-vivo); color: var(--tinta); transform: translateY(-1px); }
 .orei-feito {
   background: rgba(226, 196, 120, 0.38);
   border-color: transparent;
@@ -1311,7 +1274,7 @@ textarea:focus { background: #fff; }
   margin-top: 0.5rem;
   font-size: 1rem;
   line-height: 1.55;
-  color: var(--tinta-suave);
+  color: #5e4d24;
   -webkit-line-clamp: 3;
   line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -1344,9 +1307,9 @@ textarea:focus { background: #fff; }
   flex: none;
   padding: 0.4rem 0.85rem;
   border-radius: 999px;
-  border: 1px solid var(--azul);
+  border: 1px solid var(--ouro);
   background: rgba(255, 255, 255, 0.6);
-  color: var(--azul-fundo);
+  color: var(--ouro-fundo);
   font-size: 0.8rem;
   font-weight: 700;
   white-space: nowrap;
@@ -1362,7 +1325,7 @@ textarea:focus { background: #fff; }
 /* O botão reage ao cartão inteiro, não só a ele mesmo: quem passa o mouse
    em qualquer canto da notícia vê para onde aquilo leva. */
 .noticias a:hover .noticia-ir {
-  background: var(--azul-vivo);
+  background: var(--ouro-vivo);
   color: var(--tinta);
 }
 .noticias a:hover .noticia-seta { transform: translateX(3px); }
@@ -1443,8 +1406,8 @@ textarea:focus { background: #fff; }
 }
 .abas a:hover { background: rgba(255, 255, 255, 0.8); }
 .abas a[aria-current="page"] {
-  background: var(--azul-vivo);
-  border-color: var(--azul);
+  background: var(--ouro-vivo);
+  border-color: var(--ouro);
   color: var(--tinta);
 }
 
@@ -1488,7 +1451,7 @@ textarea:focus { background: #fff; }
 .quadro {
   width: 100%;
   padding: 0;
-  border: 1px solid var(--azul-claro);
+  border: 1px solid var(--ouro-claro);
   border-radius: 0.9rem;
   background: var(--papel);
   cursor: pointer;
@@ -1507,7 +1470,7 @@ textarea:focus { background: #fff; }
   aspect-ratio: 1;
   object-fit: cover;
   border: 5px solid transparent;
-  border-image: linear-gradient(138deg, #cfdcf5, #142a63 34%, #4b76d4 52%, #0e1f4a 86%, #2e5bbf) 1;
+  border-image: linear-gradient(138deg, #f8e7b6, #8a5f12 34%, #efc14e 52%, #6a4610 86%, #d9a93a) 1;
 }
 .quadro-nome {
   display: block;
@@ -1581,13 +1544,13 @@ textarea:focus { background: #fff; }
   */
   background: linear-gradient(
     138deg,
-    #cfdcf5 0%,
-    #4b76d4 14%,
-    #142a63 34%,
-    #5a84dd 50%,
-    #23408f 66%,
-    #0e1f4a 86%,
-    #4b76d4 100%
+    #f8e7b6 0%,
+    #d9a93a 14%,
+    #8a5f12 34%,
+    #efc14e 50%,
+    #b8860f 66%,
+    #6a4610 86%,
+    #d9a93a 100%
   );
 
   box-shadow:
@@ -1605,7 +1568,7 @@ textarea:focus { background: #fff; }
 .moldura-rebaixo {
   padding: 7px;
   border-radius: 2px;
-  background: linear-gradient(160deg, #0e1f4a, #23408f 46%, #0e1f4a);
+  background: linear-gradient(160deg, #6a4610, #b8860f 46%, #6a4610);
   box-shadow:
     inset 0 2px 3px rgba(43, 33, 12, 0.7),
     inset 0 -1px 0 rgba(255, 253, 248, 0.25);
@@ -1618,7 +1581,7 @@ textarea:focus { background: #fff; }
   aspect-ratio: 1;
   /* As frestas entre as pecas sao ESCURAS, nao douradas: dentro de uma
      moldura de ouro, fresta dourada faz a imagem se dissolver na moldura. */
-  background: #16203f;
+  background: #43351a;
   padding: 3px;
   /* Impede o navegador de rolar a pagina durante o arrasto no tabuleiro. */
   touch-action: none;
@@ -1642,7 +1605,7 @@ textarea:focus { background: #fff; }
 /* O buraco e um vao na tela, nao uma peca clara: fundo escuro e sombra
    interna, para parecer que ali falta alguma coisa. */
 .peca-vazia {
-  background: #0f1730;
+  background: #2f2511;
   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.55);
 }
 
@@ -1707,7 +1670,7 @@ textarea:focus { background: #fff; }
   border-radius: 2px;
   /* A mesma moldura do tabuleiro, em miniatura: os dois sao o mesmo quadro. */
   border: 3px solid transparent;
-  border-image: linear-gradient(138deg, #cfdcf5, #142a63 34%, #4b76d4 52%, #0e1f4a 86%, #2e5bbf) 1;
+  border-image: linear-gradient(138deg, #f8e7b6, #8a5f12 34%, #efc14e 52%, #6a4610 86%, #d9a93a) 1;
   box-shadow: 0 4px 10px -5px rgba(59, 47, 23, 0.6);
 }
 
@@ -1729,7 +1692,7 @@ textarea:focus { background: #fff; }
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--azul-fundo);
+  color: var(--ouro-fundo);
 }
 
 /* Cinco marcas, uma por pergunta. Mostra de relance quanto falta e como foi
@@ -1743,11 +1706,11 @@ textarea:focus { background: #fff; }
   flex: 1;
   height: 5px;
   border-radius: 3px;
-  background: var(--azul-claro);
+  background: var(--ouro-claro);
 }
 .desafio-passo.passo-certo { background: var(--acerto); }
-.desafio-passo.passo-errado { background: var(--escarlata); }
-.desafio-passo.passo-atual { box-shadow: 0 0 0 2px var(--azul-vivo); }
+.desafio-passo.passo-errado { background: var(--barro); }
+.desafio-passo.passo-atual { box-shadow: 0 0 0 2px var(--ouro-vivo); }
 
 .desafio-pergunta {
   font-size: var(--t-h2);
@@ -1769,7 +1732,7 @@ textarea:focus { background: #fff; }
   font-size: clamp(3.5rem, 2.5rem + 5vw, 5.5rem);
   font-weight: 600;
   line-height: 1;
-  color: var(--azul-fundo);
+  color: var(--ouro-fundo);
 }
 .desafio-de {
   font-family: var(--sans);
@@ -1783,7 +1746,7 @@ textarea:focus { background: #fff; }
   font-size: 0.95rem;
   color: var(--tinta);
 }
-.desafio-sequencia strong { color: var(--azul-fundo); }
+.desafio-sequencia strong { color: var(--ouro-fundo); }
 
 .desafio-media {
   text-align: center;
@@ -1797,7 +1760,7 @@ textarea:focus { background: #fff; }
   display: block;
   text-decoration: none;
   color: var(--tinta);
-  border: 1px solid var(--azul-claro);
+  border: 1px solid var(--ouro-claro);
   border-radius: 16px;
   padding: 1rem 1.1rem;
   margin: 1.5rem 0 0;
@@ -1816,7 +1779,7 @@ textarea:focus { background: #fff; }
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--azul-fundo);
+  color: var(--ouro-fundo);
   margin-bottom: 0.2rem;
 }
 .chamada-desafio-titulo {
@@ -1851,9 +1814,9 @@ textarea:focus { background: #fff; }
   gap: 0.45rem;
   padding: 0.55rem 1.05rem;
   border-radius: 999px;
-  border: 1px solid var(--azul);
-  background: var(--azul-vivo);
-  color: #fff;
+  border: 1px solid var(--ouro);
+  background: var(--ouro-vivo);
+  color: var(--tinta);
   font: 700 0.88rem var(--sans);
   cursor: pointer;
   transition: filter 0.16s ease, transform 0.16s ease;
@@ -1880,8 +1843,8 @@ textarea:focus { background: #fff; }
   display: block;
   text-decoration: none;
   color: var(--tinta);
-  border: 1px solid var(--azul-claro);
-  border-left: 3px solid var(--azul);
+  border: 1px solid var(--ouro-claro);
+  border-left: 3px solid var(--ouro);
   border-radius: 0 14px 14px 0;
   padding: 0.95rem 1.1rem;
   background: rgba(255, 255, 255, 0.55);
@@ -1904,7 +1867,7 @@ textarea:focus { background: #fff; }
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--azul-fundo);
+  color: var(--ouro-fundo);
   margin-bottom: 0.4rem;
 }
 
@@ -1938,7 +1901,7 @@ textarea:focus { background: #fff; }
   display: block;
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--azul-fundo);
+  color: var(--ouro-fundo);
 }
 
 /* ---------------------------------------------------------------
@@ -1972,7 +1935,7 @@ textarea:focus { background: #fff; }
   overscroll-behavior-x: contain;
 }
 .carrossel-tira::-webkit-scrollbar { display: none; }
-.carrossel-tira:focus-visible { outline: 2px solid var(--azul); outline-offset: 3px; }
+.carrossel-tira:focus-visible { outline: 2px solid var(--ouro); outline-offset: 3px; }
 
 .carrossel-cartao {
   flex: 0 0 100%;
@@ -1993,7 +1956,7 @@ textarea:focus { background: #fff; }
   text-decoration: none;
   color: var(--tinta);
   background: var(--papel);
-  border: 1px solid var(--azul-claro);
+  border: 1px solid var(--ouro-claro);
   border-radius: 16px;
   overflow: hidden;
 }
@@ -2022,13 +1985,11 @@ textarea:focus { background: #fff; }
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--purpura);
+  color: var(--ouro-fundo);
 }
-/* O selo de show usa a PURPURA, a cor da realeza — e o unico lugar em que
-   ela aparece cheia, e por isso chama atencao sem gritar. */
 .selo-evento {
-  background: var(--purpura);
-  color: #fff;
+  background: var(--ouro-vivo);
+  color: var(--tinta);
   padding: 0.15rem 0.45rem;
   border-radius: 999px;
 }
@@ -2059,27 +2020,6 @@ textarea:focus { background: #fff; }
 }
 
 /* Show nao tem imagem: o cartao inteiro vira o destaque. */
-/* Parece botao, mas e um `span` dentro do link do cartao: botao dentro de
-   link nao e HTML valido, e o cartao inteiro ja leva ao mesmo lugar. */
-.carrossel-botao-ler {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  margin-top: 0.6rem;
-  padding: 0.4rem 0.8rem;
-  border-radius: 999px;
-  background: var(--azul);
-  color: #fff;
-  font-size: 0.76rem;
-  font-weight: 700;
-  transition: background 0.16s ease, gap 0.16s ease;
-}
-.carrossel-link:hover .carrossel-botao-ler,
-.carrossel-link:active .carrossel-botao-ler {
-  background: var(--purpura);
-  gap: 0.5rem;
-}
-
 .carrossel-evento { padding: 1.1rem 1rem 1.2rem; }
 .carrossel-artista {
   display: block;
@@ -2093,7 +2033,7 @@ textarea:focus { background: #fff; }
   font-family: var(--titulo);
   font-size: 1.15rem;
   font-weight: 600;
-  color: var(--azul-fundo);
+  color: var(--ouro-fundo);
 }
 .carrossel-onde {
   display: block;
@@ -2110,13 +2050,13 @@ textarea:focus { background: #fff; }
   height: 3px;
   margin-top: 0.4rem;
   border-radius: 3px;
-  background: var(--azul-claro);
+  background: var(--ouro-claro);
   overflow: hidden;
 }
 .carrossel-tempo-cheio {
   display: block;
   height: 100%;
-  background: var(--azul);
+  background: var(--ouro);
   transform-origin: left center;
   /* So `transform`: encher a barra mudando a largura obrigaria o navegador a
      refazer o layout vinte vezes por segundo. */
@@ -2139,20 +2079,20 @@ textarea:focus { background: #fff; }
   align-items: center;
   justify-content: center;
   padding: 0;
-  border: 1px solid var(--azul-claro);
+  border: 1px solid var(--ouro-claro);
   border-radius: 50%;
   background: var(--papel);
-  color: var(--azul-fundo);
+  color: var(--ouro-fundo);
   font-size: 1.05rem;
   line-height: 1;
   cursor: pointer;
   transition: background 0.16s ease, transform 0.12s ease;
 }
-.carrossel-botao:hover { background: var(--azul-vivo); color: #fff; }
+.carrossel-botao:hover { background: var(--ouro-vivo); color: var(--tinta); }
 .carrossel-botao:active { transform: scale(0.94); }
 .carrossel-tocar {
-  background: var(--azul-vivo);
-  color: #fff;
+  background: var(--ouro-vivo);
+  color: var(--tinta);
   font-size: 0.8rem;
 }
 
@@ -2178,12 +2118,12 @@ textarea:focus { background: #fff; }
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: var(--azul-claro);
+  background: var(--ouro-claro);
   cursor: pointer;
   transition: background 0.2s ease, transform 0.2s ease;
 }
 .carrossel-bolinha.bolinha-ativa {
-  background: var(--azul);
+  background: var(--ouro);
   transform: scale(1.35);
 }
 

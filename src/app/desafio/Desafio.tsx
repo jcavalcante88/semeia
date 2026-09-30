@@ -119,7 +119,7 @@ export default function Desafio() {
       <main>
         <Voltar />
         <h1>Desafio de hoje</h1>
-        <p style={{ color: "var(--barro)" }}>{erro}</p>
+        <p style={{ color: "var(--escarlata)" }}>{erro}</p>
       </main>
     );
   }
@@ -247,7 +247,7 @@ export default function Desafio() {
         );
       })}
 
-      {erro && <p style={{ color: "var(--barro)", marginTop: "0.75rem" }}>{erro}</p>}
+      {erro && <p style={{ color: "var(--escarlata)", marginTop: "0.75rem" }}>{erro}</p>}
 
       {resultado && (
         <>
