@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from "next";
 import {
   LateralEsquerda,
   LateralDireita,
-  BarraInferior,
+  MenuFlutuante,
   CabecalhoMovel,
 } from "./Navegacao";
 
@@ -62,7 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <LateralDireita />
         </div>
 
-        <BarraInferior />
+        <MenuFlutuante />
       </body>
     </html>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Logo from "./Logo";
 
@@ -123,24 +124,91 @@ export function CabecalhoMovel() {
   );
 }
 
-/** Barra fixa do celular: o mesmo menu, no polegar. */
-export function BarraInferior() {
+/**
+ * O menu do celular, num botao so.
+ *
+ * Eram nove destinos lado a lado numa barra fixa. Com nove colunas, cada uma
+ * ficava com 35px num celular de 320px e o rotulo tinha que encolher para
+ * 0,46rem — letra que muita gente nao le. Agora e um botao; tocando nele, os
+ * nove aparecem num painel, cada um com espaco para o dedo.
+ *
+ * O painel fecha sozinho ao trocar de pagina, com Escape, e tocando fora.
+ * Menu que so fecha pelo proprio botao prende quem abriu sem querer.
+ */
+export function MenuFlutuante() {
   const caminho = usePathname();
+  const [aberto, setAberto] = useState(false);
+
+  /* Trocou de pagina: fecha. Sem isto o painel fica por cima do destino. */
+  useEffect(() => {
+    setAberto(false);
+  }, [caminho]);
+
+  /* Escape fecha — e a tecla que todo mundo tenta. */
+  useEffect(() => {
+    if (!aberto) return;
+    function tecla(e: KeyboardEvent) {
+      if (e.key === "Escape") setAberto(false);
+    }
+    window.addEventListener("keydown", tecla);
+    return () => window.removeEventListener("keydown", tecla);
+  }, [aberto]);
+
+  const atual = DESTINOS.find((d) => estaAtivo(caminho, d.href));
+
   return (
-    <nav className="barra-inferior" aria-label="Navegação">
-      {DESTINOS.map((d) => (
-        <Link
-          key={d.href}
-          href={d.href}
-          className="barra-item"
-          aria-current={estaAtivo(caminho, d.href) ? "page" : undefined}
+    <>
+      {/* A cortina escurece o fundo e fecha ao toque. Fica antes do painel no
+          HTML para ficar atras dele sem precisar de z-index inventado. */}
+      {aberto && (
+        <button
+          className="menu-cortina"
+          aria-label="Fechar o menu"
+          onClick={() => setAberto(false)}
+        />
+      )}
+
+      <nav className={`menu-movel${aberto ? " menu-aberto" : ""}`} aria-label="Navegação">
+        {/* `hidden` de verdade quando fechado: assim o leitor de tela e o
+            Tab nao passeiam por nove links invisiveis. */}
+        <ul className="menu-painel" hidden={!aberto}>
+          {DESTINOS.map((d, i) => (
+            <li
+              key={d.href}
+              /* Cada item entra um pouquinho depois do anterior. E o que faz
+                 parecer que o menu ABRIU, em vez de so aparecer. */
+              style={{ transitionDelay: `${i * 28}ms` }}
+            >
+              <Link
+                href={d.href}
+                className="menu-destino"
+                aria-current={estaAtivo(caminho, d.href) ? "page" : undefined}
+              >
+                <span className="menu-destino-icone" aria-hidden="true">
+                  {d.icone}
+                </span>
+                {d.rotulo}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <button
+          className="menu-gatilho"
+          onClick={() => setAberto((a) => !a)}
+          aria-expanded={aberto}
+          aria-label={aberto ? "Fechar o menu" : "Abrir o menu"}
         >
-          <span className="barra-icone" aria-hidden="true">
-            {d.icone}
+          <span className="menu-gatilho-icone" aria-hidden="true">
+            {aberto ? "✕" : "☰"}
           </span>
-          <span className="barra-rotulo">{d.rotulo}</span>
-        </Link>
-      ))}
-    </nav>
+          {/* Fechado, o botao diz onde a pessoa esta. Botao de menu sem
+              nenhuma pista vira adivinhacao. */}
+          <span className="menu-gatilho-texto">
+            {aberto ? "Fechar" : (atual?.rotulo ?? "Menu")}
+          </span>
+        </button>
+      </nav>
+    </>
   );
 }

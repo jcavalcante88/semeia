@@ -287,48 +287,107 @@ body {
 }
 
 /* ---------------------------------------------------------------
-   Barra fixa do celular
+   Menu do celular: um botao que abre os nove destinos
    --------------------------------------------------------------- */
-.barra-inferior {
+
+.menu-movel {
   position: fixed;
-  z-index: 20;
+  z-index: 30;
   left: 0;
   right: 0;
   bottom: 0;
-  display: grid;
-  /* Um destino por coluna. Mudou a lista em Navegacao.tsx? Mude aqui. */
-  grid-template-columns: repeat(9, 1fr);
-  background: var(--vidro-forte);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-  border-top: 1px solid var(--vidro-borda);
-  /* respeita a faixa do gesto de home no iPhone */
-  padding-bottom: env(safe-area-inset-bottom, 0);
-}
-
-.barra-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.15rem;
-  padding: 0.55rem 0.06rem 0.6rem;
-  text-decoration: none;
-  color: var(--tinta-suave);
-  /* Com 9 colunas num celular de 320px sobram 35px por item. "Soletrar" e
-     "Ranking" sao os rotulos mais longos e precisam caber inteiros nessa
-     largura — por isso a letra encolhe junto com a coluna. */
-  font-size: 0.46rem;
-  font-weight: 600;
-  text-align: center;
-  transition: color 0.14s ease;
+  /* Respeita a faixa do gesto de home no iPhone. */
+  padding: 0 0.75rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  pointer-events: none;
 }
-.barra-rotulo { white-space: nowrap; }
-.barra-item[aria-current="page"] { color: var(--tinta); }
-.barra-icone { font-size: 1.15rem; line-height: 1; }
-.barra-item[aria-current="page"] .barra-icone { transform: scale(1.1); }
+.menu-movel > * { pointer-events: auto; }
+
+/* O botao. Alto o bastante para o polegar acertar sem olhar. */
+.menu-gatilho {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.4rem;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--ouro-vivo) 0%, #d8a52c 100%);
+  color: var(--tinta);
+  font: 700 0.95rem var(--sans);
+  cursor: pointer;
+  box-shadow: 0 8px 22px -8px rgba(160, 112, 20, 0.85);
+  transition: transform 0.16s ease;
+}
+.menu-gatilho:active { transform: scale(0.96); }
+.menu-gatilho-icone { font-size: 1.05rem; line-height: 1; }
+.menu-gatilho-texto { max-width: 9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* O painel dos destinos, em duas colunas. */
+.menu-painel {
+  list-style: none;
+  margin: 0 0 0.6rem;
+  padding: 0.5rem;
+  width: min(100%, 22rem);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.35rem;
+  border-radius: 18px;
+  background: var(--vidro-forte);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--vidro-borda);
+  box-shadow: 0 16px 40px -18px rgba(59, 47, 23, 0.75);
+}
+
+/*
+  A entrada escalonada: cada item sobe um pouco depois do anterior, pelo
+  `transition-delay` que o componente calcula. E o que faz o menu parecer que
+  ABRIU, em vez de so aparecer de uma vez.
+
+  So `opacity` e `transform` — as duas unicas que nao obrigam o navegador a
+  refazer o layout a cada quadro.
+*/
+.menu-painel li {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.menu-aberto .menu-painel li { opacity: 1; transform: none; }
+
+.menu-destino {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  /* 44px de altura util: o minimo que um dedo acerta. Era esse o problema
+     da barra antiga — nove colunas de 35px num celular de 320px. Medido
+     depois: com 0,7rem dava 43px, dois a menos. */
+  padding: 0.82rem 0.75rem;
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--tinta);
+  font: 600 0.9rem var(--sans);
+}
+.menu-destino:active { background: rgba(255, 255, 255, 0.7); }
+.menu-destino[aria-current="page"] { background: var(--ouro-vivo); }
+.menu-destino-icone { font-size: 1rem; width: 1.2rem; text-align: center; opacity: 0.85; }
+
+/* A cortina fecha o menu ao toque e escurece o que esta atras. */
+.menu-cortina {
+  position: fixed;
+  inset: 0;
+  z-index: 29;
+  border: 0;
+  padding: 0;
+  background: rgba(59, 47, 23, 0.32);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  cursor: pointer;
+}
 
 @media (min-width: 62rem) {
-  .barra-inferior { display: none; }
+  .menu-movel, .menu-cortina { display: none; }
 }
 
 /* ---------------------------------------------------------------
@@ -338,6 +397,31 @@ body {
   position: relative;
   z-index: 1;
   max-width: 34rem;
+  /*
+    ESTA LINHA SEGURA A PAGINA INTEIRA.
+
+    A folha e item de grid, e item de grid nasce com `min-width: auto`, que
+    significa "nunca menor que o meu conteudo". A tira do carrossel tem 15
+    cartoes lado a lado; somando o minimo de cada um dava 546px, e a folha
+    esticava junto — numa tela de 360px.
+
+    O estrago aparecia em tres lugares que nao pareciam ter relacao com
+    carrossel: a pagina abria com zoom (o navegador nao consegue encolher
+    para a largura do aparelho se o conteudo nao cabe), a barra da pomba no
+    topo ficava cortada, e sobrava uma faixa azul a direita — o ceu do fundo,
+    aparecendo onde a folha nao alcancava.
+  */
+  min-width: 0;
+  /*
+    `width: 100%` junto com `margin: 0 auto` nao e redundante aqui.
+
+    So com a margem automatica, o item de grid deixa de esticar e passa a
+    ser medido pelo CONTEUDO — e o conteudo, por causa da tira do carrossel,
+    pedia 546px numa tela de 360. Com a largura definida em 100% da coluna,
+    a folha manda no tamanho e a tira rola por dentro, que e o que ela
+    deveria fazer desde o comeco.
+  */
+  width: 100%;
   margin: 0 auto;
   /* Desconta o cabecalho do celular: com 100dvh cheio, a soma passava da
      altura da tela e aparecia rolagem mesmo em pagina curta. */
@@ -345,7 +429,9 @@ body {
   /* O 6rem no fim e o espaco da barra fixa do celular: sem ele, a barra
      cobre a ultima linha de texto. O abreviado tem que vir antes de
      qualquer padding-bottom, senao apaga o valor. */
-  padding: clamp(1.25rem, 4vw, 2.5rem) clamp(1.1rem, 4vw, 2rem) 6rem;
+  /* O ultimo valor e o espaco do botao flutuante do menu: sem ele, o botao
+     cobre a ultima linha de texto. */
+  padding: clamp(1.25rem, 4vw, 2.5rem) clamp(1.1rem, 4vw, 2rem) 5.5rem;
 
   background: var(--vidro);
   -webkit-backdrop-filter: blur(14px) saturate(1.15);

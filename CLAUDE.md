@@ -402,10 +402,27 @@ ouro fica nos botões, bordas e destaques — peças grandes. Botão dourado lev
 texto escuro, nunca branco: com branco daria 2,2:1.
 
 **Layout.** Acima de 992px são três colunas: menu à esquerda (com a pomba num selo
-pinho), conteúdo no centro, atalhos à direita. Abaixo disso, coluna única com barra
-fixa de 9 destinos no rodapé, e a marca num cabeçalho grudado no topo
-() — sem ele o app ficava sem pomba e sem nome no celular. A lista de destinos vive só em `Navegacao.tsx`;
-mudando lá, ajuste `grid-template-columns` da `.barra-inferior`.
+pinho), conteúdo no centro, atalhos à direita. Abaixo disso, coluna única com a
+marca num cabeçalho grudado no topo e **um botão flutuante** no rodapé que abre
+os nove destinos num painel. A lista de destinos vive só em `Navegacao.tsx`.
+
+> Era uma barra com os nove lado a lado. Com nove colunas, cada uma ficava com
+> 35px num celular de 320px e o rótulo tinha que encolher para 0,46rem — letra
+> que muita gente não lê. Agora cada destino tem 44px de altura, o mínimo que
+> um dedo acerta. O painel fecha ao trocar de página, com Escape e tocando
+> fora: menu que só fecha pelo próprio botão prende quem abriu sem querer.
+
+**`min-width: 0` e `width: 100%` na `.folha` seguram a página inteira.** Ela é
+item de grid, e item de grid nasce com `min-width: auto` — "nunca menor que o
+meu conteúdo". Com `margin: 0 auto` ele ainda deixa de esticar e passa a ser
+medido pelo conteúdo. A tira do carrossel tem 15 cartões; somando o mínimo de
+cada um dava **546px numa tela de 360**, e a folha ia junto.
+
+> O estrago aparecia em três lugares que não pareciam ter relação com
+> carrossel: **a página abria com zoom** (o navegador não consegue encolher
+> para a largura do aparelho se o conteúdo não cabe), **a barra da pomba
+> aparecia cortada**, e **sobrava uma faixa azul à direita** — o céu do fundo,
+> aparecendo onde a folha não alcançava. Uma linha de CSS, três sintomas.
 
 **Tipos.** **Newsreader** para versículos, **Fraunces** para títulos, **Karla** para
 interface. Escala fluida com `clamp()` — sem breakpoint de tamanho de letra.
