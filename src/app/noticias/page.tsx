@@ -27,7 +27,7 @@ function quando(data: string | null): string {
 }
 
 export const metadata = {
-  title: "Mundo gospel | Semeia",
+  title: "Mundo cristão | Semeia",
   description: "Notícias do mundo cristão, atualizadas todo dia.",
 };
 
@@ -43,7 +43,7 @@ export default async function Noticias() {
   return (
     <main>
       <Voltar />
-      <h1>Mundo gospel</h1>
+      <h1>Mundo cristão</h1>
       <p className="referencia">Atualizado de manhã e à noite</p>
 
       {erro ? (

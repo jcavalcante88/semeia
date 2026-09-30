@@ -2,14 +2,35 @@
 
 Você está construindo o **Semeia**: um app cristão brasileiro que envia versículos
 bíblicos algumas vezes ao dia, tem um quiz de múltipla escolha com ranking público,
-um mural de notícias do mundo gospel e pedidos de oração.
+um mural de notícias do mundo cristão e pedidos de oração.
 
 Autor: Jerry. Fale comigo em **português do Brasil**. Código, comentários e textos
 de interface também em português.
 
 ## O que o app faz
 
-1. **Mensagens diárias** — o usuário escolhe horários (padrão 7h, 12h e 20h) e recebe
+14. **Carrossel de destaques** — a primeira coisa na tela inicial, acima da
+   palavra de hoje. 15 cartões: os shows que ainda vão acontecer primeiro,
+   depois as notícias mais recentes. Anda sozinho a cada 5 segundos e **para
+   para sempre** assim que a pessoa encosta — carrossel que continua andando
+   enquanto você lê é a razão de quase todo mundo odiar carrossel.
+
+   > É rolagem NATIVA com `scroll-snap`, não `transform` com um índice em
+   > JavaScript. Assim o dedo arrasta com a inércia que a pessoa conhece, o
+   > trackpad funciona, o teclado funciona e o leitor de tela lê a lista
+   > inteira. As quatro coisas quebram no carrossel de `transform`.
+   >
+   > **O passo mede o CARTÃO, não a tira.** Acima de 40rem cabem dois cartões
+   > lado a lado; medindo a tira, ele pularia de dois em dois e a bolinha
+   > acenderia errada.
+   >
+   > **A tabela `eventos` nasce vazia e só recebe show de verdade.** Nenhum
+   > feed RSS traz agenda, e show inventado aparece na tela com data, hora e
+   > endereço — alguém pode sair de casa por causa dele. Eu já tinha deixado
+   > dois exemplos falsos no banco em setembro; foram apagados. Sem evento, o
+   > carrossel mostra só notícia, e não quebra.
+
+1. **Mensagens diárias** — o usuário escolhe horários (padrão **7h e 19h**) e recebe
    um versículo por notificação push, mesmo com o app fechado. A rota de disparo
    nunca repete: `envios` tem `(usuario_id, mensagem_id)` como chave.
 2. **Quiz** — 50 perguntas de múltipla escolha por rodada, sorteadas entre as que a
@@ -18,7 +39,7 @@ de interface também em português.
    que responde a pergunta.
 3. **Ranking público** — quem mais pontua aparece numa lista que todos veem, com
    pódio para os três primeiros.
-4. **Mundo gospel** — notícias coletadas de feeds RSS a cada 12 horas, com título,
+4. **Mundo cristão** — notícias coletadas de feeds RSS a cada 12 horas, com título,
    resumo, imagem e link para a fonte.
 5. **Pedidos de oração** — a pessoa publica um pedido e outras marcam "orei por você".
    O autor recebe push nos marcos (1, 3, 10, 25, 50, 100 orações), nunca a cada clique.
@@ -230,7 +251,7 @@ rodapé de `/configuracoes`. Trocando a arte, tire o crédito junto.
 
 ```
 usuarios         id uuid, apelido, fuso_horario, no_ranking bool, criado_em
-preferencias     usuario_id, horarios text[], ativo
+preferencias     usuario_id, horarios text[], ativo   -- padrao {07:00,19:00}
 inscricoes_push  id, usuario_id, endpoint unique, p256dh, auth
 mensagens        id, texto, referencia, tema, versao, ativa
 envios           usuario_id + mensagem_id (PK)   -- impede repetir versículo
@@ -286,6 +307,7 @@ db/seed-mensagens.sql                        75 versiculos extras (total 87)
 db/redistribuir-alternativas.mjs             espalha a resposta certa entre as 4 posicoes
 db/noticias.sql                              tabelas de notícia e fontes
 db/oracao.sql                                pedidos de oração
+db/eventos.sql                               shows cristãos do carrossel (nasce vazia)
 db/soletrar.sql                              níveis do Soletrar + progresso
 db/desafio.sql                               tabela do desafio + view desafio_de_hoje
 arte/pomba.png                               arte de origem (Icons8)
@@ -321,6 +343,8 @@ src/app/apoiar/{page.tsx,Apoiar.tsx}        doação por Pix, código gerado em 
 src/app/Sequencia.tsx                        faixa de dias seguidos
 src/app/CompartilharVersiculo.tsx            manda a palavra de hoje para alguém
 src/app/MuralNaHome.tsx                      último pedido de oração na tela inicial
+src/app/Carrossel.tsx                        a tira que rola, com scroll-snap
+src/app/DestaquesNaHome.tsx                  busca shows + notícias para o carrossel
 src/app/configuracoes/{page.tsx,Configuracoes.tsx}
 src/app/api/usuario/route.ts
 src/app/api/quiz/{perguntas,responder}/route.ts

@@ -2,7 +2,17 @@
 
 import { useState } from "react";
 
-const HORARIOS = ["07:00", "12:00", "20:00"];
+/**
+ * Os horarios em que o versiculo chega.
+ *
+ * Eram tres (07, 12 e 20) e o Jerry pediu dois: 07 e 19. Menos interrupcao,
+ * e as duas na hora em que a pessoa esta com o celular na mao — de manha ao
+ * acordar e de noite depois do trabalho. O meio-dia pegava gente ocupada.
+ *
+ * A hora e comparada no fuso de CADA usuario (`u.fuso_horario`) pela rota de
+ * disparo, entao "07:00" quer dizer sete da manha onde a pessoa mora.
+ */
+const HORARIOS = ["07:00", "19:00"];
 
 /** Converte a chave VAPID (base64url) no formato que o navegador exige. */
 function paraUint8(base64: string) {
@@ -75,8 +85,8 @@ export default function AtivarMensagens() {
 
   return (
     <div style={{ marginTop: "2rem" }}>
-      <h2>Um versículo três vezes ao dia</h2>
-      <p>Manhã, meio-dia e noite. Dá para desligar quando quiser.</p>
+      <h2>Um versículo de manhã e de noite</h2>
+      <p>Às 7h e às 19h. Dá para desligar quando quiser.</p>
       <button className="botao botao-vazado" onClick={ativar} disabled={estado === "indo"}>
         {estado === "indo" ? "Ativando…" : "Ativar as mensagens"}
       </button>

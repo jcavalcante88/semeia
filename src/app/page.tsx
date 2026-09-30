@@ -5,6 +5,7 @@ import Sequencia from "./Sequencia";
 import CompartilharPlacar from "./CompartilharPlacar";
 import CompartilharVersiculo from "./CompartilharVersiculo";
 import MuralNaHome from "./MuralNaHome";
+import DestaquesNaHome from "./DestaquesNaHome";
 
 export const revalidate = 300;
 
@@ -67,6 +68,12 @@ export default async function Inicio() {
 
   return (
     <main>
+      {/* Os destaques vêm ANTES da palavra de hoje, por pedido do Jerry. É a
+          primeira coisa que a pessoa vê ao abrir: dá movimento e mostra que o
+          app tem coisa nova hoje. A palavra, que é o coração, vem logo abaixo
+          e continua com a tela inteira para ela. */}
+      <DestaquesNaHome />
+
       <section className="palavra">
         <p className="palavra-rotulo">A palavra de hoje</p>
         <p className="versiculo">{versiculo.texto}</p>
@@ -137,11 +144,11 @@ export default async function Inicio() {
       <h2>Receba um versículo por dia</h2>
       <p>
         Depois do quiz você pode escolher os horários em que quer receber uma
-        mensagem no celular. São três por dia, no máximo, e dá para desligar a
+        mensagem no celular. São duas por dia — 7h e 19h — e dá para desligar a
         qualquer momento.
       </p>
 
-      <h2>Mundo gospel</h2>
+      <h2>Mundo cristão</h2>
       <p>
         O que está acontecendo no mundo cristão, reunido de portais de notícia
         e atualizado duas vezes por dia.

@@ -16,7 +16,7 @@ create table usuarios (
 
 create table preferencias (
   usuario_id uuid primary key references usuarios(id) on delete cascade,
-  horarios   text[] not null default '{07:00,12:00,20:00}',
+  horarios   text[] not null default '{07:00,19:00}',
   ativo      boolean not null default true
 );
 

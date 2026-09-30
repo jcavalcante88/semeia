@@ -21,7 +21,7 @@ const DESTINOS = [
   { href: "/quebra-cabeca", rotulo: "Montar", icone: "▦" },
   { href: "/oracao", rotulo: "Oração", icone: "✚" },
   { href: "/ranking", rotulo: "Ranking", icone: "☆" },
-  { href: "/noticias", rotulo: "Gospel", icone: "◈" },
+  { href: "/noticias", rotulo: "Cristão", icone: "◈" },
   { href: "/configuracoes", rotulo: "Ajustes", icone: "⚙" },
 ];
 
@@ -62,7 +62,7 @@ export function LateralDireita() {
       <div className="cartao-lateral">
         <h2 className="cartao-titulo">Um versículo por dia</h2>
         <p className="cartao-texto">
-          Manhã, meio-dia e noite. Dá para desligar quando quiser.
+          Às 7h e às 19h. Dá para desligar quando quiser.
         </p>
         <Link href="/configuracoes" className="botao botao-vazado botao-pequeno">
           Ativar mensagens
