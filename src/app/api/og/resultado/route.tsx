@@ -55,13 +55,34 @@ function nivelPor(acertos: number, banco: number) {
  *
  * Uso: /api/og/resultado?a=18&t=25&n=Isabela
  */
+/** Corta o nome no espaço mais próximo do limite, e só então na letra. */
+function encurtar(texto: string, limite: number) {
+  if (texto.length <= limite) return texto;
+  const pedaco = texto.slice(0, limite);
+  const ultimoEspaco = pedaco.lastIndexOf(" ");
+  // Só vale cortar na palavra se sobrar nome de verdade — metade do limite.
+  if (ultimoEspaco >= limite / 2) {
+    // E tira a preposição que ficou pendurada no fim: "Maria Aparecida da
+    // acertou" tranca a leitura tanto quanto o corte no meio da palavra.
+    return pedaco.slice(0, ultimoEspaco).replace(/\s+(de|da|do|das|dos|e)$/i, "");
+  }
+  return pedaco.slice(0, limite - 1) + "…";
+}
+
 export async function GET(req: Request) {
   const { searchParams, origin } = new URL(req.url);
 
   // Tudo que vem da URL e de estranho: limita, arredonda e corta.
   const total = Math.min(Math.max(Number(searchParams.get("t")) || 0, 0), 999);
   const acertos = Math.min(Math.max(Number(searchParams.get("a")) || 0, 0), total);
-  const nome = (searchParams.get("n") ?? "").slice(0, 24).trim();
+  /*
+   * O nome cabe em 24 caracteres. O corte é na PALAVRA, não na letra:
+   * cortando na letra, "Maria Aparecida da Conceição" virava "Maria
+   * Aparecida da Conce acertou", que parece defeito. Sobrando espaço de
+   * menos até para a primeira palavra, aí sim corta na letra e põe
+   * reticências, que ao menos avisa que faltou pedaço.
+   */
+  const nome = encurtar((searchParams.get("n") ?? "").trim(), 24);
 
   // Quantas perguntas existem hoje. Se o banco não responder, o card ainda
   // sai — só cai no bronze, que é o padrão seguro.
