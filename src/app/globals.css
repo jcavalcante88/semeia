@@ -325,6 +325,14 @@ body {
 .menu-gatilho-texto { max-width: 9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 /* O painel dos destinos, em duas colunas. */
+/*
+  `[hidden]` vem do navegador e perde para qualquer regra minha: com
+  `display: grid` aqui embaixo, o painel continuava na tela depois de fechar —
+  vazio, porque os itens ficam em opacidade 0. Era o cartao branco pairando
+  sem botao nenhum. Esta linha devolve o `hidden` ao seu trabalho.
+*/
+.menu-painel[hidden] { display: none; }
+
 .menu-painel {
   list-style: none;
   margin: 0 0 0.6rem;

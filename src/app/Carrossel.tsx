@@ -79,9 +79,33 @@ export default function Carrossel({ cartoes }: { cartoes: Cartao[] }) {
       const el = tira.current;
       const largura = larguraDoCartao();
       if (!el || !largura) return;
-      const agora = Math.round(el.scrollLeft / largura);
-      const destino = (agora + quanto + cartoes.length) % cartoes.length;
-      el.scrollTo({ left: destino * largura, behavior: "smooth" });
+
+      /*
+       * A volta na ponta e decidida pela ROLAGEM, nao pelo indice.
+       *
+       * Contando so o indice, o carrossel travava em telas largas: com dois
+       * cartoes a vista, a rolagem termina no cartao 13 de 15 — o indice 14
+       * simplesmente nao e alcancavel. O `% 15` nunca chegava a 0, e a partir
+       * do 13 nenhum clique fazia mais nada.
+       *
+       * Olhando o fim da rolagem em vez do indice, funciona igual com um
+       * cartao a vista ou com cinco.
+       */
+      const maximo = el.scrollWidth - el.clientWidth;
+      const noFim = el.scrollLeft >= maximo - 2;
+      const noComeco = el.scrollLeft <= 2;
+
+      let destino: number;
+      if (quanto > 0 && noFim) destino = 0;
+      else if (quanto < 0 && noComeco) destino = cartoes.length - 1;
+      else destino = Math.round(el.scrollLeft / largura) + quanto;
+
+      el.scrollTo({
+        // Sem passar do fim: pedir mais do que existe faz o navegador parar
+        // no meio do caminho e a conta seguinte sair errada.
+        left: Math.max(0, Math.min(destino * largura, maximo)),
+        behavior: "smooth",
+      });
     },
     [cartoes.length, larguraDoCartao],
   );
