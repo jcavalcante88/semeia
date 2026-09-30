@@ -2192,3 +2192,107 @@ textarea:focus { background: #fff; }
   .carrossel-cartao { flex-basis: 50%; }
   .carrossel-link { margin-right: 0.6rem; }
 }
+
+/* ---------------------------------------------------------------
+   Busca e passagens explicadas
+   --------------------------------------------------------------- */
+
+.busca { display: flex; gap: 0.4rem; margin: 0 0 1.5rem; }
+.busca-campo {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--azul-claro);
+  border-radius: 999px;
+  background: var(--papel);
+  color: var(--tinta);
+  font: 400 0.95rem var(--sans);
+}
+.busca-campo::placeholder { color: var(--tinta-suave); }
+.busca-botao {
+  flex: none;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--azul);
+  color: #fff;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.16s ease;
+}
+.busca-botao:hover { background: var(--azul-vivo); }
+.busca-botao:active { transform: scale(0.94); }
+
+.passagem {
+  margin: 1.5rem 0 0;
+  padding: 1.1rem 1.15rem 1.3rem;
+  border: 1px solid var(--azul-claro);
+  border-left: 3px solid var(--azul);
+  border-radius: 0 16px 16px 0;
+  background: rgba(255, 255, 255, 0.55);
+}
+.passagem-ref {
+  margin: 0 0 0.2rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--escarlata);
+}
+.passagem-titulo { font-size: var(--t-h2); margin: 0 0 0.9rem; }
+.passagem-secao {
+  margin: 1.1rem 0 0.35rem;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--purpura);
+}
+.passagem-secao-grande { margin-top: 2rem; }
+.passagem-lista { margin: 0; padding-left: 1.1rem; }
+.passagem-lista li { margin-bottom: 0.45rem; line-height: 1.5; }
+
+/* ---- o mapa de satelite ---- */
+.lugar { margin-top: 1.25rem; }
+.mapa { margin: 0; }
+.mapa-mosaico {
+  position: relative;
+  display: grid;
+  /* As pecas tem que encostar uma na outra: qualquer respiro vira uma grade
+     de linhas brancas atravessando a foto. */
+  gap: 0;
+  line-height: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--azul-claro);
+}
+.mapa-mosaico img { display: block; width: 100%; height: auto; }
+
+/* O alfinete, desenhado em CSS: um circulo com um rabo, no centro do mapa. */
+.mapa-alfinete {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -22px 0 0 -9px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: var(--escarlata);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.9), 0 3px 8px rgba(0, 0, 0, 0.45);
+}
+
+.mapa-legenda {
+  margin-top: 0.45rem;
+  font-size: 0.8rem;
+  color: var(--tinta-suave);
+  line-height: 1.45;
+}
+.mapa-legenda strong { color: var(--tinta); }
+.mapa-duvida { font-style: italic; }
+/* O credito da Esri e condicao de uso das imagens. Nao tire. */
+.mapa-credito { display: block; font-size: 0.68rem; opacity: 0.75; }
+.lugar-texto { margin: 0.5rem 0 0; font-size: 0.9rem; line-height: 1.5; }

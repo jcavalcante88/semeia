@@ -155,6 +155,33 @@ de interface também em português.
    > perguntas marcadas como vistas: 0 repetidas em 20 rodadas, contra 6,7 por
    > rodada que apareceriam sem isso.
 
+15. **Busca de passagens** — barra abaixo da palavra de hoje. Procurando uma
+   passagem, parábola ou lugar, `/buscar` mostra: o que acontece, o que
+   significa, quem aparece, as palavras difíceis, e **onde fica, num mapa de
+   satélite**.
+
+   > **O conteúdo é escrito à mão, uma passagem por vez.** O app não tem a
+   > Bíblia dentro dele e não tem IA rodando no servidor — resumir um capítulo
+   > na hora exigiria inventar texto bíblico, e isso não se faz aqui. São
+   > 1.189 capítulos; `db/passagens.sql` cobre as que as pessoas procuram
+   > (15 hoje). **Nunca gere passagem automaticamente.**
+   >
+   > A busca também cai nas 300 perguntas do quiz, que já têm explicação e
+   > versículo. É a rede para quem procura fora da lista curada. O gabarito
+   > sai ali e **não fere a regra 1**: ela protege `/api/quiz/perguntas`, que
+   > alimenta a rodada valendo ponto; aqui é material de estudo, fora do quiz.
+   >
+   > **O mapa não usa biblioteca.** `MapaSatelite.tsx` calcula qual quadrado
+   > do mosaico cobre a coordenada e monta 3x3 com `<img>`. Leaflet serve para
+   > arrastar e dar zoom; aqui o mapa é figura parada, e figura parada não
+   > precisa de 40 KB de JavaScript. As imagens são do World Imagery da Esri,
+   > que permite uso não comercial **com crédito visível** — o crédito está no
+   > rodapé do mapa e não pode sair.
+   >
+   > `db/atlas.sql` tem 42 lugares com coordenadas conferidas uma a uma.
+   > Cinco estão marcados como `incerto` (o monte Sinai é o caso clássico) e a
+   > tela DIZ isso: melhor admitir a dúvida do que fingir precisão.
+
 9. **Ouvir a pergunta** — botão lê enunciado e alternativas com a voz do navegador
    (`speechSynthesis`), de graça e sem arquivo de áudio. O cronômetro pausa enquanto
    a voz fala, e nada toca sozinho. Sem voz em português, o botão não aparece.
@@ -320,6 +347,8 @@ db/redistribuir-alternativas.mjs             espalha a resposta certa entre as 4
 db/noticias.sql                              tabelas de notícia e fontes
 db/oracao.sql                                pedidos de oração
 db/eventos.sql                               shows cristãos do carrossel (nasce vazia)
+db/atlas.sql                                 42 lugares bíblicos com coordenadas
+db/passagens.sql                             passagens explicadas, escritas à mão
 db/soletrar.sql                              níveis do Soletrar + progresso
 db/desafio.sql                               tabela do desafio + view desafio_de_hoje
 arte/pomba.png                               arte de origem (Icons8)
@@ -357,6 +386,9 @@ src/app/Sequencia.tsx                        faixa de dias seguidos
 src/app/CompartilharVersiculo.tsx            manda a palavra de hoje para alguém
 src/app/MuralNaHome.tsx                      último pedido de oração na tela inicial
 src/app/Carrossel.tsx                        a tira que rola, com scroll-snap
+src/app/Busca.tsx                            a barra de busca da home
+src/app/buscar/page.tsx                      resultados: passagem, mapa e perguntas
+src/app/MapaSatelite.tsx                     mosaico de satélite, sem biblioteca
 src/app/DestaquesNaHome.tsx                  busca shows + notícias para o carrossel
 src/app/configuracoes/{page.tsx,Configuracoes.tsx}
 src/app/api/usuario/route.ts

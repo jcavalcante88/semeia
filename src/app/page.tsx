@@ -5,6 +5,7 @@ import Sequencia from "./Sequencia";
 import CompartilharPlacar from "./CompartilharPlacar";
 import CompartilharVersiculo from "./CompartilharVersiculo";
 import MuralNaHome from "./MuralNaHome";
+import Busca from "./Busca";
 import DestaquesNaHome from "./DestaquesNaHome";
 
 export const revalidate = 300;
@@ -100,6 +101,10 @@ export default async function Inicio() {
           />
         </div>
       </section>
+
+      {/* A busca logo abaixo da palavra, por pedido do Jerry. Fica no caminho
+          de quem acabou de ler um versiculo e quer saber mais sobre ele. */}
+      <Busca />
 
       {/* O carrossel vem DEPOIS da palavra, por pedido do Jerry — ele estava
           em cima e voltou para baixo. Faz sentido: a palavra do dia é o
