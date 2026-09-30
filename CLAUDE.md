@@ -9,8 +9,9 @@ de interface também em português.
 
 ## O que o app faz
 
-14. **Carrossel de destaques** — a primeira coisa na tela inicial, acima da
-   palavra de hoje. 15 cartões: os shows que ainda vão acontecer primeiro,
+14. **Carrossel de destaques** — na tela inicial, **abaixo** da palavra de
+   hoje. Esteve acima por um tempo e voltou para baixo a pedido meu: quem abre
+   o app para ler um versículo tem que encontrar o versículo, não uma notícia. 15 cartões: os shows que ainda vão acontecer primeiro,
    depois as notícias mais recentes. Anda sozinho a cada 5 segundos e **para
    para sempre** assim que a pessoa encosta — carrossel que continua andando
    enquanto você lê é a razão de quase todo mundo odiar carrossel.

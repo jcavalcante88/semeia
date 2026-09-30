@@ -68,12 +68,6 @@ export default async function Inicio() {
 
   return (
     <main>
-      {/* Os destaques vêm ANTES da palavra de hoje, por pedido do Jerry. É a
-          primeira coisa que a pessoa vê ao abrir: dá movimento e mostra que o
-          app tem coisa nova hoje. A palavra, que é o coração, vem logo abaixo
-          e continua com a tela inteira para ela. */}
-      <DestaquesNaHome />
-
       <section className="palavra">
         <p className="palavra-rotulo">A palavra de hoje</p>
         <p className="versiculo">{versiculo.texto}</p>
@@ -106,6 +100,13 @@ export default async function Inicio() {
           />
         </div>
       </section>
+
+      {/* O carrossel vem DEPOIS da palavra, por pedido do Jerry — ele estava
+          em cima e voltou para baixo. Faz sentido: a palavra do dia é o
+          motivo de o app existir, e quem abre para ler um versículo deve
+          encontrar o versículo, não uma notícia. O carrossel é o que tem de
+          novo hoje, e isso pode esperar a rolagem de um dedo. */}
+      <DestaquesNaHome />
 
       <Sequencia />
 
