@@ -17,9 +17,13 @@ import sharp from "sharp";
 import { writeFileSync } from "node:fs";
 
 const POMBA = "arte/pomba.png";
-// Fundo do icone: o ouro do tema. A pomba e branca, entao o ouro escuro
-// garante contraste — ouro claro deixaria a pomba sumir.
-const FUNDO = "#B8860F";
+// Fundo do icone: a PURPURA do tema do tabernaculo (argaman), a mesma do
+// selo da logo. A pomba e branca, entao o fundo precisa ser escuro — foi ouro
+// claro por um tempo e a pomba quase sumia dentro do icone.
+//
+// E a mesma cor do `themeColor` em layout.tsx e do `theme_color` no
+// manifest.json. Mudando aqui, mude nos tres.
+const FUNDO = "#6b2151";
 
 /** Pomba sobre quadrado pinho, dentro da area segura do icone maskable. */
 async function iconeApp(lado) {
@@ -79,23 +83,23 @@ async function cartaoCompartilhamento() {
 
   const texto = `<svg xmlns="http://www.w3.org/2000/svg" width="${L}" height="${A}">
     <defs>
-      <linearGradient id="ouro" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#E8B43A"/>
-        <stop offset="55%" stop-color="#C28F1E"/>
-        <stop offset="100%" stop-color="#9A6B10"/>
+      <linearGradient id="fundo" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#2E5BBF"/>
+        <stop offset="55%" stop-color="#1D3C8F"/>
+        <stop offset="100%" stop-color="#6B2151"/>
       </linearGradient>
     </defs>
-    <rect width="${L}" height="${A}" fill="url(#ouro)"/>
-    <!-- clarao de luz atras da pomba, lembrando o sol da cidade dourada -->
-    <circle cx="330" cy="315" r="250" fill="#FFF6DC" opacity="0.22"/>
+    <rect width="${L}" height="${A}" fill="url(#fundo)"/>
+    <!-- clarao de luz atras da pomba -->
+    <circle cx="330" cy="315" r="250" fill="#DCE6FF" opacity="0.20"/>
     <text x="600" y="300" font-family="Georgia, serif" font-size="104"
           font-weight="bold" fill="#FFFDF8">Semeia</text>
     <text x="604" y="368" font-family="Georgia, serif" font-size="35"
-          fill="#FFF4D8">Um versículo por dia e um quiz</text>
+          fill="#DCE6FF">Um versículo por dia e um quiz</text>
     <text x="604" y="416" font-family="Georgia, serif" font-size="35"
-          fill="#FFF4D8">para conhecer a Bíblia</text>
+          fill="#DCE6FF">para conhecer a Bíblia</text>
     <text x="604" y="486" font-family="Georgia, serif" font-size="25"
-          fill="#FFEFC4" opacity="0.85">Sem cadastro. Sem senha.</text>
+          fill="#C9D6F0" opacity="0.85">Sem cadastro. Sem senha.</text>
   </svg>`;
 
   return sharp(Buffer.from(texto))

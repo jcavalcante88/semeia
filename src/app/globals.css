@@ -2296,3 +2296,22 @@ textarea:focus { background: #fff; }
 /* O credito da Esri e condicao de uso das imagens. Nao tire. */
 .mapa-credito { display: block; font-size: 0.68rem; opacity: 0.75; }
 .lugar-texto { margin: 0.5rem 0 0; font-size: 0.9rem; line-height: 1.5; }
+
+/* Leva ao Google Maps de verdade, ja em satelite. Fica abaixo do mapa e
+   acima da legenda: quem quer aproximar procura logo embaixo da imagem. */
+.mapa-google {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--azul-claro);
+  background: var(--papel);
+  color: var(--azul-fundo);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.16s ease, gap 0.16s ease;
+}
+.mapa-google:hover, .mapa-google:active { background: var(--azul-claro); gap: 0.5rem; }

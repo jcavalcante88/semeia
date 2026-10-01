@@ -4,8 +4,8 @@
   "description": "Versiculos ao longo do dia e um quiz para conhecer a Biblia.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FFFDF8",
-  "theme_color": "#B8860F",
+  "background_color": "#FDFBF6",
+  "theme_color": "#6B2151",
   "lang": "pt-BR",
   "icons": [
     { "src": "/icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },

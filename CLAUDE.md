@@ -465,6 +465,16 @@ cada um dava **546px numa tela de 360**, e a folha ia junto.
 > aparecia cortada**, e **sobrava uma faixa azul à direita** — o céu do fundo,
 > aparecendo onde a folha não alcançava. Uma linha de CSS, três sintomas.
 
+**A barra do celular e o ícone são a púrpura, e a cor mora em TRÊS
+arquivos.** A barra acima do app (a de hora e bateria) e o fundo do favicon
+ficaram dourados quando o tema de ouro saiu — a troca da paleta no CSS não
+alcança nenhum dos dois. Quem manda são `themeColor` em `layout.tsx`,
+`theme_color` no `manifest.json` e a constante `FUNDO` em
+`scripts/icones.mjs`. Mudando a cor, mude nos três e rode
+`node scripts/icones.mjs` — o script redesenha os sete PNG, e sem rodá-lo o
+código fica certo e o ícone continua com a cor velha. A púrpura foi escolhida
+porque a pomba é branca: em ouro claro ela quase sumia dentro do ícone.
+
 **Tipos.** **Newsreader** para versículos, **Fraunces** para títulos, **Karla** para
 interface. Escala fluida com `clamp()` — sem breakpoint de tamanho de letra.
 A fonte é maior só em `/noticias`, que é leitura rápida, não meditação.

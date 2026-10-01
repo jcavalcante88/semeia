@@ -9,6 +9,14 @@
  *
  * As imagens vêm do World Imagery da Esri, que permite uso não comercial com
  * crédito visível. O crédito está no rodapé do mapa e precisa continuar lá.
+ *
+ * POR QUE NÃO É GOOGLE MAPS:
+ * a API do Google exige chave e cartão de crédito cadastrado, cobra por
+ * consulta acima da cota, e este app roda de graça. Pegar os quadrados do
+ * Google direto, sem chave, viola os termos deles. O caminho honesto é o
+ * botão abaixo: ele abre o lugar no Google Maps de verdade, em satélite,
+ * usando o endereço público e documentado — sem chave, sem custo e dentro
+ * das regras.
  */
 
 /** Quantas peças de lado. 3 dá 768px de mapa, que cobre bem uma cidade. */
@@ -69,6 +77,15 @@ export default function MapaSatelite({
             centenas de metros, que para este mapa não muda nada. */}
         <span className="mapa-alfinete" aria-hidden="true" />
       </div>
+
+      <a
+        className="mapa-google"
+        href={`https://www.google.com/maps/@?api=1&map_action=map&center=${lat},${lon}&zoom=${zoom + 2}&basemap=satellite`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Abrir no Google Maps <span aria-hidden="true">→</span>
+      </a>
 
       <figcaption className="mapa-legenda">
         <strong>{nome}</strong>

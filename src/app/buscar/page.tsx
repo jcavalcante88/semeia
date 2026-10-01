@@ -81,7 +81,7 @@ export default async function PaginaBuscar({
     lugares = (await sql`
       select nome, atual, lat, lon, zoom, descricao, incerto
         from lugares
-       where ativo and (nome ilike ${curingaCru} or atual ilike ${curingaCru})
+       where ativo and (busca ilike ${curinga} or nome ilike ${curingaCru})
        limit 3
     `) as Lugar[];
 

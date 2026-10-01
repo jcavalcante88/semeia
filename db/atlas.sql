@@ -20,7 +20,11 @@ create table if not exists lugares (
   descricao text not null,
   -- true quando a localizacao e discutida entre estudiosos.
   incerto   boolean not null default false,
-  ativo     boolean not null default true
+  ativo     boolean not null default true,
+  -- Nome sem acento e em minusculas, para a busca achar "getsemani". Quem
+  -- digita no celular quase nunca poe acento, e a extensao  do
+  -- Postgres nao esta ligada neste banco. Preenchida por db/atlas-busca.mjs.
+  busca     text not null default ''
 );
 
 create index if not exists lugares_nome_idx on lugares (lower(nome));

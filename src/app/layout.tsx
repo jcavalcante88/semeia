@@ -40,7 +40,18 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#B8860F",
+  /*
+   * A cor da barra de status do celular, acima do app.
+   *
+   * E a purpura do selo da pomba, a mesma do icone — assim a barra do
+   * sistema, o icone na tela de inicio e a logo sao a mesma cor. Ficou ouro
+   * por engano depois da troca de tema, e aparecia uma faixa amarela em cima
+   * de um app azul.
+   *
+   * Mudando aqui, mude tambem em public/manifest.json e no FUNDO de
+   * scripts/icones.mjs.
+   */
+  themeColor: "#6B2151",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
