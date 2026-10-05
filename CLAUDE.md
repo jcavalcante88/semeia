@@ -220,10 +220,24 @@ de interface também em português.
    >
    > A dica é um `<span>` POR CIMA do campo, não o `placeholder`: placeholder
    > não se anima nem ganha reticências. Ela tem `pointer-events: none` para o
-   > toque atravessar, `aria-hidden` porque repete o `aria-label` (sem isso o
-   > leitor de tela anunciaria a troca a cada 3 segundos), e **para de passar
-   > assim que a pessoa encosta no campo** — texto que troca embaixo de quem
-   > está digitando é pior que carrossel que anda enquanto você lê.
+   > toque atravessar e `aria-hidden` porque repete o `aria-label` (sem isso o
+   > leitor de tela anunciaria a troca a cada 3 segundos).
+   >
+   > **Esconder e parar são coisas diferentes.** Com o campo em foco ou com
+   > texto digitado a dica SOME, senão ficaria por baixo do que a pessoa
+   > escreve. Com o mouse em cima ela fica na tela e só não troca mais: no
+   > computador o ponteiro chega antes do clique, e quem está lendo para
+   > decidir se clica merece que ela espere. No celular isso não existe — lá o
+   > dedo já chega clicando.
+   >
+   > **Movimento reduzido NÃO congela a dica — errei isso duas vezes.** A
+   > primeira versão não trocava o exemplo com a preferência ligada, e no
+   > computador do Jerry ela está: a barra ficou presa em "o bom samaritano"
+   > para sempre, ensinando uma das oito coisas que ela existe para ensinar.
+   > Ficou pior que o texto fixo antigo, que ao menos nomeava três categorias.
+   > É o mesmo erro do carrossel, que já estava escrito aqui. Trocar a palavra
+   > é informação; movimento é o deslize e o apagar. Com a preferência ligada
+   > o exemplo continua passando e a troca é seca.
    >
    > **O mapa não usa biblioteca.** `MapaSatelite.tsx` calcula qual quadrado
    > do mosaico cobre a coordenada e monta 3x3 com `<img>`. Leaflet serve para

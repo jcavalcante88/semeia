@@ -27,6 +27,24 @@ const EXEMPLOS = [
   "Mar da Galileia",
 ];
 
+/*
+ * MOVIMENTO REDUZIDO NÃO CONGELA A DICA — e esta é a segunda vez que eu
+ * erro isto no mesmo app.
+ *
+ * A primeira versão desta barra simplesmente não trocava o exemplo quando a
+ * preferência estava ligada. No computador do Jerry ela está, e a barra ficou
+ * presa em "o bom samaritano" para sempre: das oito coisas que a dica existe
+ * para ensinar, ela ensinava uma. Ficou PIOR que o texto fixo antigo, que ao
+ * menos dizia "passagem, parábola ou lugar" — três categorias em vez de um
+ * exemplo só.
+ *
+ * O mesmo erro já estava escrito no CLAUDE.md sobre o carrossel: movimento
+ * reduzido decide COMO a coisa se mexe, não proíbe a coisa de existir. Trocar
+ * a palavra é informação; o que é movimento é o deslize e o apagar. Então com
+ * a preferência ligada o exemplo continua passando e a troca é SECA — o CSS
+ * zera a transição e o `translateY`, e nada desliza na tela de ninguém.
+ */
+
 /** 3,2s por exemplo: dá para ler três palavras sem pressa e sem enjoar. */
 const PAUSA = 3200;
 /** O apagar e o acender da troca. */
@@ -38,6 +56,7 @@ export default function Busca() {
   const [vez, setVez] = useState(0);
   const [visivel, setVisivel] = useState(true);
   const [focado, setFocado] = useState(false);
+  const [sobre, setSobre] = useState(false);
   /*
    * Antes de hidratar não há JavaScript, então a dica que passa não existe.
    * Até lá o campo usa um `placeholder` curto de verdade — quem chega com a
@@ -47,19 +66,21 @@ export default function Busca() {
   useEffect(() => setMontado(true), []);
 
   /*
-   * Para de passar quando a pessoa encosta no campo. Texto que troca embaixo
-   * de quem está digitando é a mesma falta de educação do carrossel que anda
-   * enquanto você lê — e aqui seria pior, porque ela está escrevendo.
+   * ESCONDIDO e PARADO são coisas diferentes.
    *
-   * Com `prefers-reduced-motion` a dica também fica parada: a troca é
-   * movimento, e movimento repetido na porta de entrada do app é exatamente
-   * o que essa preferência pede para não existir.
+   * Escondida, a dica some do campo: é o que tem que acontecer quando a
+   * pessoa está digitando, senão o texto dela fica por baixo de uma dica.
+   *
+   * Parada, ela continua na tela e só não troca mais. É o que o mouse em
+   * cima pede: no computador o ponteiro chega ANTES do clique, então quem
+   * está lendo a dica para decidir se vai clicar merece que ela espere. No
+   * celular isso não existe — lá o dedo já chega clicando, e o foco resolve.
    */
-  const parado = focado || termo !== "";
+  const escondido = focado || termo !== "";
+  const parado = escondido || sobre;
 
   useEffect(() => {
     if (parado || !montado) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const apagar = setTimeout(() => setVisivel(false), PAUSA);
     const trocar = setTimeout(() => {
@@ -82,7 +103,14 @@ export default function Busca() {
 
   return (
     <form className="busca" onSubmit={buscar} role="search">
-      <div className="busca-caixa">
+      <div
+        className="busca-caixa"
+        /* Parar com o mouse em cima também é o que a WCAG 2.2.2 pede de
+           qualquer coisa que se atualiza sozinha: tem que haver um jeito de
+           segurar. No celular o jeito é tocar; aqui é chegar perto. */
+        onMouseEnter={() => setSobre(true)}
+        onMouseLeave={() => setSobre(false)}
+      >
         <input
           className="busca-campo"
           type="search"
@@ -103,7 +131,7 @@ export default function Busca() {
             exemplo a cada 3 segundos, no meio do que a pessoa estivesse
             fazendo. `pointer-events: none` para o toque atravessar e cair
             no campo — dica que rouba o clique é dica que atrapalha. */}
-        {montado && !parado && (
+        {montado && !escondido && (
           <span className="busca-dica" aria-hidden="true">
             <span className="busca-dica-fixa">Procure</span>{" "}
             <span className={`busca-dica-vez${visivel ? "" : " saindo"}`}>
