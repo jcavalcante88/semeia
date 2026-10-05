@@ -39,7 +39,10 @@ create table mensagens (
   referencia text not null,
   tema       text,
   versao     text not null default 'Almeida 1911',
-  ativa      boolean not null default true
+  ativa      boolean not null default true,
+  -- Texto, referencia e tema sem acento e em minusculas, para a busca achar
+  -- "coracao" e "nada me faltara". Preenchida por db/busca-indexar.mjs.
+  busca      text not null default ''
 );
 
 -- Impede repetir o mesmo versiculo para a mesma pessoa

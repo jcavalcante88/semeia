@@ -18,6 +18,12 @@ type Passagem = {
   palavras: { palavra: string; significado: string }[];
 };
 
+type Versiculo = {
+  texto: string;
+  referencia: string;
+  versao: string;
+};
+
 type Lugar = {
   nome: string;
   atual: string | null;
@@ -59,7 +65,16 @@ export default async function PaginaBuscar({
   const curinga = `%${alvo}%`;
   const curingaCru = `%${termo}%`;
 
+  /*
+   * "Joao 3" e "Salmos 23:1" sao referencia, nao palavra solta. Reconhecendo
+   * isso, a busca oferece o capitulo inteiro para ler mesmo quando nao existe
+   * passagem escrita para ele — e o caso mais comum de quem digita assim.
+   */
+  const capituloBuscado = linkDoCapitulo(termo) ? capituloDe(termo) : null;
+  const linkBuscado = linkDoCapitulo(termo);
+
   let passagens: Passagem[] = [];
+  let versiculos: Versiculo[] = [];
   let lugares: Lugar[] = [];
   let perguntas: { enunciado: string; explicacao: string; versiculo: string }[] = [];
 
@@ -77,6 +92,20 @@ export default async function PaginaBuscar({
        order by length(titulo)
        limit 4
     `) as Passagem[];
+
+    /*
+     * Os 87 versiculos do app. Era o buraco maior da busca: procurar
+     * "Salmos 23" ou "coracao" nao achava NADA, sendo que o versiculo estava
+     * no banco desde o primeiro dia. A coluna `busca` ja vem sem acento.
+     */
+    versiculos = (await sql`
+      select texto, referencia, versao
+        from mensagens
+       where ativa
+         and (busca ilike ${curinga} or referencia ilike ${curingaCru})
+       order by length(referencia)
+       limit 8
+    `) as Versiculo[];
 
     lugares = (await sql`
       select nome, atual, lat, lon, zoom, descricao, incerto
@@ -122,12 +151,28 @@ export default async function PaginaBuscar({
       : [];
   const todosOsLugares = [...mapas, ...lugares.filter((l) => !mapas.some((m) => m.nome === l.nome))];
 
-  const achouAlgo = passagens.length + todosOsLugares.length + perguntas.length > 0;
+  const achouAlgo =
+    passagens.length + versiculos.length + todosOsLugares.length + perguntas.length > 0;
 
   return (
     <main>
       <Voltar />
       <h1>{termo}</h1>
+
+      {/* Quem digitou uma referencia quer o capitulo. Vem antes de tudo
+          porque e a resposta mais direta a pergunta que a pessoa fez. */}
+      {capituloBuscado && linkBuscado && (
+        <a
+          className="palavra-continuar"
+          href={linkBuscado}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ marginTop: "1rem" }}
+        >
+          Ler {capituloBuscado} na Bíblia
+          <span aria-hidden="true">→</span>
+        </a>
+      )}
 
       {!achouAlgo && (
         <>
@@ -135,8 +180,10 @@ export default async function PaginaBuscar({
             Não encontrei nada sobre isso ainda.
           </p>
           <p className="referencia">
-            As passagens explicadas são escritas uma a uma — hoje são 15, e vão
-            aumentando. A busca também procura nas 300 perguntas do quiz.
+            A busca procura em cinco lugares: as passagens explicadas (15 hoje,
+            escritas uma a uma), os 87 versículos do app, os 42 lugares do
+            atlas, as 300 perguntas do quiz e os capítulos da Bíblia. Tente um
+            nome de lugar, uma parábola, ou uma referência como “João 3”.
           </p>
         </>
       )}
@@ -192,6 +239,33 @@ export default async function PaginaBuscar({
         </article>
       ))}
 
+      {versiculos.length > 0 && (
+        <>
+          <h2 className="passagem-secao-grande">Versículos</h2>
+          {versiculos.map((v) => (
+            <blockquote key={v.referencia} className="busca-versiculo">
+              <p className="busca-versiculo-texto">{v.texto}</p>
+              <footer>
+                <cite className="referencia">
+                  {v.referencia} · {v.versao}
+                </cite>
+                {linkDoCapitulo(v.referencia) && (
+                  <a
+                    href={linkDoCapitulo(v.referencia)!}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="busca-versiculo-link"
+                  >
+                    Ler {capituloDe(v.referencia)}
+                    <span aria-hidden="true"> →</span>
+                  </a>
+                )}
+              </footer>
+            </blockquote>
+          ))}
+        </>
+      )}
+
       {todosOsLugares.length > 0 && (
         <>
           <h2 className="passagem-secao-grande">Onde fica</h2>
@@ -227,8 +301,8 @@ export default async function PaginaBuscar({
 
       <footer className="rodape">
         As passagens explicadas são escritas à mão, uma a uma — o app não
-        inventa texto bíblico. <Link href="/quiz">O quiz</Link> tem 300
-        perguntas, e a busca procura nelas também.
+        inventa texto bíblico. A busca cobre passagens, versículos, lugares,
+        capítulos e as 300 perguntas d<Link href="/quiz">o quiz</Link>.
       </footer>
     </main>
   );

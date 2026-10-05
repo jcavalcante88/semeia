@@ -23,7 +23,7 @@ create table if not exists lugares (
   ativo     boolean not null default true,
   -- Nome sem acento e em minusculas, para a busca achar "getsemani". Quem
   -- digita no celular quase nunca poe acento, e a extensao  do
-  -- Postgres nao esta ligada neste banco. Preenchida por db/atlas-busca.mjs.
+  -- Postgres nao esta ligada neste banco. Preenchida por db/busca-indexar.mjs.
   busca     text not null default ''
 );
 

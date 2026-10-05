@@ -78,7 +78,7 @@ export default function AtivarMensagens() {
   if (estado === "pronto") {
     return (
       <p style={{ marginTop: "1.5rem" }} className="referencia">
-        Pronto. Você recebe um versículo às 7h, ao meio-dia e às 20h.
+        Pronto. Você recebe um versículo às 7h e às 19h.
       </p>
     );
   }

@@ -1,5 +1,6 @@
 import { sql } from "@/lib/db";
 import webpush from "web-push";
+import { palavraDoBloco } from "@/lib/palavra";
 
 export const runtime = "nodejs"; // web-push precisa de Node, nao roda no edge
 export const dynamic = "force-dynamic";
@@ -65,21 +66,28 @@ export async function POST(req: Request) {
   let enviadas = 0;
   let removidas = 0;
 
-  for (const usuario of devidos) {
-    // Um versiculo que essa pessoa ainda nao recebeu.
-    const [msg] = await sql`
-      select m.id, m.texto, m.referencia, m.versao
-        from mensagens m
-       where m.ativa
-         and not exists (
-           select 1 from envios e
-            where e.usuario_id = ${usuario.id}::uuid and e.mensagem_id = m.id
-         )
-       order by random()
-       limit 1
-    `;
-    if (!msg) continue; // acabaram as mensagens ineditas para essa pessoa
+  /*
+   * O versiculo e o MESMO para todo mundo e o MESMO que a tela inicial
+   * mostra: a palavra do bloco de 12 horas. A consulta esta em
+   * src/lib/palavra.ts, usada tambem pela home.
+   *
+   * Era `order by random()` entre as que a pessoa ainda nao tinha recebido.
+   * Dava a garantia de nunca repetir, mas quase nunca batia com a tela:
+   * chegava a notificacao com um versiculo, a pessoa abria o app e encontrava
+   * outro. A notificacao e um convite para entrar — entrar e achar coisa
+   * diferente desfaz o convite.
+   *
+   * O que se perde: o rodizio da a volta. Com 87 versiculos e 2 por dia, um
+   * volta depois de 43 dias e meio. E o mesmo ciclo que a home ja tinha.
+   *
+   * Uma consulta so, fora do laco: antes eram N consultas para N pessoas.
+   */
+  const msg = await palavraDoBloco();
+  if (!msg) {
+    return Response.json({ erro: "Nenhum versiculo ativo." }, { status: 500 });
+  }
 
+  for (const usuario of devidos) {
     const carga = JSON.stringify({
       titulo: msg.referencia,
       corpo: msg.texto,
@@ -121,7 +129,8 @@ export async function POST(req: Request) {
       await sql`
         insert into envios (usuario_id, mensagem_id)
         values (${usuario.id}::uuid, ${msg.id})
-        on conflict do nothing
+        on conflict (usuario_id, mensagem_id)
+          do update set enviado_em = now()
       `;
     }
   }

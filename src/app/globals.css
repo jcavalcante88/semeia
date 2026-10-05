@@ -2198,6 +2198,56 @@ textarea:focus { background: #fff; }
    --------------------------------------------------------------- */
 
 .busca { display: flex; gap: 0.4rem; margin: 0 0 1.5rem; }
+
+/* A caixa existe só para a dica poder ficar POR CIMA do campo.
+   "min-width: 0" pelo mesmo motivo da .folha: item de flex nasce medido
+   pelo conteúdo, e sem isto a barra inteira estoura a largura do celular. */
+.busca-caixa {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+}
+
+/* A dica que passa. Fica por cima do campo em vez de ser o placeholder
+   porque placeholder não se anima e não se corta com reticências — e era
+   justamente cortado no celular que ele aparecia. */
+.busca-dica {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0 1rem;
+  font: 400 0.95rem var(--sans);
+  color: var(--tinta-suave);
+  /* O toque atravessa e cai no campo: dica que rouba o clique atrapalha. */
+  pointer-events: none;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.busca-dica-fixa { flex: none; }
+.busca-dica-vez {
+  min-width: 0;
+  overflow: hidden;
+  /* Numa tela estreita o exemplo mais longo ganha reticências, em vez de
+     empurrar a barra ou vazar por baixo do botão. */
+  text-overflow: ellipsis;
+  color: var(--azul);
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+/* Sobe um fio ao sair: o olho percebe que TROCOU, e não que piscou. */
+.busca-dica-vez.saindo {
+  opacity: 0;
+  transform: translateY(-0.4em);
+}
+@media (prefers-reduced-motion: reduce) {
+  .busca-dica-vez { transition: none; }
+  .busca-dica-vez.saindo { opacity: 1; transform: none; }
+}
+
 .busca-campo {
   flex: 1 1 auto;
   min-width: 0;
@@ -2315,3 +2365,30 @@ textarea:focus { background: #fff; }
   transition: background 0.16s ease, gap 0.16s ease;
 }
 .mapa-google:hover, .mapa-google:active { background: var(--azul-claro); gap: 0.5rem; }
+
+/* Versiculo achado na busca. Mais quieto que a palavra de hoje: ali e uma
+   meditacao, aqui e um resultado numa lista de oito. */
+.busca-versiculo {
+  margin: 1rem 0 0;
+  padding: 0.9rem 1rem 0.9rem 1.1rem;
+  border-left: 3px solid var(--azul-claro);
+  background: #fff;
+  border-radius: 0 10px 10px 0;
+}
+.busca-versiculo-texto {
+  margin: 0 0 0.5rem;
+  font: 400 1.05rem/1.55 var(--serif);
+  color: var(--tinta);
+}
+.busca-versiculo footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.9rem;
+}
+.busca-versiculo-link {
+  font: 600 0.82rem var(--sans);
+  color: var(--azul);
+  text-decoration: none;
+}
+.busca-versiculo-link:hover { text-decoration: underline; }

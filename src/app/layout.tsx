@@ -6,6 +6,7 @@ import {
   MenuFlutuante,
   CabecalhoMovel,
 } from "./Navegacao";
+import ReinscreverPush from "./ReinscreverPush";
 
 /**
  * `metadataBase` e obrigatorio para o cartao de compartilhamento funcionar:
@@ -66,6 +67,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <span className="nuvem nuvem-4" />
         </div>
         <CabecalhoMovel />
+
+        {/* Confere a inscricao de push em toda abertura. Nao desenha nada e
+            nao pede permissao: so reinscreve quem ja autorizou um dia, porque
+            o navegador troca o endereco da inscricao sozinho e sem isto as
+            mensagens param de chegar em silencio. */}
+        <ReinscreverPush />
 
         <div className="app">
           <LateralEsquerda />

@@ -43,8 +43,36 @@ de interface também em português.
    > carrossel mostra só notícia, e não quebra.
 
 1. **Mensagens diárias** — o usuário escolhe horários (padrão **7h e 19h**) e recebe
-   um versículo por notificação push, mesmo com o app fechado. A rota de disparo
-   nunca repete: `envios` tem `(usuario_id, mensagem_id)` como chave.
+   um versículo por notificação push, mesmo com o app fechado.
+
+   > **A notificação manda a MESMA palavra que a tela inicial mostra.** A
+   > consulta mora em `src/lib/palavra.ts` e as duas a chamam. Antes a home
+   > fazia o rodízio de 12 horas e a rota de disparo fazia `order by random()`
+   > entre as ainda não enviadas: chegava uma notificação com um versículo, a
+   > pessoa abria o app e encontrava outro. A notificação é um convite para
+   > entrar — entrar e achar coisa diferente desfaz o convite. Duas cópias da
+   > mesma regra em arquivos diferentes foi exatamente como elas se separaram.
+   >
+   > Isso **trocou a garantia de "nunca repete"**. `envios` ainda guarda o
+   > histórico e o `not exists` de 90 minutos ainda impede o envio dobrado da
+   > janela de duas horas, mas o rodízio dá a volta: com 87 versículos e 2 por
+   > dia, um volta depois de 43 dias e meio. É o mesmo ciclo que a tela inicial
+   > já tinha, e é o preço de as duas dizerem a mesma coisa.
+   >
+   > **A inscrição de push NÃO é para sempre, e foi por isso que as mensagens
+   > pararam.** O navegador troca o endereço dela sozinho — atualização do
+   > Chrome, limpeza de dados, aparelho muito tempo sem abrir. O endereço velho
+   > passa a responder 410, a rota de disparo o apaga (e faz certo), e ninguém
+   > reinscrevia: a inscrição só nascia quando a pessoa apertava "Ativar as
+   > mensagens", uma vez na vida. Em 5 de outubro de 2026 o banco tinha 11
+   > pessoas com horário marcado e **zero inscrições** — todas apagadas por 410,
+   > em silêncio, com a permissão ainda concedida no celular.
+   >
+   > Agora `ReinscreverPush.tsx` confere em toda abertura do app e reinscreve
+   > quem já autorizou. Não pede permissão a ninguém: só age com
+   > `Notification.permission === "granted"`. O `pushsubscriptionchange` do
+   > `sw.js` é a segunda linha — o Firefox dispara, o Chrome quase nunca, então
+   > não dá para depender só dele.
 2. **Quiz** — 50 perguntas de múltipla escolha por rodada, sorteadas entre as que a
    pessoa ainda não respondeu, com **25 segundos** para responder cada uma. Ela clica
    numa alternativa e vê na hora se acertou, junto com a explicação e o versículo
@@ -166,10 +194,36 @@ de interface também em português.
    > 1.189 capítulos; `db/passagens.sql` cobre as que as pessoas procuram
    > (15 hoje). **Nunca gere passagem automaticamente.**
    >
+   > **Ela procura em cinco lugares**: as 15 passagens escritas à mão, os 87
+   > versículos do app, os 42 lugares do atlas, as 300 perguntas do quiz e o
+   > capítulo da Bíblia quando o termo é uma referência ("João 3" abre o link
+   > do capítulo mesmo sem passagem escrita para ele). Os versículos eram o
+   > buraco maior: procurar "Salmos 23" não achava nada, sendo que o versículo
+   > estava no banco desde o primeiro dia.
+   >
+   > **Acento se resolve na coluna `busca`**, não na consulta: `lugares` e
+   > `mensagens` têm uma cópia do texto sem acento e em minúsculas, preenchida
+   > por `db/busca-indexar.mjs`. A extensão `unaccent` do Postgres resolveria
+   > isso no banco, mas ligar extensão exige superusuário, que o Neon não dá.
+   > **Rode o script depois de acrescentar lugar ou versículo.**
+   >
    > A busca também cai nas 300 perguntas do quiz, que já têm explicação e
    > versículo. É a rede para quem procura fora da lista curada. O gabarito
    > sai ali e **não fere a regra 1**: ela protege `/api/quiz/perguntas`, que
    > alimenta a rodada valendo ponto; aqui é material de estudo, fora do quiz.
+   >
+   > **Os exemplos passam dentro da barra, um a cada 3,2s.** O texto fixo era
+   > "Procure uma passagem, parábola ou lugar" — 38 caracteres que não cabem
+   > num celular de 360px, e o fim sumia justo na parte que ninguém adivinharia.
+   > Dizer menos por vez mostra mais no total. Cada exemplo é real e acha algo:
+   > exemplo que não acha nada ensina a pessoa a desconfiar da barra.
+   >
+   > A dica é um `<span>` POR CIMA do campo, não o `placeholder`: placeholder
+   > não se anima nem ganha reticências. Ela tem `pointer-events: none` para o
+   > toque atravessar, `aria-hidden` porque repete o `aria-label` (sem isso o
+   > leitor de tela anunciaria a troca a cada 3 segundos), e **para de passar
+   > assim que a pessoa encosta no campo** — texto que troca embaixo de quem
+   > está digitando é pior que carrossel que anda enquanto você lê.
    >
    > **O mapa não usa biblioteca.** `MapaSatelite.tsx` calcula qual quadrado
    > do mosaico cobre a coordenada e monta 3x3 com `<img>`. Leaflet serve para
@@ -292,7 +346,7 @@ rodapé de `/configuracoes`. Trocando a arte, tire o crédito junto.
 usuarios         id uuid, apelido, fuso_horario, no_ranking bool, criado_em
 preferencias     usuario_id, horarios text[], ativo   -- padrao {07:00,19:00}
 inscricoes_push  id, usuario_id, endpoint unique, p256dh, auth
-mensagens        id, texto, referencia, tema, versao, ativa
+mensagens        id, texto, referencia, tema, versao, ativa, busca
 envios           usuario_id + mensagem_id (PK)   -- impede repetir versículo
 perguntas        id, enunciado, alternativas jsonb, correta smallint,
                  explicacao, versiculo, nivel, ativa
@@ -348,6 +402,7 @@ db/noticias.sql                              tabelas de notícia e fontes
 db/oracao.sql                                pedidos de oração
 db/eventos.sql                               shows cristãos do carrossel (nasce vazia)
 db/atlas.sql                                 42 lugares bíblicos com coordenadas
+db/busca-indexar.mjs                         preenche as colunas `busca` sem acento
 db/passagens.sql                             passagens explicadas, escritas à mão
 db/soletrar.sql                              níveis do Soletrar + progresso
 db/desafio.sql                               tabela do desafio + view desafio_de_hoje
@@ -362,6 +417,7 @@ public/{sw.js,manifest.json,pomba.png,icone-192.png,icone-512.png,badge.png}
 .github/workflows/mensagens.yml              cron de hora em hora
 .github/workflows/noticias.yml               cron 06:10 e 18:10 de Brasília
 src/lib/{db,tipos,pontos,sessao,rss,pix,biblia,soletrar}.ts
+src/lib/palavra.ts                           a palavra do bloco de 12h: home E notificação
 src/app/globals.css
 src/app/globals.papel.css.bak                tema "papel" antigo, para voltar
 src/app/globals.ceu-azul.css.bak             tema "céu azul", idem
@@ -386,7 +442,8 @@ src/app/Sequencia.tsx                        faixa de dias seguidos
 src/app/CompartilharVersiculo.tsx            manda a palavra de hoje para alguém
 src/app/MuralNaHome.tsx                      último pedido de oração na tela inicial
 src/app/Carrossel.tsx                        a tira que rola, com scroll-snap
-src/app/Busca.tsx                            a barra de busca da home
+src/app/Busca.tsx                            a barra de busca, com os exemplos passando
+src/app/ReinscreverPush.tsx                  reinscreve o push a cada abertura do app
 src/app/buscar/page.tsx                      resultados: passagem, mapa e perguntas
 src/app/MapaSatelite.tsx                     mosaico de satélite, sem biblioteca
 src/app/DestaquesNaHome.tsx                  busca shows + notícias para o carrossel

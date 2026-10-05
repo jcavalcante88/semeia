@@ -1,5 +1,6 @@
 import { sql } from "@/lib/db";
 import { linkDoCapitulo, capituloDe } from "@/lib/biblia";
+import { palavraDoBloco } from "@/lib/palavra";
 import Link from "next/link";
 import Sequencia from "./Sequencia";
 import CompartilharPlacar from "./CompartilharPlacar";
@@ -28,42 +29,16 @@ export default async function Inicio() {
     if (c?.n) TOTAL_PERGUNTAS = Number(c.n);
   } catch {}
 
-  let versiculo = RESERVA;
+  // A consulta mora em src/lib/palavra.ts porque a rota de disparo usa a
+  // MESMA: e assim que a notificacao e a tela passam a mostrar o mesmo
+  // versiculo. Duas copias da regra foi como elas se separaram.
+  let versiculo: { texto: string; referencia: string; versao: string } = RESERVA;
   try {
-    // Rodizio, nao sorteio.
-    //
-    // Isto era `order by random() limit 1` com revalidate de 5 minutos: a
-    // "palavra de hoje" trocava a cada 5 minutos, e como sorteio nao tem
-    // memoria, o mesmo versiculo voltava duas e tres vezes seguidas.
-    //
-    // Agora a posicao vem do relogio: um bloco de 12 horas, virando a
-    // meia-noite e ao meio-dia de Brasilia. Dentro do bloco o versiculo e
-    // sempre o mesmo, e a fila anda um por vez ate dar a volta no banco
-    // inteiro — nenhum se repete antes de todos terem aparecido.
-    //
-    // A conta de fuso e do Postgres de proposito (regra 3): ele resolve o
-    // horario de verao sozinho.
-    const [linha] = await sql`
-      with ativas as (
-        select texto, referencia, versao,
-               row_number() over (order by id) - 1 as pos,
-               count(*) over () as total
-          from mensagens
-         where ativa
-      )
-      select texto, referencia, versao
-        from ativas
-       where pos = (
-         floor(
-           extract(epoch from (now() at time zone 'America/Sao_Paulo')) / 43200
-         )::bigint % total
-       )
-    `;
-    if (linha) versiculo = linha as typeof RESERVA;
+    const linha = await palavraDoBloco();
+    if (linha) versiculo = linha;
   } catch {
     // segue com o versiculo de reserva
   }
-
 
   const capitulo = linkDoCapitulo(versiculo.referencia);
 
