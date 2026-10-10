@@ -10,7 +10,25 @@ self.addEventListener("push", (evento) => {
       body: dados.corpo,
       icon: "/icone-192.png",
       badge: "/badge.png",
+      /*
+       * A TAG junta os versiculos num aviso so, para a gaveta do celular nao
+       * encher de vinte. Mas tag sozinha faz o aviso novo SUBSTITUIR o velho
+       * EM SILENCIO: sem som, sem vibrar, sem a tarja que desce na tela.
+       *
+       * Foi isso que fez o Jerry achar que o push tinha parado em outubro de
+       * 2026. O servidor mandava, o Google aceitava com 201, e o celular
+       * trocava calado o texto de um aviso que ja estava la desde a vez
+       * anterior. Ele nunca via nada novo acontecer.
+       *
+       * `renotify` desliga esse silencio: continua sendo UM aviso, mas cada
+       * versiculo avisa de novo. Ela so vale junto com `tag` — sem tag, o
+       * navegador ignora.
+       */
       tag: "versiculo",
+      renotify: true,
+      /* A hora que a gaveta mostra passa a ser a da chegada, e nao a da
+         primeira notificacao que a tag substituiu. */
+      timestamp: Date.now(),
       data: { url: dados.url },
     }),
   );

@@ -109,6 +109,25 @@ export async function POST(req: Request) {
             keys: { p256dh: ins.p256dh, auth: ins.auth },
           },
           carga,
+          {
+            /*
+             * O Android junta as mensagens de urgencia "normal" e as entrega
+             * quando o aparelho acorda — pode ser horas depois. Um versiculo
+             * das 7h que chega as 11h perdeu o sentido de ser das 7h.
+             *
+             * "high" NAO e o nivel maximo ("very-low", "low", "normal",
+             * "high"): o maximo nao existe aqui. E o patamar de "entregue
+             * agora", o mesmo de uma mensagem de conversa.
+             */
+            urgency: "high",
+            /*
+             * Se o celular ficar sem rede, o servico de push guarda por 24h e
+             * tenta de novo. Mais que isso nao adianta: as 7h da manha de
+             * ontem ja virou o versiculo de hoje, e entregar o atrasado seria
+             * mostrar coisa diferente da que a tela mostra.
+             */
+            TTL: 86400,
+          },
         );
         enviadas++;
         entregues++;

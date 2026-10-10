@@ -73,6 +73,30 @@ de interface também em português.
    > `Notification.permission === "granted"`. O `pushsubscriptionchange` do
    > `sw.js` é a segunda linha — o Firefox dispara, o Chrome quase nunca, então
    > não dá para depender só dele.
+   >
+   > **`tag` sem `renotify` troca o aviso EM SILÊNCIO — foi a segunda causa,
+   > e a mais difícil de ver.** Depois de consertada a inscrição, o servidor
+   > mandava e o Google aceitava com 201, e mesmo assim o celular não avisava
+   > nada. A `tag: "versiculo"` junta os versículos num aviso só (bom: a
+   > gaveta não enche de vinte), mas tag sozinha faz o novo SUBSTITUIR o velho
+   > sem som, sem vibrar e sem a tarja que desce na tela. Quem não tinha
+   > limpado o aviso anterior nunca via nada acontecer. `renotify: true`
+   > mantém o aviso único e faz cada versículo avisar de novo; ela só vale
+   > junto com `tag`.
+   >
+   > O envio vai com `urgency: "high"` e `TTL` de 24h. Sem a urgência, o
+   > Android guarda a mensagem até o aparelho acordar — um versículo das 7h
+   > que chega às 11h perdeu o sentido de ser das 7h. E guardar por mais de um
+   > dia não adianta: as 7h de ontem já viraram o versículo de hoje, e
+   > entregar o atrasado mostraria coisa diferente da que a tela mostra.
+   >
+   > **`/api/push/testar` manda a palavra de hoje para os aparelhos de quem
+   > pediu, na hora.** O botão está em `/configuracoes`. Ele existe porque
+   > conferir o push exigia esperar as 7h ou as 19h e, quando não chegava, não
+   > dava para saber onde tinha parado — no servidor, no Google ou no celular.
+   > Por isso a resposta é um diagnóstico (quantos aparelhos, quantos
+   > aceitaram, quantos estavam mortos) e não um "pronto". Só manda para si
+   > mesmo: o filtro é o `usuario_id` do cookie.
 2. **Quiz** — 50 perguntas de múltipla escolha por rodada, sorteadas entre as que a
    pessoa ainda não respondeu, com **25 segundos** para responder cada uma. Ela clica
    numa alternativa e vê na hora se acertou, junto com a explicação e o versículo
@@ -466,6 +490,7 @@ src/app/api/usuario/route.ts
 src/app/api/quiz/{perguntas,responder}/route.ts
 src/app/api/ranking/route.ts
 src/app/api/push/inscrever/route.ts
+src/app/api/push/testar/route.ts             manda a palavra de hoje para si mesmo, agora
 src/app/api/oracao/route.ts                  GET, POST e DELETE
 src/app/api/oracao/orei/route.ts             runtime nodejs (envia push nos marcos)
 src/app/api/sequencia/route.ts

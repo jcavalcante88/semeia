@@ -14,6 +14,8 @@ export default function Configuracoes() {
   const [salvando, setSalvando] = useState(false);
   const [recado, setRecado] = useState("");
   const [erro, setErro] = useState("");
+  const [testando, setTestando] = useState(false);
+  const [testeRecado, setTesteRecado] = useState("");
 
   useEffect(() => {
     let ativo = true;
@@ -60,6 +62,38 @@ export default function Configuracoes() {
       setErro("Não deu para salvar. Verifique sua conexão.");
     } finally {
       setSalvando(false);
+    }
+  }
+
+  /**
+   * Manda a palavra de hoje para este aparelho, agora.
+   *
+   * O recado diz o que ACONTECEU, nao "pronto": a diferença entre "o
+   * servidor mandou e o aparelho não mostrou" e "o aparelho nem está
+   * inscrito" é tudo o que importa quando o push não chega, e sem isso não
+   * há como saber qual dos dois é.
+   */
+  async function testarMensagem() {
+    setTestando(true);
+    setTesteRecado("");
+    try {
+      const r = await fetch("/api/push/testar", { method: "POST" });
+      const d = await r.json();
+      if (!r.ok) {
+        setTesteRecado(d?.erro ?? "Não deu para mandar agora.");
+      } else if (d.aceitos > 0) {
+        setTesteRecado(
+          `Mandei ${d.referencia}. Se não aparecer na tela em alguns segundos, o problema está nos avisos do Semeia nos ajustes do celular — não no app.`,
+        );
+      } else {
+        setTesteRecado(
+          "Este aparelho estava com a inscrição vencida. Acabei de apagá-la: recarregue a página e tente de novo.",
+        );
+      }
+    } catch {
+      setTesteRecado("Não deu para mandar agora. Tente de novo mais tarde.");
+    } finally {
+      setTestando(false);
     }
   }
 
@@ -142,11 +176,19 @@ export default function Configuracoes() {
 
       <h2>Mensagens diárias</h2>
       <AtivarMensagens />
-      <p style={{ marginTop: "1rem" }}>
+      <p style={{ marginTop: "1rem", display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+        <button className="botao botao-vazado" onClick={testarMensagem} disabled={testando}>
+          {testando ? "Mandando…" : "Mandar uma agora para testar"}
+        </button>
         <button className="botao botao-vazado" onClick={desligarMensagens}>
           Desligar as mensagens
         </button>
       </p>
+      {testeRecado && (
+        <p className="referencia" style={{ marginTop: "0.5rem" }}>
+          {testeRecado}
+        </p>
+      )}
 
       <footer className="rodape">
         Sua identidade fica num cookie do próprio navegador. Não há conta, senha
